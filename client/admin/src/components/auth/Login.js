@@ -1,20 +1,36 @@
 import React, { useContext } from 'react'
 
+import { Link } from 'react-router-dom'
 import { GlobalContext } from '../../context/globalContext'
 
 import Box from '@material-ui/core/Box'
+import Paper from '@material-ui/core/Paper'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 const Login = () => {
-	const { loginAdmin } = useContext(GlobalContext)
+	const { loginAdmin, isAuth } = useContext(GlobalContext)
 
 	const handleLogin = () => {
 		loginAdmin({ name: 'Vikas Pandey' })
 	}
 
+	if (isAuth) {
+		return (
+			<Container align='center'>
+				<Typography variant='h2' align='center'>
+					You are logged in
+				</Typography>
+				<Box mt={10}>
+					<Button variant='outlined' component={Link} to='/'>
+						Home
+					</Button>
+				</Box>
+			</Container>
+		)
+	}
 	return (
 		<Container>
 			<Typography variant='h2' align='center'>

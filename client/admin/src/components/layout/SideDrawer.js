@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
@@ -59,13 +61,23 @@ const SideDrawer = (props) => {
 				</div>
 				<Divider />
 				<List>
-					<ListItem button>
+					<ListItem
+						button
+						onClick={() => props.setOpen(false)}
+						component={Link}
+						to='/add-job'
+					>
 						<ListItemIcon>
 							<AddIcon />
 						</ListItemIcon>
 						<ListItemText primary='Add new job' />
 					</ListItem>
-					<ListItem button>
+					<ListItem
+						button
+						onClick={() => props.setOpen(false)}
+						component={Link}
+						to='/view-job'
+					>
 						<ListItemIcon>
 							<ViewDayIcon />
 						</ListItemIcon>
