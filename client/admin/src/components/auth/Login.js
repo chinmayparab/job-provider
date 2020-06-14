@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
+
+import { GlobalContext } from '../../context/globalContext'
 
 import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
@@ -6,7 +8,13 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-const Login = (props) => {
+const Login = () => {
+	const { loginAdmin } = useContext(GlobalContext)
+
+	const handleLogin = () => {
+		loginAdmin({ name: 'Vikas Pandey' })
+	}
+
 	return (
 		<Container>
 			<Typography variant='h2' align='center'>
@@ -31,12 +39,7 @@ const Login = (props) => {
 					/>
 				</Box>
 				<Box>
-					<Button
-						variant='outlined'
-						onClick={() => {
-							props.setIsAuth(true)
-						}}
-					>
+					<Button variant='outlined' onClick={handleLogin}>
 						Login
 					</Button>
 				</Box>

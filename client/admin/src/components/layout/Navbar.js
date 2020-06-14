@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
+import { GlobalContext } from '../../context/globalContext'
 import { Link } from 'react-router-dom'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -40,12 +41,19 @@ const HideOnScroll = (props) => {
 const Navbar = (props) => {
 	const classes = useStyles()
 	const [open, setOpen] = useState(false)
+
+	const { logoutAdmin, isAuth } = useContext(GlobalContext)
+
+	const handleLogout = () => {
+		logoutAdmin()
+	}
+
 	return (
 		<>
 			<HideOnScroll {...props}>
 				<AppBar position='fixed'>
 					<Toolbar>
-						{props.isAuth ? (
+						{isAuth ? (
 							<IconButton
 								edge='start'
 								className={classes.menuButton}
@@ -65,13 +73,8 @@ const Navbar = (props) => {
 						>
 							{props.title}
 						</Typography>
-						{props.isAuth ? (
-							<Button
-								onClick={() => {
-									props.setIsAuth(false)
-								}}
-								color='inherit'
-							>
+						{isAuth ? (
+							<Button onClick={handleLogout} color='inherit'>
 								Logout
 							</Button>
 						) : (
