@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+import AddJobForm from './AddJobForm'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
@@ -6,11 +8,10 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Container from '@material-ui/core/Container'
 import TypoGraphy from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import { KeyboardDatePicker } from '@material-ui/pickers'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
+import Divider from '@material-ui/core/Divider'
 
 const useStyles = makeStyles({
 	paper: {
@@ -22,11 +23,49 @@ const useStyles = makeStyles({
 		flexDirection: 'column',
 		justifyContent: 'space-around',
 		alignItems: 'center'
+	},
+	fileInput: {
+		display: 'none'
+	},
+	fileName: {
+		maxWidth: '100%',
+		marginTop: '10px',
+		marginBottom: '10px',
+		paddingLeft: '15px',
+		paddingRight: '15px'
 	}
 })
 
 const AddJob = () => {
 	const classes = useStyles()
+
+	const [uploadedImages, setUploadedImages] = useState([])
+
+	const handleUploadedImage = (e) => {
+		const files = Array.from(e.target.files)
+		setUploadedImages(files)
+	}
+
+	const testValues = [
+		{
+			title: 'title1'
+		},
+		{
+			title: 'title2'
+		},
+		{
+			title: 'title3'
+		},
+		{
+			title: 'title4'
+		},
+		{
+			title: 'title5'
+		},
+		{
+			title: 'title6'
+		}
+	]
 
 	return (
 		<Container>
@@ -42,9 +81,38 @@ const AddJob = () => {
 							</TypoGraphy>
 						</Box>
 						<Box className={classes.flexCenter}>
-							<Fab color='secondary' aria-label='add'>
-								<AddIcon />
-							</Fab>
+							<input
+								className={classes.fileInput}
+								multiple
+								id='contained-button-file'
+								type='file'
+								onChange={handleUploadedImage}
+							/>
+							<label htmlFor='contained-button-file'>
+								<Fab component='span' color='primary' aria-label='add'>
+									<AddIcon />
+								</Fab>
+							</label>
+						</Box>
+						<Box className={classes.flexCenter}>
+							{uploadedImages.length > 0 ? (
+								<>
+									{uploadedImages.map((uploadedImage) => (
+										<TypoGraphy
+											noWrap={true}
+											className={classes.fileName}
+											variant='subtitle1'
+											title={uploadedImage.name}
+										>
+											{uploadedImage.name}
+										</TypoGraphy>
+									))}
+									<Divider />
+									<Button color='secondary' variant='contained'>
+										Upload
+									</Button>
+								</>
+							) : null}
 						</Box>
 					</Paper>
 				</Grid>
@@ -57,61 +125,7 @@ const AddJob = () => {
 					OR
 				</TypoGraphy>
 				<Grid item sm={8} xs={12}>
-					<Paper className={classes.paper}>
-						<Box p={2}>
-							<TypoGraphy color='textSecondary' variant='subtitle2'>
-								Manually Add a Job
-							</TypoGraphy>
-						</Box>
-						<Container maxWidth='md'>
-							<TextField margin='dense' label='Job Title' fullWidth={true} />
-							<TextField
-								margin='dense'
-								label='Job Description'
-								multiline={true}
-								helperText='Maximum 1000 characters'
-								fullWidth={true}
-							/>
-							<Grid container spacing={3}>
-								<Grid item sm={6} xs={12}>
-									<TextField
-										margin='dense'
-										label='Total Vacancies'
-										type='number'
-										fullWidth={true}
-									/>
-								</Grid>
-								<Grid item sm={6} xs={12}>
-									<KeyboardDatePicker
-										margin='dense'
-										label='Closing Date'
-										format='DD/MM/yyyy'
-										KeyboardButtonProps={{
-											'aria-label': 'change date'
-										}}
-										fullWidth={true}
-									/>
-								</Grid>
-							</Grid>
-							<Grid container spacing={3}>
-								<Grid item sm={6} xs={12}>
-									<TextField margin='dense' label='Category' fullWidth={true} />
-								</Grid>
-								<Grid item sm={6} xs={12}>
-									<TextField
-										margin='dense'
-										label='Job Location'
-										fullWidth={true}
-									/>
-								</Grid>
-							</Grid>
-							<Box mt={3} align='right'>
-								<Button color='secondary' variant='contained'>
-									Add Job
-								</Button>
-							</Box>
-						</Container>
-					</Paper>
+					<AddJobForm values={testValues} />
 				</Grid>
 			</Grid>
 		</Container>
