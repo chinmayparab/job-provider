@@ -12,6 +12,9 @@ import Button from '@material-ui/core/Button'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import Divider from '@material-ui/core/Divider'
+import Tooltip from '@material-ui/core/Tooltip'
+// import LinearProgress from '@material-ui/core/LinearProgress'
+// import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles({
 	paper: {
@@ -98,14 +101,15 @@ const AddJob = () => {
 							{uploadedImages.length > 0 ? (
 								<>
 									{uploadedImages.map((uploadedImage) => (
-										<TypoGraphy
-											noWrap={true}
-											className={classes.fileName}
-											variant='subtitle1'
-											title={uploadedImage.name}
-										>
-											{uploadedImage.name}
-										</TypoGraphy>
+										<Tooltip title={uploadedImage.name} placement='right' arrow>
+											<TypoGraphy
+												noWrap={true}
+												className={classes.fileName}
+												variant='subtitle1'
+											>
+												{uploadedImage.name}
+											</TypoGraphy>
+										</Tooltip>
 									))}
 									<Divider />
 									<Button color='secondary' variant='contained'>
@@ -125,7 +129,10 @@ const AddJob = () => {
 					OR
 				</TypoGraphy>
 				<Grid item sm={8} xs={12}>
+					{/* <LinearProgress color='secondary' /> */}
+					{/* <Skeleton width='100%' height='100%'> */}
 					<AddJobForm values={testValues} />
+					{/* </Skeleton> */}
 				</Grid>
 			</Grid>
 		</Container>

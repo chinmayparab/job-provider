@@ -4,7 +4,7 @@ import { LOGIN_ADMIN, LOGOUT_ADMIN } from './types'
 import Reducer from './reducer'
 
 const initialState = {
-	isAuth: false
+	isAuth: true
 }
 
 export const GlobalContext = createContext(initialState)
