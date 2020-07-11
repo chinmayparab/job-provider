@@ -1,2 +1,5 @@
 client/admin/node_modules
 client/user/node_modules
+
+.history
+server/__pycache__
