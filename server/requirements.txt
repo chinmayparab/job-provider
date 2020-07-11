@@ -1,0 +1,5 @@
+Flask
+flask-mysql
+Werkzeug
+pymysql
+python-jwt==3.2.6
