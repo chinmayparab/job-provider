@@ -6,5 +6,5 @@ Created on Tue Jun 23 17:37:40 2020
 """
 
 import os, sys
-os.chdir(r'/home/raj/Desktop/rest-api')
+os.chdir(r'D:/_dev/jobSetu/server')
 print('Current Working Directory' , os.getcwd())

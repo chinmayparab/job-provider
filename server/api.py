@@ -6,7 +6,7 @@ Created on Tue Jun 23 17:56:30 2020
 """
 
 import pymysql
-import jwt
+import python_jwt as jwt
 import datetime
 import requests
 from functools import wraps
