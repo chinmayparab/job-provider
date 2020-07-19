@@ -6,7 +6,7 @@ Created on Tue Jun 23 17:56:30 2020
 """
 
 import pymysql
-import python_jwt as jwt
+import jwt
 import datetime
 import requests
 from functools import wraps
@@ -16,6 +16,9 @@ from flask import jsonify
 from flask import flash, request, session, make_response, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from flask_cors import CORS
+
+CORS(app)
 
 
 def check_for_token(param):

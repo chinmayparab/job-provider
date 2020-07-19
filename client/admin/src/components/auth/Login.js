@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import { GlobalContext } from '../../context/globalContext'
@@ -11,9 +11,10 @@ import Button from '@material-ui/core/Button'
 
 const Login = () => {
 	const { loginAdmin, isAuth } = useContext(GlobalContext)
+	const [user, setUser] = useState({ id: '', password: '' })
 
 	const handleLogin = () => {
-		loginAdmin({ name: 'Vikas Pandey' })
+		loginAdmin(user)
 	}
 
 	if (isAuth) {
@@ -42,6 +43,8 @@ const Login = () => {
 						size='small'
 						label='User ID'
 						variant='outlined'
+						value={user.id}
+						onChange={(e) => setUser({ ...user, id: e.target.value })}
 					/>
 				</Box>
 				<Box mb={2}>
@@ -51,6 +54,8 @@ const Login = () => {
 						label='Password'
 						type='password'
 						variant='outlined'
+						value={user.password}
+						onChange={(e) => setUser({ ...user, password: e.target.value })}
 					/>
 				</Box>
 				<Box>
