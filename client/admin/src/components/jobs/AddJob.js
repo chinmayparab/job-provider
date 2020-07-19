@@ -76,7 +76,7 @@ const AddJob = () => {
 				Add a Job
 			</TypoGraphy>
 			<Grid container spacing={0}>
-				<Grid item sm={3} xs={12}>
+				<Grid item sm={2} xs={12}>
 					<Paper className={classes.paper}>
 						<Box p={2}>
 							<TypoGraphy color='textSecondary' variant='subtitle2'>
@@ -100,12 +100,17 @@ const AddJob = () => {
 						<Box className={classes.flexCenter}>
 							{uploadedImages.length > 0 ? (
 								<>
-									{uploadedImages.map((uploadedImage) => (
-										<Tooltip title={uploadedImage.name} placement='right' arrow>
+									{uploadedImages.map((uploadedImage, index) => (
+										<Tooltip
+											key={index}
+											title={uploadedImage.name}
+											placement='right'
+											arrow
+										>
 											<TypoGraphy
 												noWrap={true}
 												className={classes.fileName}
-												variant='subtitle1'
+												variant='subtitle2'
 											>
 												{uploadedImage.name}
 											</TypoGraphy>
@@ -128,7 +133,7 @@ const AddJob = () => {
 				>
 					OR
 				</TypoGraphy>
-				<Grid item sm={8} xs={12}>
+				<Grid item sm={9} xs={12}>
 					{/* <LinearProgress color='secondary' /> */}
 					{/* <Skeleton width='100%' height='100%'> */}
 					<AddJobForm values={testValues} />

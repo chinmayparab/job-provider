@@ -12,11 +12,23 @@ import Button from '@material-ui/core/Button'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	paper: {
 		paddingBottom: '20px'
+	},
+	copyPaper: {
+		height: '100%',
+		[theme.breakpoints.up('md')]: {
+			marginLeft: theme.spacing(2)
+		},
+		[theme.breakpoints.down('md')]: {
+			marginTop: theme.spacing(4)
+		},
+		padding: theme.spacing(1),
+		maxHeight: '60vh',
+		overflowY: 'scroll'
 	}
-})
+}))
 
 const AddJobForm = ({ values }) => {
 	const classes = useStyles()
@@ -36,85 +48,122 @@ const AddJobForm = ({ values }) => {
 		console.log('Add job')
 	}
 
-	return values.slice(renderVar, renderVar + 1).map((value) => (
-		<Paper key={renderVar} className={classes.paper}>
-			<Box p={2}>
-				<TypoGraphy color='textSecondary' variant='subtitle2'>
-					Manually Add a Job ({renderVar + 1}/{totalJobs})
-				</TypoGraphy>
-			</Box>
-			<Container maxWidth='md'>
-				<TextField
-					margin='dense'
-					defaultValue={value.title}
-					label='Job Title'
-					fullWidth={true}
-				/>
-				<TextField
-					margin='dense'
-					label='Job Description'
-					multiline={true}
-					helperText='Maximum 1000 characters'
-					fullWidth={true}
-				/>
-				<Grid container spacing={3}>
-					<Grid item sm={6} xs={12}>
-						<TextField
-							margin='dense'
-							label='Total Vacancies'
-							type='number'
-							fullWidth={true}
-						/>
-					</Grid>
-					<Grid item sm={6} xs={12}>
-						<KeyboardDatePicker
-							margin='dense'
-							label='Closing Date'
-							format='DD/MM/yyyy'
-							KeyboardButtonProps={{
-								'aria-label': 'change date'
-							}}
-							fullWidth={true}
-						/>
-					</Grid>
-				</Grid>
-				<Grid container spacing={3}>
-					<Grid item sm={6} xs={12}>
-						<TextField margin='dense' label='Category' fullWidth={true} />
-					</Grid>
-					<Grid item sm={6} xs={12}>
-						<TextField margin='dense' label='Job Location' fullWidth={true} />
-					</Grid>
-				</Grid>
-				<Box mt={3} align='right'>
-					{totalJobs > 1 ? (
-						<Button
-							style={{ marginRight: '10px' }}
-							color='primary'
-							onClick={prevJob}
-							variant='contained'
-						>
-							<ChevronLeftIcon />
-						</Button>
-					) : null}
+	return (
+		<Grid container>
+			<Grid item md={8}>
+				{values.slice(renderVar, renderVar + 1).map((value) => (
+					<Paper key={renderVar} className={classes.paper}>
+						<Box p={2}>
+							<TypoGraphy color='textSecondary' variant='subtitle2'>
+								Manually add a job ({renderVar + 1}/{totalJobs})
+							</TypoGraphy>
+						</Box>
+						<Container maxWidth='md'>
+							<TextField
+								margin='dense'
+								defaultValue={value.title}
+								label='Job Title'
+								fullWidth={true}
+							/>
+							<TextField
+								margin='dense'
+								label='Job Description'
+								multiline={true}
+								helperText='Maximum 1000 characters'
+								fullWidth={true}
+							/>
+							<Grid container spacing={3}>
+								<Grid item sm={6} xs={12}>
+									<TextField
+										margin='dense'
+										label='Total Vacancies'
+										type='number'
+										fullWidth={true}
+									/>
+								</Grid>
+								<Grid item sm={6} xs={12}>
+									<KeyboardDatePicker
+										margin='dense'
+										label='Closing Date'
+										format='DD/MM/yyyy'
+										KeyboardButtonProps={{
+											'aria-label': 'change date'
+										}}
+										fullWidth={true}
+									/>
+								</Grid>
+							</Grid>
+							<Grid container spacing={3}>
+								<Grid item sm={6} xs={12}>
+									<TextField margin='dense' label='Category' fullWidth={true} />
+								</Grid>
+								<Grid item sm={6} xs={12}>
+									<TextField
+										margin='dense'
+										label='Job Location'
+										fullWidth={true}
+									/>
+								</Grid>
+							</Grid>
+							<Box mt={3} align='right'>
+								{totalJobs > 1 ? (
+									<Button
+										style={{ marginRight: '10px' }}
+										color='primary'
+										onClick={prevJob}
+										variant='contained'
+									>
+										<ChevronLeftIcon />
+									</Button>
+								) : null}
 
-					<Button color='secondary' onClick={handleAddJob} variant='contained'>
-						Add Job
-					</Button>
-					{totalJobs > 1 ? (
-						<Button
-							style={{ marginLeft: '10px' }}
-							color='primary'
-							onClick={nextJob}
-							variant='contained'
-						>
-							<ChevronRightIcon />
-						</Button>
-					) : null}
-				</Box>
-			</Container>
-		</Paper>
-	))
+								<Button
+									color='secondary'
+									onClick={handleAddJob}
+									variant='contained'
+								>
+									Add Job
+								</Button>
+								{totalJobs > 1 ? (
+									<Button
+										style={{ marginLeft: '10px' }}
+										color='primary'
+										onClick={nextJob}
+										variant='contained'
+									>
+										<ChevronRightIcon />
+									</Button>
+								) : null}
+							</Box>
+						</Container>
+					</Paper>
+				))}
+			</Grid>
+			<Grid item md={4}>
+				<Paper className={classes.copyPaper}>
+					<Box p={1}>
+						<TypoGraphy color='textSecondary' variant='subtitle2'>
+							Other relevant data
+						</TypoGraphy>
+					</Box>
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+					<TextField margin='dense' variant='outlined' fullWidth={true} />
+				</Paper>
+			</Grid>
+		</Grid>
+	)
 }
 
 export default AddJobForm

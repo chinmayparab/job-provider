@@ -42,7 +42,7 @@ const Navbar = (props) => {
 	const classes = useStyles()
 	const [open, setOpen] = useState(false)
 
-	const { logoutAdmin, isAuth } = useContext(GlobalContext)
+	const { logoutAdmin, authToken } = useContext(GlobalContext)
 
 	const handleLogout = () => {
 		logoutAdmin()
@@ -53,7 +53,7 @@ const Navbar = (props) => {
 			<HideOnScroll {...props}>
 				<AppBar position='fixed'>
 					<Toolbar>
-						{isAuth ? (
+						{authToken.length > 0 ? (
 							<IconButton
 								edge='start'
 								className={classes.menuButton}
@@ -73,7 +73,7 @@ const Navbar = (props) => {
 						>
 							{props.title}
 						</Typography>
-						{isAuth ? (
+						{authToken.length > 0 ? (
 							<Button onClick={handleLogout} color='inherit'>
 								Logout
 							</Button>

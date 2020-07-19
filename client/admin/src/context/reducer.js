@@ -5,12 +5,12 @@ export default (state, action) => {
 		case LOGIN_ADMIN:
 			return {
 				...state,
-				isAuth: true
+				authToken: action.payload
 			}
 		case LOGOUT_ADMIN:
 			return {
 				...state,
-				isAuth: false
+				authToken: ''
 			}
 		default:
 			return state

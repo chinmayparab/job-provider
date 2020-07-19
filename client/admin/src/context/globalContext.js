@@ -6,7 +6,7 @@ import Reducer from './reducer'
 import config from '../config'
 
 const initialState = {
-	isAuth: false
+	authToken: ''
 }
 
 export const GlobalContext = createContext(initialState)
@@ -28,16 +28,22 @@ export const GlobalProvider = ({ children }) => {
 
 		fetch(config.server + '/login', requestOptions)
 			.then((response) => response.json())
-			.then((result) => console.log(result))
+			.then((result) => {
+				setToken(result.token)
+			})
 			.catch((err) => console.log(err))
+	}
 
-		// dispatch({
-		// 	type: LOGIN_ADMIN,
-		// 	payload: user
-		// })
+	const setToken = (token) => {
+		localStorage.setItem('authToken', token)
+		dispatch({
+			type: LOGIN_ADMIN,
+			payload: token
+		})
 	}
 
 	const logoutAdmin = () => {
+		localStorage.removeItem('authToken')
 		dispatch({
 			type: LOGOUT_ADMIN
 		})
@@ -46,8 +52,9 @@ export const GlobalProvider = ({ children }) => {
 	return (
 		<GlobalContext.Provider
 			value={{
-				isAuth: state.isAuth,
+				authToken: state.authToken,
 				loginAdmin,
+				setToken,
 				logoutAdmin
 			}}
 		>

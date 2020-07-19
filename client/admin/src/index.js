@@ -5,6 +5,13 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+import { GlobalProvider } from './context/globalContext'
+
+ReactDOM.render(
+	<GlobalProvider>
+		<App />
+	</GlobalProvider>,
+	document.getElementById('root')
+)
 
 serviceWorker.unregister()

@@ -9,20 +9,24 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
+import jwtDecode from 'jsonwebtoken/decode'
+
 const Login = () => {
-	const { loginAdmin, isAuth } = useContext(GlobalContext)
+	const { loginAdmin, authToken } = useContext(GlobalContext)
 	const [user, setUser] = useState({ id: '', password: '' })
 
 	const handleLogin = () => {
 		loginAdmin(user)
 	}
 
-	if (isAuth) {
+	if (authToken.length > 0) {
+		const loggedInUser = jwtDecode(authToken)
 		return (
 			<Container align='center'>
 				<Typography variant='h2' align='center'>
 					You are logged in
 				</Typography>
+				<Typography variant='subtitle2'>{`ID: ${loggedInUser.username}`}</Typography>
 				<Box mt={10}>
 					<Button variant='outlined' component={Link} to='/'>
 						Home

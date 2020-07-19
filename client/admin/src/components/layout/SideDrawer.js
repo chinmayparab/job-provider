@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
-const SideDrawer = (props) => {
+const SideDrawer = ({ open, setOpen }) => {
 	const classes = useStyles()
 
 	return (
@@ -44,13 +44,14 @@ const SideDrawer = (props) => {
 				className={classes.drawer}
 				variant='temporary'
 				anchor='left'
-				open={props.open}
+				open={open}
 				classes={{
 					paper: classes.drawerPaper
 				}}
+				ModalProps={{ onBackdropClick: () => setOpen(false) }}
 			>
 				<div className={classes.drawerHeader}>
-					<IconButton onClick={() => props.setOpen(false)}>
+					<IconButton onClick={() => setOpen(false)}>
 						<ChevronLeftIcon />
 					</IconButton>
 				</div>
@@ -58,7 +59,7 @@ const SideDrawer = (props) => {
 				<List>
 					<ListItem
 						button
-						onClick={() => props.setOpen(false)}
+						onClick={() => setOpen(false)}
 						component={Link}
 						to='/'
 					>
@@ -69,7 +70,7 @@ const SideDrawer = (props) => {
 					</ListItem>
 					<ListItem
 						button
-						onClick={() => props.setOpen(false)}
+						onClick={() => setOpen(false)}
 						component={Link}
 						to='/add-job'
 					>
@@ -80,7 +81,7 @@ const SideDrawer = (props) => {
 					</ListItem>
 					<ListItem
 						button
-						onClick={() => props.setOpen(false)}
+						onClick={() => setOpen(false)}
 						component={Link}
 						to='/view-job'
 					>

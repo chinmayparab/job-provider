@@ -4,13 +4,13 @@ import { Route, Redirect } from 'react-router-dom'
 import { GlobalContext } from '../../context/globalContext'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-	const { isAuth } = useContext(GlobalContext)
+	const { authToken } = useContext(GlobalContext)
 
 	return (
 		<Route
 			{...rest}
 			render={(props) =>
-				isAuth ? <Component {...props} /> : <Redirect to='/login' />
+				authToken ? <Component {...props} /> : <Redirect to='/login' />
 			}
 		/>
 	)
