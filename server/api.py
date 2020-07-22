@@ -169,7 +169,8 @@ def upload_file():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         s = extractpdf.yoohoo(filename)
-        resp = jsonify({'message': s})
+        resp = jsonify({"Description": s[0]["Description"], "Links": s[0]["Links"], "NameOfPosition": s[0]
+                        ["NameOfPosition"], "NumberOfPosition": s[0]["NumberOfPosition"], "Stipend": s[0]["Stipend"], "Bubbles-extras": s[0]["AllText"].split('\n\n')})
         resp.status_code = 201
         return resp
     else:
