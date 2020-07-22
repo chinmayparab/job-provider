@@ -101,16 +101,22 @@ def register():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("Insert into users(email,lname,fname,passw,is_verified,phone_no) VALUES ('"+str(request.json['email'])+"','"+str(
-            request.json['lname'])+"','"+str(request.json['fname'])+"','"+generate_password_hash(str(request.json['passw']))
-            + "',1,'"+str(request.json['contact'])+"');")
-        conn.commit()
-        if cur:
-            resp = jsonify({'message': 'success'})
-            resp.status_code = 200
+        check=cur.execute("SELECT  phone_no FROM users WHERE ( email = '"+str(request.json['email'])+"' AND phone_no = '"+str(request.json['contact'])+"');")
+        if check:
+            resp = jsonify({'message': 'User already Exists!!'})
+            resp.status_code = 300  #invalid
             return resp
-        resp = jsonify({'message': 'Error.'})
-        return resp
+        else:
+            cur.execute("Insert into users(email,lname,fname,passw,is_verified,phone_no) VALUES ('"+str(request.json['email'])+"','"+str(
+                request.json['lname'])+"','"+str(request.json['fname'])+"','"+generate_password_hash(str(request.json['passw']))
+                + "',1,'"+str(request.json['contact'])+"');")
+            conn.commit()
+            if cur:
+                resp = jsonify({'message': 'success'})
+                resp.status_code = 200
+                return resp
+            resp = jsonify({'message': 'Error.'})
+            return resp
     finally:
         cur.close()
         conn.close()
