@@ -13,13 +13,24 @@ from functools import wraps
 from app import app
 from db_config import mysql
 from flask import jsonify
-from flask import flash, request, session, make_response, render_template
+from flask import flash, request, session, make_response, render_template, Response
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from flask_cors import CORS
 
+from werkzeug.utils import secure_filename
+import os
+import jsonpickle
+import numpy as np
+import cv2
+# importing files named ocr extractpdf
+import ocr as ocr  # not a python package.
+import extractpdf as extractpdf  # not a python package.
+
 CORS(app)
 
+
+# USER SIDE REQUESTS.
 
 def check_for_token(param):
     @wraps(param)
@@ -101,10 +112,11 @@ def register():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        check=cur.execute("SELECT  phone_no FROM users WHERE ( email = '"+str(request.json['email'])+"' AND phone_no = '"+str(request.json['contact'])+"');")
+        check = cur.execute("SELECT  phone_no FROM users WHERE ( email = '"+str(
+            request.json['email'])+"' AND phone_no = '"+str(request.json['contact'])+"');")
         if check:
             resp = jsonify({'message': 'User already Exists!!'})
-            resp.status_code = 300  #invalid
+            resp.status_code = 300  # invalid
             return resp
         else:
             cur.execute("Insert into users(email,lname,fname,passw,is_verified,phone_no) VALUES ('"+str(request.json['email'])+"','"+str(
@@ -122,7 +134,7 @@ def register():
         conn.close()
 
 
-# ADMIN
+# ADMIN SIDE REQUESTS.
 
 
 def check_for_token_admin(param):
@@ -139,22 +151,56 @@ def check_for_token_admin(param):
     return wrapped
 
 
-@app.route('/admin/dashboard')
+@app.route('/admin/post-job', methods=['POST'])
 @check_for_token_admin
-def admin_panel():
-    try:
-        conn = mysql.connect()
-        cur = conn.cursor(pymysql.cursors.DictCursor)
-        cur.execute("Select * from admin;")
-        rows = cur.fetchall()
-        resp = jsonify(rows)
-        resp.status_code = 200
+def upload_file():
+    s = []
+    # check if the post request has the file part
+    if 'file' not in request.files:
+        resp = jsonify({'message': 'No file part in the request'})
+        resp.status_code = 400
         return resp
-    except Exception as e:
-        print(e)
-    finally:
-        cur.close()
-        conn.close()
+    file = request.files['file']
+    if file.filename == '':
+        resp = jsonify({'message': 'No file selected for uploading'})
+        resp.status_code = 400
+        return resp
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        s = extractpdf.yoohoo(filename)
+        resp = jsonify({'message': s})
+        resp.status_code = 201
+        return resp
+    else:
+        resp = jsonify(
+            {'message': 'Allowed file type is .pdf only.'})
+        resp.status_code = 400
+        return resp
+
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = set(['pdf'])
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/extraction', methods=['POST'])
+def test():
+    r = request
+# convert string of image data to uint8
+    nparr = np.fromstring(r.data, np.uint8)
+    # decode image
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+    # do some fancy processing here....
+    a, b, c, d, e, f = ocr.ocr(img)
+    # build a response dict to send back to client
+    response = {'NameOfPosition': a, 'NumberOfPosition': b, 'Stipend': c, 'Description': d, 'AllText': e, 'Links': f
+                }
+    # encode response using jsonpickle
+    response_pickled = jsonpickle.encode(response)
+
+    return Response(response=response_pickled, status=200, mimetype="application/json")
 
 
 @app.route('/admin/login', methods=['POST'])
@@ -169,7 +215,7 @@ def admin_login():
     for row in records:
         if check_password_hash(row["password"], request.json['password']):
             token = jwt.encode({'username': request.json['username'], 'exp': datetime.datetime.utcnow(
-            ) + datetime.timedelta(minutes=5)}, app.config['SECRET_KEY_ADMIN'])
+            ) + datetime.timedelta(minutes=10)}, app.config['SECRET_KEY_ADMIN'])
             print(token.decode('utf-8'))
             resp = jsonify({'token': token.decode('utf-8')})
             resp.status_code = 200
