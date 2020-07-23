@@ -247,7 +247,7 @@ def test():
     return Response(response=response_pickled, status=200, mimetype="application/json")
 
 
-@app.route('/cud_job', methods=['POST'])
+@app.route('/admin/cud_job', methods=['POST'])
 @check_for_token_admin
 def crud_job():
 
@@ -263,6 +263,25 @@ def crud_job():
     else:
         resp = jsonify({'message': 'Invalid Request.'})
         return resp
+
+
+@app.route('/admin/joblist', methods=['GET'])
+@check_for_token_admin
+def all_jobs():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+
+    cur.execute("Select * from job ;")
+    records = cur.fetchall()
+    if records:
+        resp = jsonify({'alljobs': records})
+        resp.status_code = 200
+        return resp
+    else:
+        resp = jsonify({'message': 'ERROR.'})
+        return resp
+    cur.close()
+    conn.close()
 
 
 @app.errorhandler(404)
