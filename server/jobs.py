@@ -11,9 +11,6 @@ from flask_cors import CORS
 import random
 import string
 
-conn = mysql.connect()
-cur = conn.cursor(pymysql.cursors.DictCursor)
-
 
 def get_random_alphanumeric_string(length):
     letters_and_digits = string.ascii_letters + string.digits
@@ -23,6 +20,8 @@ def get_random_alphanumeric_string(length):
 
 
 def create_job():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         cur.execute("INSERT INTO job(job_id,closing_date,description,pos_names,no_postions,stipend,qualification,extra_info,interview_mode,interveiw_loc,date_time_interview,is_online_test) VALUES('" +
                     get_random_alphanumeric_string(8)+"','"+str(request.json['closing_date']) + "','"+str(request.json['description']) + "','"+str(request.json['jobtitle']) +
@@ -41,6 +40,8 @@ def create_job():
 
 
 def delete_job():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         cur.execute("DELETE FROM job WHERE job_id ='"+str(
             request.json['jobid'])+"';")
@@ -57,6 +58,8 @@ def delete_job():
 
 
 def update_job():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         cur.execute("UPDATE job SET description = '"+str(
             request.json['description'])+"', closing_date = '"+str(request.json['closing_date']) + "', pos_names = '"+str(request.json['jobtitle']) +

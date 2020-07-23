@@ -248,15 +248,18 @@ def test():
 
 
 @app.route('/cud_job', methods=['POST'])
-@check_for_token_admin
+# @check_for_token_admin
 def crud_job():
 
     if(request.json['mode'] == "add"):
-        job.create_job()
+        resp = job.create_job()
+        return resp
     elif(request.json['mode'] == "delete"):
-        job.delete_job()
+        resp = job.delete_job()
+        return resp
     elif(request.json['mode'] == "update"):
-        job.update_job()
+        resp = job.update_job()
+        return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
         return resp
