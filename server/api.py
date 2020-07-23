@@ -9,7 +9,6 @@ import pymysql
 import jwt
 import datetime
 import requests
-from functools import wraps
 from app import app
 from db_config import mysql
 from flask import jsonify
@@ -26,6 +25,7 @@ import cv2
 # importing files named ocr extractpdf
 import ocr as ocr  # not a python package.
 import extractpdf as extractpdf  # not a python package.
+import jobs as job  # not a python package.
 
 CORS(app)
 
@@ -151,6 +151,49 @@ def check_for_token_admin(param):
     return wrapped
 
 
+@app.route('/admin/login', methods=['POST'])
+def admin_login():
+    app.config["SECRET_KEY_ADMIN"] = "SIH2020ADMIN"
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+
+    cur.execute("Select password from admin Where username = '" +
+                str(request.json['username'])+"';")
+    records = cur.fetchall()
+    for row in records:
+        if check_password_hash(row["password"], request.json['password']):
+            token = jwt.encode({'username': request.json['username'], 'exp': datetime.datetime.utcnow(
+            ) + datetime.timedelta(minutes=10)}, app.config['SECRET_KEY_ADMIN'])
+            print(token.decode('utf-8'))
+            resp = jsonify({'token': token.decode('utf-8')})
+            resp.status_code = 200
+            return resp
+        else:
+            resp = jsonify({'message': 'ERROR Occured.'})
+            return resp
+        cur.close()
+        conn.close()
+
+
+@app.route('/admin/register', methods=['POST'])
+def admin_register():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        cur.execute("Insert into admin(username,password) VALUES ('"+str(
+            request.json['username'])+"','"+generate_password_hash(str(request.json['password'])) + "');")
+        conn.commit()
+        if cur:
+            resp = jsonify({'message': 'success'})
+            resp.status_code = 200
+            return resp
+        resp = jsonify({'message': 'Error.'})
+        return resp
+    finally:
+        cur.close()
+        conn.close()
+
+
 @app.route('/admin/post-job', methods=['POST'])
 @check_for_token_admin
 def upload_file():
@@ -204,47 +247,19 @@ def test():
     return Response(response=response_pickled, status=200, mimetype="application/json")
 
 
-@app.route('/admin/login', methods=['POST'])
-def admin_login():
-    app.config["SECRET_KEY_ADMIN"] = "SIH2020ADMIN"
-    conn = mysql.connect()
-    cur = conn.cursor(pymysql.cursors.DictCursor)
+@app.route('/cud_job', methods=['POST'])
+@check_for_token_admin
+def crud_job():
 
-    cur.execute("Select password from admin Where username = '" +
-                str(request.json['username'])+"';")
-    records = cur.fetchall()
-    for row in records:
-        if check_password_hash(row["password"], request.json['password']):
-            token = jwt.encode({'username': request.json['username'], 'exp': datetime.datetime.utcnow(
-            ) + datetime.timedelta(minutes=10)}, app.config['SECRET_KEY_ADMIN'])
-            print(token.decode('utf-8'))
-            resp = jsonify({'token': token.decode('utf-8')})
-            resp.status_code = 200
-            return resp
-        else:
-            resp = jsonify({'message': 'ERROR Occured.'})
-            return resp
-        cur.close()
-        conn.close()
-
-
-@app.route('/admin/register', methods=['POST'])
-def admin_register():
-    conn = mysql.connect()
-    cur = conn.cursor(pymysql.cursors.DictCursor)
-    try:
-        cur.execute("Insert into admin(username,password) VALUES ('"+str(
-            request.json['username'])+"','"+generate_password_hash(str(request.json['password'])) + "');")
-        conn.commit()
-        if cur:
-            resp = jsonify({'message': 'success'})
-            resp.status_code = 200
-            return resp
-        resp = jsonify({'message': 'Error.'})
+    if(request.json['mode'] == "add"):
+        job.create_job()
+    elif(request.json['mode'] == "delete"):
+        job.delete_job()
+    elif(request.json['mode'] == "update"):
+        job.update_job()
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
         return resp
-    finally:
-        cur.close()
-        conn.close()
 
 
 @app.errorhandler(404)
