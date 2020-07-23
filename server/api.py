@@ -248,7 +248,7 @@ def test():
 
 
 @app.route('/cud_job', methods=['POST'])
-# @check_for_token_admin
+@check_for_token_admin
 def crud_job():
 
     if(request.json['mode'] == "add"):
