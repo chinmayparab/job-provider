@@ -16,6 +16,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 const useStyles = makeStyles((theme) => ({
   main: {
     marginTop: theme.spacing(25),
+    [theme.breakpoints.down("xs")]: {
+      marginTop: theme.spacing(15),
+    },
   },
 }));
 
@@ -49,9 +52,8 @@ const App = () => {
           <Container>
             <main className={classes.main}>
               <Route exact path='/' component={Home} />
-              {/* <Route exact path='/components' component={Components} />
-            <Route exact path='/templates' component={Templates} />
-            <Route exact path='/products' component={Products} /> */}
+              {/* <Route exact path='/jobs' component={Jobs} />
+            <Route exact path='/courses' component={Courses} /> */}
             </main>
           </Container>
         </BrowserRouter>

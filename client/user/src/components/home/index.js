@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +9,9 @@ import HomeSearch from "./HomeSearch";
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(5),
+  },
+  btoon: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -25,14 +27,27 @@ const Home = (props) => {
         alignItems='center'
         spacing={3}
       >
-        <Grid item xs>
-          <HomeSearch title='What?' />
+        <Grid item md xs={12}>
+          <HomeSearch
+            // title='What?'
+            label='Engineering, Management, etc...'
+            placeholder=''
+          />
         </Grid>
-        <Grid item xs>
-          <HomeSearch title='Where?' />
+        <Grid item md xs={12}>
+          <HomeSearch
+            // title='Where?'
+            label='City, State or Pin Code'
+            placeholder='Cities'
+          />
         </Grid>
-        <Grid item xs={12}>
-          <Button variant='contained' color='secondary' fullWidth>
+        <Grid item md xs={12}>
+          <Button
+            variant='contained'
+            color='secondary'
+            className={classes.btoon}
+            fullWidth
+          >
             Find Jobs
           </Button>
         </Grid>
