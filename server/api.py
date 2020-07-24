@@ -85,6 +85,7 @@ def login():
                 return resp
         else:
             resp = jsonify({'message': 'ERROR Occured.'})
+            resp.status_code = 401
             return resp
         cur.close()
         conn.close()
@@ -102,6 +103,7 @@ def login():
                 return resp
             else:
                 resp = jsonify({'message': 'ERROR Occured.'})
+                resp.status_code = 401
                 return resp
             cur.close()
             conn.close()
@@ -131,6 +133,7 @@ def register():
                 resp.status_code = 200
                 return resp
             resp = jsonify({'message': 'Error.'})
+            resp.status_code = 401
             return resp
     finally:
         cur.close()
@@ -191,6 +194,7 @@ def admin_login():
             return resp
         else:
             resp = jsonify({'message': 'ERROR Occured.'})
+            resp.status_code = 401
             return resp
         cur.close()
         conn.close()
@@ -209,6 +213,7 @@ def admin_register():
             resp.status_code = 200
             return resp
         resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
         return resp
     finally:
         cur.close()
@@ -300,6 +305,7 @@ def all_jobs():
         return resp
     else:
         resp = jsonify({'message': 'ERROR.'})
+        resp.status_code = 401
         return resp
     cur.close()
     conn.close()
