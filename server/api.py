@@ -26,6 +26,7 @@ import cv2
 import ocr as ocr  # not a python package.
 import extractpdf as extractpdf  # not a python package.
 import jobs as job  # not a python package.
+import resumes as resume  # not a python package.
 
 CORS(app)
 
@@ -73,13 +74,15 @@ def login():
         cur.execute("Select * from users Where phone_no = " +
                     str(request.json['contact'])+";")
         rows = cur.rowcount
+        records = cur.fetchall()
         if rows != 0:
-            token = jwt.encode({'number': request.json['contact'], 'exp': datetime.datetime.utcnow(
-            ) + datetime.timedelta(seconds=120)}, app.config['SECRET_KEY'])
-            print(token.decode('utf-8'))
-            resp = jsonify({'token': token.decode('utf-8')})
-            resp.status_code = 200
-            return resp
+            for data in records:
+                token = jwt.encode({'number': request.json['contact'], 'user_id': data["user_id"],  'exp': datetime.datetime.utcnow(
+                ) + datetime.timedelta(minutes=120)}, app.config['SECRET_KEY'])
+                print(token.decode('utf-8'))
+                resp = jsonify({'token': token.decode('utf-8')})
+                resp.status_code = 200
+                return resp
         else:
             resp = jsonify({'message': 'ERROR Occured.'})
             return resp
@@ -91,8 +94,8 @@ def login():
         records = cur.fetchall()
         for row in records:
             if check_password_hash(row["passw"], request.json['password']):
-                token = jwt.encode({'number': request.json['contact'], 'exp': datetime.datetime.utcnow(
-                ) + datetime.timedelta(seconds=120)}, app.config['SECRET_KEY'])
+                token = jwt.encode({'number': request.json['contact'],  'user_id': row["user_id"], 'exp': datetime.datetime.utcnow(
+                ) + datetime.timedelta(minutes=120)}, app.config['SECRET_KEY'])
                 print(token.decode('utf-8'))
                 resp = jsonify({'token': token.decode('utf-8')})
                 resp.status_code = 200
@@ -134,6 +137,24 @@ def register():
         conn.close()
 
 
+@app.route('/resume', methods=['POST'])
+@check_for_token
+def cud_resume():
+
+    if(request.json['mode'] == "add"):
+        resp = resume.create_resume()
+        return resp
+    elif(request.json['mode'] == "delete"):
+        resp = resume.delete_resume()
+        return resp
+    elif(request.json['mode'] == "update"):
+        resp = resume.update_resume()
+        return resp
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
+        return resp
+
+
 # ADMIN SIDE REQUESTS.
 
 
@@ -157,7 +178,7 @@ def admin_login():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
 
-    cur.execute("Select password from admin Where username = '" +
+    cur.execute("Select user_id,password from admin Where username = '" +
                 str(request.json['username'])+"';")
     records = cur.fetchall()
     for row in records:

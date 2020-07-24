@@ -60,18 +60,24 @@ def delete_job():
 def update_job():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur.execute("Select * from job Where job_id = '" +
+                str(request.json['job_id'])+"';")
+    records = cur.fetchall()
     try:
-        cur.execute("UPDATE job SET description = '"+str(
-            request.json['description'])+"', closing_date = '"+str(request.json['closing_date']) + "', pos_names = '"+str(request.json['jobtitle']) +
-            "', no_postions = '"+str(request.json['vacancies']) + "', stipend = '"+str(request.json['stipend']) + "', qualification = '"+str(request.json['qualification']) +
-            "', extra_info = '"+str(request.json['extra_info']) + "', interview_mode = '"+str(request.json['interview_mode']) + "', interveiw_loc = '"+str(request.json['interview_location']) +
-            "', date_time_interview = '"+str(request.json['datetime_interview']) + "', is_online_test = '"+str(request.json['is_onlinetest']) + "' WHERE job_id = '"+str(request.json['jobid'])+"';")
-        conn.commit()
-        if cur:
-            resp = jsonify({'message': 'success'})
-            resp.status_code = 200
+        if records:
+            cur.execute("UPDATE job SET description = '"+str(
+                request.json['description'])+"', closing_date = '"+str(request.json['closing_date']) + "', pos_names = '"+str(request.json['jobtitle']) +
+                "', no_postions = '"+str(request.json['vacancies']) + "', stipend = '"+str(request.json['stipend']) + "', qualification = '"+str(request.json['qualification']) +
+                "', extra_info = '"+str(request.json['extra_info']) + "', interview_mode = '"+str(request.json['interview_mode']) + "', interveiw_loc = '"+str(request.json['interview_location']) +
+                "', date_time_interview = '"+str(request.json['datetime_interview']) + "', is_online_test = '"+str(request.json['is_onlinetest']) + "' WHERE job_id = '"+str(request.json['jobid'])+"';")
+            conn.commit()
+            if cur:
+                resp = jsonify({'message': 'success'})
+                resp.status_code = 200
+                return resp
+            resp = jsonify({'message': 'Error.'})
             return resp
-        resp = jsonify({'message': 'Error.'})
+        resp = jsonify({'message': 'No jobs with given Id found.'})
         return resp
     finally:
         cur.close()

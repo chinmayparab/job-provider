@@ -1,0 +1,75 @@
+import pymysql
+import jwt
+import datetime
+import requests
+from app import app
+from db_config import mysql
+from flask import jsonify
+from flask import flash, request, session, make_response, render_template, Response
+from functools import wraps
+from flask_cors import CORS
+import random
+import string
+
+
+def get_random_alphanumeric_string(length):
+    letters_and_digits = string.ascii_letters + string.digits
+    result_str = ''.join((random.choice(letters_and_digits)
+                          for i in range(length)))
+    return result_str
+
+
+def create_resume():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        cur.execute("INSERT INTO resume(resume_id,user_id,email,location,phone_no,additional_details) VALUES('" +
+                    get_random_alphanumeric_string(8)+"','"+str(request.json['user_id']) + "','"+str(request.json['email']) + "','"+str(request.json['location']) +
+                    "','"+str(request.json['phone_no']) + "','"+str(request.json['additional_details']) + "');")
+        conn.commit()
+        if cur:
+            resp = jsonify({'message': 'success'})
+            resp.status_code = 200
+            return resp
+        resp = jsonify({'message': 'Error.'})
+        return resp
+    finally:
+        cur.close()
+        conn.close()
+
+
+def delete_resume():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        cur.execute("DELETE FROM resume WHERE user_id ='"+str(
+            request.json['user_id'])+"';")
+        conn.commit()
+        if cur:
+            resp = jsonify({'message': 'successfully deleted.'})
+            resp.status_code = 200
+            return resp
+        resp = jsonify({'message': 'Invalid RESUME ID.'})
+        return resp
+    finally:
+        cur.close()
+        conn.close()
+
+
+def update_resume():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        cur.execute("UPDATE resume SET email = '"+str(
+            request.json['email'])+"', location = '"+str(request.json['location']) + "', phone_no = '"+str(request.json['phone_no']) +
+            "', additional_details = '"+str(request.json['additional_details']) + "' WHERE user_id = '"+str(request.json['user_id'])+"';")
+        conn.commit()
+        if cur:
+            resp = jsonify({'message': 'success'})
+            resp.status_code = 200
+            return resp
+        resp = jsonify({'message': 'Error.'})
+        return resp
+    finally:
+        cur.close()
+        conn.close()
