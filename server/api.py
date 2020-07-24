@@ -27,6 +27,7 @@ import ocr as ocr  # not a python package.
 import extractpdf as extractpdf  # not a python package.
 import jobs as job  # not a python package.
 import resumes as resume  # not a python package.
+import resume_edu as r_edu  # not a python package.
 
 CORS(app)
 
@@ -38,7 +39,7 @@ def check_for_token(param):
     def wrapped(*args, **kwargs):
         if 'x-access-tokens' in request.headers:
             token = request.headers['x-access-tokens']
-        #token = request.args.get('token')
+        # token = request.args.get('token')
         if not token:
             return jsonify({'message': 'Missing Token'}), 403
         try:
@@ -161,13 +162,32 @@ def cud_resume():
         return resp
 
 
+@app.route('/resume-edu', methods=['POST'])
+@check_for_token
+def cud_resume_edu():
+
+    if(request.json['mode'] == "add"):
+        resp = r_edu.create_resume_edu()
+        return resp
+    elif(request.json['mode'] == "delete"):
+        resp = r_edu.delete_resume_edu()
+        return resp
+    elif(request.json['mode'] == "update"):
+        resp = r_edu.update_resume_edu()
+        return resp
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
+        return resp
+
+
 # ADMIN SIDE REQUESTS.
 
 
 def check_for_token_admin(param):
     @wraps(param)
     def wrapped(*args, **kwargs):
-        token = request.args.get('token')
+        if 'x-access-tokens' in request.headers:
+            token = request.headers['x-access-tokens']
         if not token:
             return jsonify({'message': 'Missing Token'}), 403
         try:
