@@ -32,6 +32,7 @@ def create_resume():
             resp.status_code = 200
             return resp
         resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
         return resp
     finally:
         cur.close()
@@ -50,6 +51,7 @@ def delete_resume():
             resp.status_code = 200
             return resp
         resp = jsonify({'message': 'Invalid RESUME ID.'})
+        resp.status_code = 401
         return resp
     finally:
         cur.close()
@@ -59,16 +61,24 @@ def delete_resume():
 def update_resume():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur.execute("Select * from resume Where user_id = '" +
+                str(request.json['user_id'])+"';")
+    records = cur.fetchall()
     try:
-        cur.execute("UPDATE resume SET email = '"+str(
-            request.json['email'])+"', location = '"+str(request.json['location']) + "', phone_no = '"+str(request.json['phone_no']) +
-            "', additional_details = '"+str(request.json['additional_details']) + "' WHERE user_id = '"+str(request.json['user_id'])+"';")
-        conn.commit()
-        if cur:
-            resp = jsonify({'message': 'success'})
-            resp.status_code = 200
+        if len(records) > 0:
+            cur.execute("UPDATE resume SET email = '"+str(
+                request.json['email'])+"', location = '"+str(request.json['location']) + "', phone_no = '"+str(request.json['phone_no']) +
+                "', additional_details = '"+str(request.json['additional_details']) + "' WHERE user_id = '"+str(request.json['user_id'])+"';")
+            conn.commit()
+            if cur:
+                resp = jsonify({'message': 'success'})
+                resp.status_code = 200
+                return resp
+            resp = jsonify({'message': 'Error.'})
+            resp.status_code = 401
             return resp
-        resp = jsonify({'message': 'Error.'})
+        resp = jsonify({'message': 'No resume with given user_id found.'})
+        resp.status_code = 403
         return resp
     finally:
         cur.close()
