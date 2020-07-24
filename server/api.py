@@ -89,7 +89,7 @@ def login():
         cur.close()
         conn.close()
     elif (request.json['type'] == 1):
-        cur.execute("Select passw from users Where phone_no = " +
+        cur.execute("Select user_id,passw from users Where phone_no = " +
                     str(request.json['contact'])+";")
         records = cur.fetchall()
         for row in records:
@@ -178,7 +178,7 @@ def admin_login():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
 
-    cur.execute("Select user_id,password from admin Where username = '" +
+    cur.execute("Select password from admin Where username = '" +
                 str(request.json['username'])+"';")
     records = cur.fetchall()
     for row in records:
