@@ -36,11 +36,14 @@ CORS(app)
 def check_for_token(param):
     @wraps(param)
     def wrapped(*args, **kwargs):
-        token = request.args.get('token')
+        if 'x-access-tokens' in request.headers:
+            token = request.headers['x-access-tokens']
+        #token = request.args.get('token')
         if not token:
             return jsonify({'message': 'Missing Token'}), 403
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
+            # can use this data to fetch current user with contact number encoded in token
         except:
             return jsonify({'message': 'Invalid Token'}), 403
         return param(*args, **kwargs)
