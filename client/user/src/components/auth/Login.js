@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../context/auth/AuthContext";
 
+import { useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
@@ -33,9 +34,18 @@ const useStyles = makeStyles((theme) => ({
 const Login = ({ setAuthDialogOpen, setLoginForm }) => {
   const classes = useStyles();
   const { login } = useContext(AuthContext);
+  // const [user, setUser] = useState({ id: "", password: "" });
+  const initialValues = { contact: "", password: "" };
 
-  const handleLogin = () => {
-    login();
+  const { register, handleSubmit, errors } = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
+    defaultValues: initialValues,
+  });
+  // const onSubmit = (data) => console.log(data);
+
+  const onSubmit = (user) => {
+    login(user);
     setAuthDialogOpen(false);
   };
 
@@ -49,35 +59,54 @@ const Login = ({ setAuthDialogOpen, setLoginForm }) => {
       </Container>
       <DialogContent>
         <Container>
-          <TextField
-            label='Email'
-            variant='outlined'
-            fullWidth
-            size='small'
-            color='secondary'
-            className={classes.input}
-          />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              label='Contact'
+              variant='outlined'
+              fullWidth
+              size='small'
+              color='secondary'
+              className={classes.input}
+              type='tel'
+              name='contact'
+              inputRef={register({ required: true, pattern: /^[0-9]{10}$/ })}
+              error={!!errors.contact}
+              helperText={
+                (errors.contact &&
+                  errors.contact.type === "required" &&
+                  "This is a required field.") ||
+                (errors.contact &&
+                  errors.contact.type === "pattern" &&
+                  "Enter a 10 digit Phone Number.")
+              }
+            />
 
-          <TextField
-            label='Password'
-            variant='outlined'
-            fullWidth
-            size='small'
-            color='secondary'
-            className={classes.input}
-            type='password'
-          />
+            <TextField
+              label='Password'
+              variant='outlined'
+              fullWidth
+              size='small'
+              color='secondary'
+              className={classes.input}
+              type='password'
+              name='password'
+              inputRef={register({ required: true })}
+              error={!!errors.password}
+              helperText={!!errors.password && "This is a required field."}
+            />
+            <Box style={{ textAlign: "right" }}>
+              <Button
+                className={classes.input}
+                type='submit'
+                // onClick={handleLogin}
+                color='secondary'
+                variant='contained'
+              >
+                Login
+              </Button>
+            </Box>
+          </form>
         </Container>
-        <Box style={{ textAlign: "right" }}>
-          <Button
-            className={classes.input}
-            onClick={handleLogin}
-            color='secondary'
-            variant='contained'
-          >
-            Login
-          </Button>
-        </Box>
         <Divider />
         <Box className={classes.changeForm}>
           <TypoGraphy>

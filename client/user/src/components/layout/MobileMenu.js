@@ -11,7 +11,7 @@ const MobileMenu = ({
   setDarkTheme,
   setAuthDialogOpen,
 }) => {
-  const { isAuth, logoutUser } = useContext(AuthContext);
+  const { isAuth, logout } = useContext(AuthContext);
 
   const handleClose = () => {
     setMobMenuAnchor(null);
@@ -22,7 +22,7 @@ const MobileMenu = ({
   };
 
   const handleLogout = () => {
-    logoutUser();
+    logout();
     setMobMenuAnchor(null);
   };
 

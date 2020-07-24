@@ -17,10 +17,15 @@ export default (state, action) => {
         user: action.payload,
       };
     case SIGNUP_SUCCESS:
-    case LOGIN_SUCCESS:
       return {
         ...state,
         isAuth: true,
+      };
+    case LOGIN_SUCCESS:
+      localStorage.setItem("authToken", action.payload);
+      return {
+        ...state,
+        authToken: action.payload,
       };
     case SIGNUP_FAIL:
     case LOGIN_FAIL:
@@ -28,6 +33,7 @@ export default (state, action) => {
       return {
         ...state,
         isAuth: false,
+        authToken: "",
       };
     default:
       return state;

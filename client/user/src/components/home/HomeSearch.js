@@ -1,12 +1,11 @@
 import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // width: 500,
     "& > * + *": {
       marginTop: theme.spacing(3),
     },
@@ -18,27 +17,27 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeSearch = (props) => {
   const classes = useStyles();
-  const { title } = props;
+  const { title, label, placeholder } = props;
 
   return (
     <div className={classes.root}>
-      <Typography component='h1' variant='h4' color='secondary' gutterBottom>
+      {/* <Typography component='h1' variant='h4' color='secondary' gutterBottom>
         {title}
-      </Typography>
+      </Typography> */}
       <Autocomplete
         multiple
-        id='tags-outlined'
+        // id='tags-outlined'
         options={top100Films}
         getOptionLabel={(option) => option.title}
-        defaultValue={[top100Films[13]]}
+        // defaultValue={[top100Films[13]]}
         filterSelectedOptions
         renderInput={(params) => (
           <TextField
             {...params}
             variant='outlined'
             color='secondary'
-            label='City, State or Pin Code'
-            placeholder='Cities'
+            label={label}
+            placeholder={label}
           />
         )}
       />
