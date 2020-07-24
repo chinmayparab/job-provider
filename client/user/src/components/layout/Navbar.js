@@ -8,12 +8,14 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
+import LanguageIcon from "@material-ui/icons/Language";
 import MenuIcon from "@material-ui/icons/Menu";
 import UserIcon from "@material-ui/icons/Person";
-import LightThemeIcon from "@material-ui/icons/Brightness7Rounded";
-import DarkThemeIcon from "@material-ui/icons/Brightness2Rounded";
+import LightThemeIcon from "@material-ui/icons/WbSunny";
+import DarkThemeIcon from "@material-ui/icons/NightsStay";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
+import NotificationsRoundedIcon from "@material-ui/icons/NotificationsRounded";
 
 import Sidebar from "./Sidebar";
 import AuthDialog from "../auth/AuthDialog";
@@ -30,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     [theme.breakpoints.down("xs")]: {
-      display: "none",
+      display: "block",
     },
   },
   authDivDesktop: {
@@ -62,7 +64,7 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [mobMenuAnchor, setMobMenuAnchor] = useState(null);
-  const { isAuth, logout } = useContext(AuthContext);
+  const { authToken, logout } = useContext(AuthContext);
 
   const handleMobMenu = (e) => {
     setMobMenuAnchor(e.currentTarget);
@@ -72,14 +74,16 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
     <div className={classes.grow}>
       <AppBar position='fixed'>
         <Toolbar style={{ justifyContent: "space-between" }}>
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            color='inherit'
-            onClick={() => setSidebarOpen(true)}
-          >
-            <MenuIcon />
-          </IconButton>
+          <div className={classes.authDivMobile}>
+            <IconButton
+              edge='start'
+              className={classes.menuButton}
+              color='secondary'
+              onClick={() => setSidebarOpen(true)}
+            >
+              <MenuIcon />
+            </IconButton>
+          </div>
           <Typography variant='h6' className={classes.title}>
             JobProvider
           </Typography>
@@ -87,6 +91,11 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
           <div className={classes.authDivDesktop}>
             <Button className={classes.iconColor}>Jobs</Button>
             <Button className={classes.iconColor}>Courses</Button>
+            <Tooltip title='Switch Language'>
+              <IconButton className={classes.iconColor}>
+                <LanguageIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title={darkTheme ? "Light Theme" : "Dark Theme"}>
               <IconButton
                 className={classes.iconColor}
@@ -95,8 +104,13 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
                 {darkTheme ? <LightThemeIcon /> : <DarkThemeIcon />}
               </IconButton>
             </Tooltip>
-            {isAuth ? (
+            {authToken.length > 0 ? (
               <>
+                <Tooltip title='Notifications'>
+                  <IconButton className={classes.iconColor}>
+                    <NotificationsRoundedIcon />
+                  </IconButton>
+                </Tooltip>
                 <Tooltip title='Account'>
                   <IconButton className={classes.iconColor}>
                     <UserIcon />
