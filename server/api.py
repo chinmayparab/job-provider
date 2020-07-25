@@ -261,9 +261,60 @@ def upload_file():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         s = extractpdf.yoohoo(filename)
-        resp = jsonify({"Description": s[0]["Description"], "Links": s[0]["Links"], "NameOfPosition": s[0]
-                        ["NameOfPosition"], "NumberOfPosition": s[0]["NumberOfPosition"], "Stipend": s[0]["Stipend"], "Bubbles-extras": s[0]["AllText"].split('\n\n')})
-        resp.status_code = 201
+
+        main = []
+        name = []
+        pos = []
+        sti = []
+        desc = []
+        lonk = []
+        alt = []
+        alt = ''
+
+        for i in range(len(s)):
+            print(i)
+            for j in s[i]['NameOfPosition']:
+                name.append(j)
+            for j in s[i]['NumberOfPosition']:
+                pos.append(j)
+            for j in s[i]['Stipend']:
+                sti.append(j)
+            for j in s[i]['Description']:
+                desc.append(j)
+            for j in s[i]['Links']:
+                lonk.append(j)
+            alt = alt+''+s[i]['AllText']
+
+
+#print(len(name), len(pos), len(sti), len(desc))
+
+        for i in range(len(name)):
+            try:
+                a = name[i]
+            except:
+                a = ''
+            try:
+                b = pos[i]
+            except:
+                b = ''
+            try:
+                c = sti[i]
+            except:
+                c = ''
+            try:
+                d = desc[i]
+            except:
+                d = ''
+            try:
+                e = lonk[i]
+            except:
+                e = ''
+            ssh = {'NameOfPosition': a, 'NumberOfPosition': b,
+                   'Stipend': c, 'Description': d, 'Links': e}
+            main.append(ssh)
+
+        resp = jsonify({"jobs": main, "all-text": alt.strip("\n\n")})
+        resp.status_code = 200
         return resp
     else:
         resp = jsonify(
