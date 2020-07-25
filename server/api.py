@@ -34,6 +34,7 @@ import resume_skills as r_skills  # not a python package.
 import resume_projects as r_projects  # not a python package.
 import resume_trainings as r_trainings  # not a python package.
 import resume_wexp as r_wexp  # not a python package.
+import resume_fetch as getresume  # not a python package.
 
 
 CORS(app)
@@ -172,6 +173,39 @@ def register():
     finally:
         cur.close()
         conn.close()
+
+
+@app.route('/resume-details', methods=['GET'])
+# @check_for_token
+def get_resume():
+
+    if(request.json['want'] == "personaldetails"):
+        resp = getresume.fetch_pd()
+        return resp
+    elif(request.json['want'] == "edu_details"):
+        resp = getresume.fetch_edu()
+        return resp
+    elif(request.json['want'] == "job_details"):
+        resp = getresume.fetch_jobs()
+        return resp
+    elif(request.json['want'] == "projects_lists"):
+        resp = getresume.fetch_projects()
+        return resp
+    elif(request.json['want'] == "skills_list"):
+        resp = getresume.fetch_skills()
+        return resp
+    elif(request.json['want'] == "trainings_list"):
+        resp = getresume.fetch_trainings()
+        return resp
+    elif(request.json['want'] == "work_examples"):
+        resp = getresume.fetch_wexamples()
+        return resp
+    # elif(request.json['want'] == "everything"):
+    #     resp = getresume.fetch_all()
+    #     return resp
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
+        return resp
 
 
 @app.route('/resume', methods=['POST'])
