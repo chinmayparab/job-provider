@@ -228,6 +228,42 @@ def cud_resume_work():
         return resp
 
 
+@app.route('/resume-trainings', methods=['POST'])
+@check_for_token
+def cud_resume_trainings():
+
+    if(request.json['mode'] == "add"):
+        resp = r_trainings.create_resume_trainings()
+        return resp
+    elif(request.json['mode'] == "delete"):
+        resp = r_trainings.delete_resume_trainings()
+        return resp
+    elif(request.json['mode'] == "update"):
+        resp = r_trainings.update_resume_trainings()
+        return resp
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
+        return resp
+
+
+@app.route('/resume-workexp', methods=['POST'])
+@check_for_token
+def cud_resume_workexp():
+
+    if(request.json['mode'] == "add"):
+        resp = r_wexp.create_resume_job_details()
+        return resp
+    elif(request.json['mode'] == "delete"):
+        resp = r_wexp.delete_resume_job_details()
+        return resp
+    elif(request.json['mode'] == "update"):
+        resp = r_wexp.update_resume_job_details()
+        return resp
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
+        return resp
+
+
 @app.route('/resume-skills', methods=['POST'])
 @check_for_token
 def cud_resume_skills():
