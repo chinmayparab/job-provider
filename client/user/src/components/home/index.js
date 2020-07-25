@@ -9,6 +9,11 @@ import HomeSearch from "./HomeSearch";
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(5),
+
+    marginTop: theme.spacing(25),
+    [theme.breakpoints.down("xs")]: {
+      marginTop: theme.spacing(15),
+    },
   },
   btoon: {
     padding: theme.spacing(2),
