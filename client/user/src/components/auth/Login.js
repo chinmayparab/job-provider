@@ -77,7 +77,7 @@ const Login = ({ setAuthDialogOpen, setLoginForm }) => {
                   "This is a required field.") ||
                 (errors.contact &&
                   errors.contact.type === "pattern" &&
-                  "Enter a 10 digit Phone Number.")
+                  "Please Specify a valid Phone Number.")
               }
             />
 

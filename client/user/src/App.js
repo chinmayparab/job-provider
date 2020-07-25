@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Home from "./components/home";
+import Resume from "./components/resume";
 import Navbar from "./components/layout/Navbar";
+import PrivateRoute from "./components/routing/PrivateRoute";
 import { AuthProvider } from "./context/auth/AuthContext";
 
 import { BrowserRouter, Route } from "react-router-dom";
@@ -15,7 +17,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles((theme) => ({
   main: {
-    marginTop: theme.spacing(25),
+    marginTop: theme.spacing(10),
     [theme.breakpoints.down("xs")]: {
       marginTop: theme.spacing(15),
     },
@@ -52,6 +54,7 @@ const App = () => {
           <Container>
             <main className={classes.main}>
               <Route exact path='/' component={Home} />
+              <PrivateRoute exact path='/resume' component={Resume} />
               {/* <Route exact path='/jobs' component={Jobs} />
             <Route exact path='/courses' component={Courses} /> */}
             </main>
