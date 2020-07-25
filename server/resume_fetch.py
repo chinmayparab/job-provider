@@ -19,12 +19,8 @@ def fetch_pd():
                 str(request.json['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        resp = jsonify({'results': records})
-        resp.status_code = 200
-        return resp
-    resp = jsonify({'message': 'Error.'})
-    resp.status_code = 401
-    return resp
+        return records
+    return 'empty'
 
 
 def fetch_edu():
@@ -34,12 +30,8 @@ def fetch_edu():
                 str(request.json['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        resp = jsonify({'results': records})
-        resp.status_code = 200
-        return resp
-    resp = jsonify({'message': 'Error.'})
-    resp.status_code = 401
-    return resp
+        return records
+    return 'empty'
 
 
 def fetch_jobs():
@@ -49,12 +41,8 @@ def fetch_jobs():
                 str(request.json['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        resp = jsonify({'results': records})
-        resp.status_code = 200
-        return resp
-    resp = jsonify({'message': 'Error.'})
-    resp.status_code = 401
-    return resp
+        return records
+    return 'empty'
 
 
 def fetch_projects():
@@ -64,12 +52,8 @@ def fetch_projects():
                 str(request.json['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        resp = jsonify({'results': records})
-        resp.status_code = 200
-        return resp
-    resp = jsonify({'message': 'Error.'})
-    resp.status_code = 401
-    return resp
+        return records
+    return 'empty'
 
 
 def fetch_skills():
@@ -79,12 +63,8 @@ def fetch_skills():
                 str(request.json['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        resp = jsonify({'results': records})
-        resp.status_code = 200
-        return resp
-    resp = jsonify({'message': 'Error.'})
-    resp.status_code = 401
-    return resp
+        return records
+    return 'empty'
 
 
 def fetch_trainings():
@@ -94,12 +74,8 @@ def fetch_trainings():
                 str(request.json['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        resp = jsonify({'results': records})
-        resp.status_code = 200
-        return resp
-    resp = jsonify({'message': 'Error.'})
-    resp.status_code = 401
-    return resp
+        return records
+    return 'empty'
 
 
 def fetch_wexamples():
@@ -109,15 +85,10 @@ def fetch_wexamples():
                 str(request.json['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        resp = jsonify({'results': records})
-        resp.status_code = 200
-        return resp
-    resp = jsonify({'message': 'Error.'})
-    resp.status_code = 401
-    return resp
+        return records
+    return 'empty'
 
 
-'''
 def fetch_all():
 
     personal_details = fetch_pd()
@@ -142,4 +113,3 @@ def fetch_all():
                     skills_list, 'trainings_list': trainings_list, 'work_examples': work_examples})
     resp.status_code = 200
     return resp
-'''

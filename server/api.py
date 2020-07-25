@@ -180,29 +180,43 @@ def register():
 def get_resume():
 
     if(request.json['want'] == "personaldetails"):
-        resp = getresume.fetch_pd()
+        results = getresume.fetch_pd()
+        resp = jsonify({'output': results})
+        resp.status_code = 200
         return resp
     elif(request.json['want'] == "edu_details"):
-        resp = getresume.fetch_edu()
+        results = getresume.fetch_edu()
+        resp = jsonify({'output': results})
+        resp.status_code = 200
         return resp
     elif(request.json['want'] == "job_details"):
-        resp = getresume.fetch_jobs()
+        results = getresume.fetch_jobs()
+        resp = jsonify({'output': results})
+        resp.status_code = 200
         return resp
     elif(request.json['want'] == "projects_lists"):
-        resp = getresume.fetch_projects()
+        results = getresume.fetch_projects()
+        resp = jsonify({'output': results})
+        resp.status_code = 200
         return resp
     elif(request.json['want'] == "skills_list"):
-        resp = getresume.fetch_skills()
+        results = getresume.fetch_skills()
+        resp = jsonify({'output': results})
+        resp.status_code = 200
         return resp
     elif(request.json['want'] == "trainings_list"):
-        resp = getresume.fetch_trainings()
+        results = getresume.fetch_trainings()
+        resp = jsonify({'output': results})
+        resp.status_code = 200
         return resp
     elif(request.json['want'] == "work_examples"):
-        resp = getresume.fetch_wexamples()
+        results = getresume.fetch_wexamples()
+        resp = jsonify({'output': results})
+        resp.status_code = 200
         return resp
-    # elif(request.json['want'] == "everything"):
-    #     resp = getresume.fetch_all()
-    #     return resp
+    elif(request.json['want'] == "everything"):
+        resp = getresume.fetch_all()
+        return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
         return resp
@@ -441,7 +455,7 @@ def upload_file():
             alt = alt+''+s[i]['AllText']
 
 
-#print(len(name), len(pos), len(sti), len(desc))
+# print(len(name), len(pos), len(sti), len(desc))
 
         for i in range(len(name)):
             try:
