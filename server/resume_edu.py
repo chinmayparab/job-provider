@@ -23,8 +23,9 @@ def create_resume_edu():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("INSERT INTO resume_edu_details(user_id,status,college,degree,stream,start_year,end_date) VALUES('" + str(request.json['user_id']) + "','"+str(request.json['status']) +
-                    "','"+str(request.json['college']) + "','"+str(request.json['degree']) + "','"+str(request.json['stream']) + "','"+str(request.json['start_year']) + "','"+str(request.json['end_date']) + "');")
+        cur.execute("INSERT INTO resume_edu_details(user_id,status,college,degree,stream,start_year,end_date) VALUES('" + str(request.json['user_id']) +
+                    "','"+str(request.json['status']) + "','"+str(request.json['college']) + "','"+str(request.json['degree']) + "','"+str(request.json['stream']) +
+                    "','"+str(request.json['start_year']) + "','"+str(request.json['end_date']) + "');")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'success'})

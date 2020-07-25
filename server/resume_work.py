@@ -66,7 +66,10 @@ def update_resume_w():
                 resp = jsonify({'message': 'success'})
                 resp.status_code = 200
                 return resp
-        resp = jsonify({'message': 'Error.'})
+            resp = jsonify({'message': 'Error.'})
+            resp.status_code = 401
+            return resp
+        resp = jsonify({'message': 'Invalid User ID.'})
         resp.status_code = 401
         return resp
     finally:

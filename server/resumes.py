@@ -77,8 +77,8 @@ def update_resume():
             resp = jsonify({'message': 'Error.'})
             resp.status_code = 401
             return resp
-        resp = jsonify({'message': 'No resume with given user_id found.'})
-        resp.status_code = 403
+        resp = jsonify({'message': 'No resume with given User ID found.'})
+        resp.status_code = 401
         return resp
     finally:
         cur.close()

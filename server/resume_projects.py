@@ -16,7 +16,8 @@ def create_resume_projects():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("INSERT INTO resume_projects(user_id,title,start_month,end_month,description,project_link) VALUES('" + str(request.json['user_id']) + "','"+str(request.json['title']) + "','"+str(request.json['start_month']) +
+        cur.execute("INSERT INTO resume_projects(user_id,title,start_month,end_month,description,project_link) VALUES('" + str(request.json['user_id']) +
+                    "','"+str(request.json['title']) + "','"+str(request.json['start_month']) +
                     "','"+str(request.json['end_month']) + "','"+str(request.json['description']) + "','"+str(request.json['project_link'])+"');")
         conn.commit()
         if cur:
@@ -59,7 +60,8 @@ def update_resume_projects():
     try:
         if len(records) > 0:
             cur.execute("UPDATE resume_projects SET title = '"+str(
-                request.json['title'])+"', start_month = '"+str(request.json['start_month']) + "', end_month = '"+str(request.json['end_month']) + "', description = '"+str(request.json['description'])+"', project_link = '"+str(request.json['project_link']) +
+                request.json['title'])+"', start_month = '"+str(request.json['start_month']) + "', end_month = '"+str(request.json['end_month']) +
+                "', description = '"+str(request.json['description'])+"', project_link = '"+str(request.json['project_link']) +
                 "' WHERE user_id = '"+str(request.json['user_id'])+"';")
             conn.commit()
             if cur:
