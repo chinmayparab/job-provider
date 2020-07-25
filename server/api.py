@@ -248,6 +248,7 @@ def admin_register():
 def upload_file():
     s = []
     # check if the post request has the file part
+
     if 'file' not in request.files:
         resp = jsonify({'message': 'No file part in the request'})
         resp.status_code = 400
@@ -316,11 +317,11 @@ def upload_file():
         resp = jsonify({"jobs": main, "all-text-bubbles": alt.split("\n\n")})
         resp.status_code = 200
         return resp
-    else:
-        resp = jsonify(
-            {'message': 'Allowed file type is .pdf only.'})
-        resp.status_code = 400
-        return resp
+    # else:
+    #     resp = jsonify(
+    #         {'message': 'Allowed file type is .pdf only.'})
+    #     resp.status_code = 400
+    #     return resp
 
 
 def allowed_file(filename):
