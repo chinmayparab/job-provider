@@ -44,8 +44,8 @@ CORS(app)
 def check_for_token(param):
     @wraps(param)
     def wrapped(*args, **kwargs):
-        if 'x-access-tokens' in request.headers:
-            token = request.headers['x-access-tokens']
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization']
         # token = request.args.get('token')
         if not token:
             return jsonify({'message': 'Missing Token'}), 403
@@ -58,9 +58,32 @@ def check_for_token(param):
     return wrapped
 
 
+# Get current active user
 @app.route('/user')
 @check_for_token
 def user():
+    try:
+        conn = mysql.connect()
+        cur = conn.cursor(pymysql.cursors.DictCursor)
+        token = request.headers['Authorization']
+        user = jwt.decode(token, app.config['SECRET_KEY'])
+        cur.execute("Select * from users WHERE user_id=" +
+                    str(user['user_id'])+";")
+        rows = cur.fetchall()
+        resp = jsonify(rows)
+        resp.status_code = 200
+        return resp
+    except Exception as e:
+        print(e)
+    finally:
+        cur.close()
+        conn.close()
+
+
+# Fetch All Users
+@app.route('/users')
+@check_for_token
+def users():
     try:
         conn = mysql.connect()
         cur = conn.cursor(pymysql.cursors.DictCursor)
@@ -247,8 +270,8 @@ def cud_resume_projects():
 def check_for_token_admin(param):
     @wraps(param)
     def wrapped(*args, **kwargs):
-        if 'x-access-tokens' in request.headers:
-            token = request.headers['x-access-tokens']
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization']
         if not token:
             return jsonify({'message': 'Missing Token'}), 403
         try:
@@ -309,6 +332,7 @@ def admin_register():
 def upload_file():
     s = []
     # check if the post request has the file part
+
     if 'file' not in request.files:
         resp = jsonify({'message': 'No file part in the request'})
         resp.status_code = 400
@@ -377,11 +401,11 @@ def upload_file():
         resp = jsonify({"jobs": main, "all-text-bubbles": alt.split("\n\n")})
         resp.status_code = 200
         return resp
-    else:
-        resp = jsonify(
-            {'message': 'Allowed file type is .pdf only.'})
-        resp.status_code = 400
-        return resp
+    # else:
+    #     resp = jsonify(
+    #         {'message': 'Allowed file type is .pdf only.'})
+    #     resp.status_code = 400
+    #     return resp
 
 
 def allowed_file(filename):

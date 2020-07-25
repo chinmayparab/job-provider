@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 import AddJobForm from './AddJobForm'
 
@@ -15,6 +15,8 @@ import Divider from '@material-ui/core/Divider'
 import Tooltip from '@material-ui/core/Tooltip'
 // import LinearProgress from '@material-ui/core/LinearProgress'
 // import Skeleton from '@material-ui/lab/Skeleton'
+
+import { GlobalContext } from '../../context/globalContext'
 
 const useStyles = makeStyles({
 	paper: {
@@ -42,11 +44,23 @@ const useStyles = makeStyles({
 const AddJob = () => {
 	const classes = useStyles()
 
-	const [uploadedImages, setUploadedImages] = useState([])
+	const { scanJobPdf, authToken, loading } = useContext(GlobalContext)
+	const [uploadedFiles, setUploadedFiles] = useState([])
+	const [inputElement, setInputElement] = useState([])
 
-	const handleUploadedImage = (e) => {
+	useEffect(() => {
+		console.log(authToken)
+	}, [authToken])
+
+	const handleUploadedFile = (e) => {
 		const files = Array.from(e.target.files)
-		setUploadedImages(files)
+		setInputElement(e.target)
+		setUploadedFiles(files)
+	}
+
+	const handleScanPdf = () => {
+		console.log(uploadedFiles[0], inputElement)
+		scanJobPdf(uploadedFiles, inputElement, authToken)
 	}
 
 	const testValues = [
@@ -72,6 +86,7 @@ const AddJob = () => {
 
 	return (
 		<Container>
+			{loading ? <h1>Loading</h1> : <h1>No</h1>}
 			<TypoGraphy gutterBottom={true} variant='h5'>
 				Add a Job
 			</TypoGraphy>
@@ -89,7 +104,7 @@ const AddJob = () => {
 								multiple
 								id='contained-button-file'
 								type='file'
-								onChange={handleUploadedImage}
+								onChange={handleUploadedFile}
 							/>
 							<label htmlFor='contained-button-file'>
 								<Fab component='span' color='primary' aria-label='add'>
@@ -98,9 +113,9 @@ const AddJob = () => {
 							</label>
 						</Box>
 						<Box className={classes.flexCenter}>
-							{uploadedImages.length > 0 ? (
+							{uploadedFiles.length > 0 ? (
 								<>
-									{uploadedImages.map((uploadedImage, index) => (
+									{uploadedFiles.map((uploadedImage, index) => (
 										<Tooltip
 											key={index}
 											title={uploadedImage.name}
@@ -117,7 +132,11 @@ const AddJob = () => {
 										</Tooltip>
 									))}
 									<Divider />
-									<Button color='secondary' variant='contained'>
+									<Button
+										onClick={handleScanPdf}
+										color='secondary'
+										variant='contained'
+									>
 										Upload
 									</Button>
 								</>

@@ -104,7 +104,7 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
                 {darkTheme ? <LightThemeIcon /> : <DarkThemeIcon />}
               </IconButton>
             </Tooltip>
-            {authToken.length > 0 ? (
+            {authToken ? (
               <>
                 <Tooltip title='Notifications'>
                   <IconButton className={classes.iconColor}>

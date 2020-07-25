@@ -1,12 +1,13 @@
 import React, { createContext, useReducer } from 'react'
 
-import { LOGIN_ADMIN, LOGOUT_ADMIN } from './types'
+import { LOGIN_ADMIN, LOGOUT_ADMIN, SET_LOADING } from './types'
 import Reducer from './reducer'
 
 import config from '../config'
 
 const initialState = {
-	authToken: ''
+	authToken: '',
+	loading: false
 }
 
 export const GlobalContext = createContext(initialState)
@@ -49,13 +50,43 @@ export const GlobalProvider = ({ children }) => {
 		})
 	}
 
+	const setLoading = (value) => {
+		dispatch({
+			type: SET_LOADING,
+			payload: value
+		})
+	}
+
+	const scanJobPdf = (file, fileInput, token) => {
+		var formdata = new FormData()
+		for (let i = 0; i < file.length; i++) {
+			formdata.append('file', fileInput.files[0], file[i].name)
+		}
+
+		var requestOptions = {
+			method: 'POST',
+			body: formdata,
+			redirect: 'follow'
+		}
+		setLoading(true)
+		fetch('http://127.0.0.1:5000/admin/post-job?token=' + token, requestOptions)
+			.then((response) => response.json())
+			.then((result) => {
+				setLoading(false)
+				console.log(result)
+			})
+			.catch((error) => console.log('error', error))
+	}
+
 	return (
 		<GlobalContext.Provider
 			value={{
 				authToken: state.authToken,
 				loginAdmin,
 				setToken,
-				logoutAdmin
+				logoutAdmin,
+				scanJobPdf,
+				loading: state.loading
 			}}
 		>
 			{children}
