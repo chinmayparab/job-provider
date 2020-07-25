@@ -1,4 +1,4 @@
-import { LOGIN_ADMIN, LOGOUT_ADMIN, SET_LOADING } from './types'
+import { LOGIN_ADMIN, LOGOUT_ADMIN } from '../types'
 
 export default (state, action) => {
 	switch (action.type) {
@@ -11,11 +11,6 @@ export default (state, action) => {
 			return {
 				...state,
 				authToken: ''
-			}
-		case SET_LOADING:
-			return {
-				...state,
-				loading: action.payload
 			}
 		default:
 			return state

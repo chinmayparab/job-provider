@@ -37,6 +37,7 @@ CORS(app)
 def check_for_token(param):
     @wraps(param)
     def wrapped(*args, **kwargs):
+        token = ''
         if 'Authorization' in request.headers:
             token = request.headers['Authorization']
         # token = request.args.get('token')
@@ -209,6 +210,7 @@ def cud_resume_edu():
 def check_for_token_admin(param):
     @wraps(param)
     def wrapped(*args, **kwargs):
+        token = ''
         if 'Authorization' in request.headers:
             token = request.headers['Authorization']
         if not token:
@@ -233,7 +235,7 @@ def admin_login():
     for row in records:
         if check_password_hash(row["password"], request.json['password']):
             token = jwt.encode({'username': request.json['username'], 'exp': datetime.datetime.utcnow(
-            ) + datetime.timedelta(minutes=10)}, app.config['SECRET_KEY_ADMIN'])
+            ) + datetime.timedelta(minutes=1440)}, app.config['SECRET_KEY_ADMIN'])
             print(token.decode('utf-8'))
             resp = jsonify({'token': token.decode('utf-8')})
             resp.status_code = 200

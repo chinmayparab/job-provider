@@ -13,10 +13,11 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import Divider from '@material-ui/core/Divider'
 import Tooltip from '@material-ui/core/Tooltip'
-// import LinearProgress from '@material-ui/core/LinearProgress'
-// import Skeleton from '@material-ui/lab/Skeleton'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Skeleton from '@material-ui/lab/Skeleton'
 
-import { GlobalContext } from '../../context/globalContext'
+import { AuthContext } from '../../context/authContext/authContext'
+import { JobContext } from '../../context/jobContext/jobContext'
 
 const useStyles = makeStyles({
 	paper: {
@@ -44,13 +45,16 @@ const useStyles = makeStyles({
 const AddJob = () => {
 	const classes = useStyles()
 
-	const { scanJobPdf, authToken, loading } = useContext(GlobalContext)
+	const { authToken } = useContext(AuthContext)
+	const { scanJobPdf, loading, jobData } = useContext(JobContext)
 	const [uploadedFiles, setUploadedFiles] = useState([])
 	const [inputElement, setInputElement] = useState([])
 
+	const jobs = jobData.jobs || []
+	const allText = jobData['all-text-bubbles'] || []
 	useEffect(() => {
-		console.log(authToken)
-	}, [authToken])
+		console.log(jobData.jobs)
+	}, [jobData])
 
 	const handleUploadedFile = (e) => {
 		const files = Array.from(e.target.files)
@@ -59,39 +63,16 @@ const AddJob = () => {
 	}
 
 	const handleScanPdf = () => {
-		console.log(uploadedFiles[0], inputElement)
 		scanJobPdf(uploadedFiles, inputElement, authToken)
 	}
 
-	const testValues = [
-		{
-			title: 'title1'
-		},
-		{
-			title: 'title2'
-		},
-		{
-			title: 'title3'
-		},
-		{
-			title: 'title4'
-		},
-		{
-			title: 'title5'
-		},
-		{
-			title: 'title6'
-		}
-	]
-
 	return (
 		<Container>
-			{loading ? <h1>Loading</h1> : <h1>No</h1>}
 			<TypoGraphy gutterBottom={true} variant='h5'>
 				Add a Job
 			</TypoGraphy>
 			<Grid container spacing={0}>
-				<Grid item sm={2} xs={12}>
+				<Grid item md={2} xs={12}>
 					<Paper className={classes.paper}>
 						<Box p={2}>
 							<TypoGraphy color='textSecondary' variant='subtitle2'>
@@ -152,11 +133,22 @@ const AddJob = () => {
 				>
 					OR
 				</TypoGraphy>
-				<Grid item sm={9} xs={12}>
-					{/* <LinearProgress color='secondary' /> */}
-					{/* <Skeleton width='100%' height='100%'> */}
-					<AddJobForm values={testValues} />
-					{/* </Skeleton> */}
+				<Grid item md={9} xs={12}>
+					{loading ? (
+						<>
+							<LinearProgress color='secondary' />
+							<Skeleton
+								variant='rect'
+								animation='wave'
+								width='100%'
+								height='100%'
+							>
+								<AddJobForm jobs={jobs} />
+							</Skeleton>
+						</>
+					) : (
+						<AddJobForm allText={allText} jobs={jobs} />
+					)}
 				</Grid>
 			</Grid>
 		</Container>

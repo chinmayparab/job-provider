@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 
-import { GlobalContext } from '../../context/globalContext'
+import { AuthContext } from '../../context/authContext/authContext'
 import { Link } from 'react-router-dom'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -42,7 +42,7 @@ const Navbar = (props) => {
 	const classes = useStyles()
 	const [open, setOpen] = useState(false)
 
-	const { logoutAdmin, authToken } = useContext(GlobalContext)
+	const { logoutAdmin, authToken } = useContext(AuthContext)
 
 	const handleLogout = () => {
 		logoutAdmin()

@@ -5,7 +5,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import jwtDecode from 'jsonwebtoken/decode'
 
-import { GlobalContext } from './context/globalContext'
+import { AuthContext } from './context/authContext/authContext'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Box from '@material-ui/core/Box'
 import Navbar from './components/layout/Navbar'
@@ -14,7 +14,7 @@ import AddJob from './components/jobs/AddJob'
 import ViewJob from './components/jobs/ViewJob'
 
 const App = () => {
-	const { setToken, logoutAdmin } = useContext(GlobalContext)
+	const { setToken, logoutAdmin } = useContext(AuthContext)
 
 	const checkLogin = () => {
 		const localAuthToken = localStorage.getItem('authToken')
