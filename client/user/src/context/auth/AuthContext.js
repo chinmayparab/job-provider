@@ -1,5 +1,6 @@
 import React, { createContext, useReducer } from "react";
 import config from "../../config";
+import jwtDecode from "jsonwebtoken/decode";
 
 import authReducer from "./authReducer";
 import {
@@ -7,6 +8,7 @@ import {
   SIGNUP_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  USER_LOADED,
   LOGOUT,
 } from "./types";
 
@@ -19,6 +21,31 @@ export const AuthContext = createContext(initialState);
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+
+  // Load userr
+  // const loadUser = async () => {
+  //   const localAuthToken = localStorage.getItem("authToken");
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
+  //   myHeaders.append("x-access-token", localAuthToken);
+
+  //   var requestOptions = {
+  //     method: "GET",
+  //     headers: myHeaders,
+  //     redirect: "follow",
+  //   };
+
+  //   try {
+  //     fetch(config.server + "/user", requestOptions)
+  //       .then((response) => response.json())
+  //       .then((result) => console.log(result))
+  //       .catch((err) => console.log(err));
+
+  //     dispatch({ type: USER_LOADED, payload: result });
+  //   } catch (err) {
+  //     console.log("Not logged in");
+  //   }
+  // };
 
   const signup = (user) => {
     var myHeaders = new Headers();
