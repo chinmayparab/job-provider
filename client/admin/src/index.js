@@ -5,12 +5,15 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
-import { GlobalProvider } from './context/globalContext'
+import { AuthProvider } from './context/authContext/authContext'
+import { JobProvider } from './context/jobContext/jobContext'
 
 ReactDOM.render(
-	<GlobalProvider>
-		<App />
-	</GlobalProvider>,
+	<AuthProvider>
+		<JobProvider>
+			<App />
+		</JobProvider>
+	</AuthProvider>,
 	document.getElementById('root')
 )
 

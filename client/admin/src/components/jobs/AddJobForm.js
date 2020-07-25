@@ -2,15 +2,12 @@ import React, { useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
-import { KeyboardDatePicker } from '@material-ui/pickers'
 import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import TypoGraphy from '@material-ui/core/TypoGraphy'
-import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+
+import AddJobInputs from './AddJobInputs'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -18,10 +15,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	copyPaper: {
 		height: '100%',
-		[theme.breakpoints.up('md')]: {
+		[theme.breakpoints.up('sm')]: {
 			marginLeft: theme.spacing(2)
 		},
-		[theme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('sm')]: {
 			marginTop: theme.spacing(4)
 		},
 		padding: theme.spacing(1),
@@ -30,10 +27,10 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
-const AddJobForm = ({ values }) => {
+const AddJobForm = ({ jobs, allText }) => {
 	const classes = useStyles()
 
-	const totalJobs = values.length
+	const totalJobs = jobs.length
 	const [renderVar, setRenderVar] = useState(0)
 
 	const nextJob = () => {
@@ -44,126 +41,51 @@ const AddJobForm = ({ values }) => {
 		setRenderVar(Math.max(renderVar - 1, 0))
 	}
 
-	const handleAddJob = () => {
-		console.log('Add job')
-	}
-
-	return (
-		<Grid container>
-			<Grid item md={8}>
-				{values.slice(renderVar, renderVar + 1).map((value) => (
-					<Paper key={renderVar} className={classes.paper}>
-						<Box p={2}>
+	if (jobs.length > 0) {
+		return (
+			<Grid container>
+				<Grid style={{ flex: 1 }} item md={8}>
+					{jobs.slice(renderVar, renderVar + 1).map((job) => (
+						<AddJobInputs
+							key={renderVar}
+							renderVar={renderVar}
+							totalJobs={totalJobs}
+							prevJob={prevJob}
+							nextJob={nextJob}
+							job={job}
+						/>
+					))}
+				</Grid>
+				<Grid item md={4}>
+					<Paper className={classes.copyPaper}>
+						<Box p={1}>
 							<TypoGraphy color='textSecondary' variant='subtitle2'>
-								Manually add a job ({renderVar + 1}/{totalJobs})
+								Other relevant data
 							</TypoGraphy>
 						</Box>
-						<Container maxWidth='md'>
-							<TextField
-								margin='dense'
-								defaultValue={value.title}
-								label='Job Title'
-								fullWidth={true}
-							/>
-							<TextField
-								margin='dense'
-								label='Job Description'
-								multiline={true}
-								helperText='Maximum 1000 characters'
-								fullWidth={true}
-							/>
-							<Grid container spacing={3}>
-								<Grid item sm={6} xs={12}>
-									<TextField
-										margin='dense'
-										label='Total Vacancies'
-										type='number'
-										fullWidth={true}
-									/>
-								</Grid>
-								<Grid item sm={6} xs={12}>
-									<KeyboardDatePicker
-										margin='dense'
-										label='Closing Date'
-										format='DD/MM/yyyy'
-										KeyboardButtonProps={{
-											'aria-label': 'change date'
-										}}
-										fullWidth={true}
-									/>
-								</Grid>
-							</Grid>
-							<Grid container spacing={3}>
-								<Grid item sm={6} xs={12}>
-									<TextField margin='dense' label='Category' fullWidth={true} />
-								</Grid>
-								<Grid item sm={6} xs={12}>
-									<TextField
-										margin='dense'
-										label='Job Location'
-										fullWidth={true}
-									/>
-								</Grid>
-							</Grid>
-							<Box mt={3} align='right'>
-								{totalJobs > 1 ? (
-									<Button
-										style={{ marginRight: '10px' }}
-										color='primary'
-										onClick={prevJob}
-										variant='contained'
-									>
-										<ChevronLeftIcon />
-									</Button>
-								) : null}
-
-								<Button
-									color='secondary'
-									onClick={handleAddJob}
-									variant='contained'
-								>
-									Add Job
-								</Button>
-								{totalJobs > 1 ? (
-									<Button
-										style={{ marginLeft: '10px' }}
-										color='primary'
-										onClick={nextJob}
-										variant='contained'
-									>
-										<ChevronRightIcon />
-									</Button>
-								) : null}
-							</Box>
-						</Container>
+						{allText && allText.length > 0 ? (
+							allText.map((text, index) => (
+								<TextField
+									key={index}
+									margin='dense'
+									variant='outlined'
+									fullWidth
+									multiline
+									value={text}
+								/>
+							))
+						) : (
+							<TypoGraphy variant='subtitle2'>
+								No additional data found
+							</TypoGraphy>
+						)}
 					</Paper>
-				))}
+				</Grid>
 			</Grid>
-			<Grid item md={4}>
-				<Paper className={classes.copyPaper}>
-					<Box p={1}>
-						<TypoGraphy color='textSecondary' variant='subtitle2'>
-							Other relevant data
-						</TypoGraphy>
-					</Box>
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-					<TextField margin='dense' variant='outlined' fullWidth={true} />
-				</Paper>
-			</Grid>
-		</Grid>
-	)
+		)
+	} else {
+		return <AddJobInputs />
+	}
 }
 
 export default AddJobForm

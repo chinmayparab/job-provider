@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 
 import { Link } from 'react-router-dom'
-import { GlobalContext } from '../../context/globalContext'
+import { AuthContext } from '../../context/authContext/authContext'
 
 import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button'
 import jwtDecode from 'jsonwebtoken/decode'
 
 const Login = () => {
-	const { loginAdmin, authToken } = useContext(GlobalContext)
+	const { loginAdmin, authToken } = useContext(AuthContext)
 	const [user, setUser] = useState({ id: '', password: '' })
 
 	const handleLogin = () => {
