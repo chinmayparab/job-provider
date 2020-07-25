@@ -67,7 +67,7 @@ def update_resume_edu():
         if len(records) > 0:
             cur.execute("UPDATE resume_edu_details SET status = '"+str(
                 request.json['status'])+"', college = '"+str(request.json['college']) + "', degree = '"+str(request.json['degree']) +
-                "', stream = '"+str(request.json['stream']) + "', start_year = '"+str(request.json['startyear']) + "', end_date = '"+str(request.json['enddate']) +
+                "', stream = '"+str(request.json['stream']) + "', start_year = '"+str(request.json['start_year']) + "', end_date = '"+str(request.json['end_date']) +
                 "' WHERE user_id = '"+str(request.json['user_id'])+"';")
             conn.commit()
             if cur:
