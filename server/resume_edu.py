@@ -19,13 +19,13 @@ def get_random_alphanumeric_string(length):
     return result_str
 
 
-def create_resume():
+def create_resume_edu():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("INSERT INTO resume(resume_id,user_id,email,location,phone_no,additional_details) VALUES('" +
-                    get_random_alphanumeric_string(8)+"','"+str(request.json['user_id']) + "','"+str(request.json['email']) + "','"+str(request.json['location']) +
-                    "','"+str(request.json['phone_no']) + "','"+str(request.json['additional_details']) + "');")
+        cur.execute("INSERT INTO resume_edu_details(id,user_id,resume_id,status,college,degree,stream,start_year,end_date) VALUES('" +
+                    get_random_alphanumeric_string(8)+"','"+str(request.json['user_id']) + "','"+str(request.json['resume_id']) + "','"+str(request.json['status']) +
+                    "','"+str(request.json['college']) + "','"+str(request.json['degree']) + "','"+str(request.json['stream']) + "','"+str(request.json['start_year']) + "','"+str(request.json['end_date']) + "');")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'success'})
@@ -39,11 +39,11 @@ def create_resume():
         conn.close()
 
 
-def delete_resume():
+def delete_resume_edu():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("DELETE FROM resume WHERE user_id ='"+str(
+        cur.execute("DELETE FROM resume_edu_details WHERE user_id ='"+str(
             request.json['user_id'])+"';")
         conn.commit()
         if cur:
@@ -58,27 +58,25 @@ def delete_resume():
         conn.close()
 
 
-def update_resume():
+def update_resume_edu():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
-    cur.execute("Select * from resume Where user_id = '" +
+    cur.execute("Select * from resume_edu_details Where user_id = '" +
                 str(request.json['user_id'])+"';")
     records = cur.fetchall()
     try:
         if len(records) > 0:
-            cur.execute("UPDATE resume SET email = '"+str(
-                request.json['email'])+"', location = '"+str(request.json['location']) + "', phone_no = '"+str(request.json['phone_no']) +
-                "', additional_details = '"+str(request.json['additional_details']) + "' WHERE user_id = '"+str(request.json['user_id'])+"';")
+            cur.execute("UPDATE resume_edu_details SET status = '"+str(
+                request.json['status'])+"', college = '"+str(request.json['college']) + "', degree = '"+str(request.json['degree']) +
+                "', stream = '"+str(request.json['stream']) + "', start_year = '"+str(request.json['startyear']) + "', end_date = '"+str(request.json['enddate']) +
+                "' WHERE user_id = '"+str(request.json['user_id'])+"';")
             conn.commit()
             if cur:
                 resp = jsonify({'message': 'success'})
                 resp.status_code = 200
                 return resp
-            resp = jsonify({'message': 'Error.'})
-            resp.status_code = 401
-            return resp
-        resp = jsonify({'message': 'No resume with given user_id found.'})
-        resp.status_code = 403
+        resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
         return resp
     finally:
         cur.close()

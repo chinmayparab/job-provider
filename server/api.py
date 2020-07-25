@@ -27,6 +27,7 @@ import ocr as ocr  # not a python package.
 import extractpdf as extractpdf  # not a python package.
 import jobs as job  # not a python package.
 import resumes as resume  # not a python package.
+import resume_edu as r_edu  # not a python package.
 
 CORS(app)
 
@@ -38,10 +39,12 @@ def check_for_token(param):
     def wrapped(*args, **kwargs):
         if 'x-access-tokens' in request.headers:
             token = request.headers['x-access-tokens']
+        # token = request.args.get('token')
         if not token:
             return jsonify({'message': 'Missing Token'}), 403
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
+            # can use this data to fetch current user with contact number encoded in token
         except:
             return jsonify({'message': 'Invalid Token'}), 403
         return param(*args, **kwargs)
@@ -110,6 +113,7 @@ def login():
                 return resp
         else:
             resp = jsonify({'message': 'ERROR Occured.'})
+            resp.status_code = 401
             return resp
         cur.close()
         conn.close()
@@ -127,6 +131,7 @@ def login():
                 return resp
             else:
                 resp = jsonify({'message': 'ERROR Occured.'})
+                resp.status_code = 401
                 return resp
             cur.close()
             conn.close()
@@ -156,6 +161,7 @@ def register():
                 resp.status_code = 200
                 return resp
             resp = jsonify({'message': 'Error.'})
+            resp.status_code = 401
             return resp
     finally:
         cur.close()
@@ -180,6 +186,24 @@ def cud_resume():
         return resp
 
 
+@app.route('/resume-edu', methods=['POST'])
+@check_for_token
+def cud_resume_edu():
+
+    if(request.json['mode'] == "add"):
+        resp = r_edu.create_resume_edu()
+        return resp
+    elif(request.json['mode'] == "delete"):
+        resp = r_edu.delete_resume_edu()
+        return resp
+    elif(request.json['mode'] == "update"):
+        resp = r_edu.update_resume_edu()
+        return resp
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
+        return resp
+
+
 # ADMIN SIDE REQUESTS.
 
 
@@ -188,7 +212,6 @@ def check_for_token_admin(param):
     def wrapped(*args, **kwargs):
         if 'x-access-tokens' in request.headers:
             token = request.headers['x-access-tokens']
-        #token = request.args.get('token')
         if not token:
             return jsonify({'message': 'Missing Token'}), 403
         try:
@@ -218,6 +241,7 @@ def admin_login():
             return resp
         else:
             resp = jsonify({'message': 'ERROR Occured.'})
+            resp.status_code = 401
             return resp
         cur.close()
         conn.close()
@@ -236,6 +260,7 @@ def admin_register():
             resp.status_code = 200
             return resp
         resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
         return resp
     finally:
         cur.close()
@@ -260,9 +285,60 @@ def upload_file():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         s = extractpdf.yoohoo(filename)
-        resp = jsonify({"Description": s[0]["Description"], "Links": s[0]["Links"], "NameOfPosition": s[0]
-                        ["NameOfPosition"], "NumberOfPosition": s[0]["NumberOfPosition"], "Stipend": s[0]["Stipend"], "Bubbles-extras": s[0]["AllText"].split('\n\n')})
-        resp.status_code = 201
+
+        main = []
+        name = []
+        pos = []
+        sti = []
+        desc = []
+        lonk = []
+        alt = []
+        alt = ''
+
+        for i in range(len(s)):
+            print(i)
+            for j in s[i]['NameOfPosition']:
+                name.append(j)
+            for j in s[i]['NumberOfPosition']:
+                pos.append(j)
+            for j in s[i]['Stipend']:
+                sti.append(j)
+            for j in s[i]['Description']:
+                desc.append(j)
+            for j in s[i]['Links']:
+                lonk.append(j)
+            alt = alt+''+s[i]['AllText']
+
+
+#print(len(name), len(pos), len(sti), len(desc))
+
+        for i in range(len(name)):
+            try:
+                a = name[i]
+            except:
+                a = ''
+            try:
+                b = pos[i]
+            except:
+                b = ''
+            try:
+                c = sti[i]
+            except:
+                c = ''
+            try:
+                d = desc[i]
+            except:
+                d = ''
+            try:
+                e = lonk[i]
+            except:
+                e = ''
+            ssh = {'NameOfPosition': a, 'NumberOfPosition': b,
+                   'Stipend': c, 'Description': d, 'Links': e}
+            main.append(ssh)
+
+        resp = jsonify({"jobs": main, "all-text-bubbles": alt.split("\n\n")})
+        resp.status_code = 200
         return resp
     else:
         resp = jsonify(
@@ -327,6 +403,7 @@ def all_jobs():
         return resp
     else:
         resp = jsonify({'message': 'ERROR.'})
+        resp.status_code = 401
         return resp
     cur.close()
     conn.close()
