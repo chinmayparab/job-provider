@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Home from "./components/home";
 import Resume from "./components/resume";
 import Navbar from "./components/layout/Navbar";
+import PrivateRoute from "./components/routing/PrivateRoute";
 import { AuthProvider } from "./context/auth/AuthContext";
 
 import { BrowserRouter, Route } from "react-router-dom";
@@ -53,7 +54,7 @@ const App = () => {
           <Container>
             <main className={classes.main}>
               <Route exact path='/' component={Home} />
-              <Route exact path='/resume' component={Resume} />
+              <PrivateRoute exact path='/resume' component={Resume} />
               {/* <Route exact path='/jobs' component={Jobs} />
             <Route exact path='/courses' component={Courses} /> */}
             </main>

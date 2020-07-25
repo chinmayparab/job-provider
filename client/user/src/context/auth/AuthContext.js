@@ -14,7 +14,9 @@ import {
 
 const initialState = {
   isAuth: false,
-  authToken: "",
+  authToken: localStorage.getItem("token"),
+  user: null,
+  error: null,
 };
 
 export const AuthContext = createContext(initialState);
@@ -23,29 +25,20 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   // Load userr
-  // const loadUser = async () => {
-  //   const localAuthToken = localStorage.getItem("authToken");
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-  //   myHeaders.append("x-access-token", localAuthToken);
+  const loadUser = (token) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", token);
 
-  //   var requestOptions = {
-  //     method: "GET",
-  //     headers: myHeaders,
-  //     redirect: "follow",
-  //   };
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+    };
 
-  //   try {
-  //     fetch(config.server + "/user", requestOptions)
-  //       .then((response) => response.json())
-  //       .then((result) => console.log(result))
-  //       .catch((err) => console.log(err));
-
-  //     dispatch({ type: USER_LOADED, payload: result });
-  //   } catch (err) {
-  //     console.log("Not logged in");
-  //   }
-  // };
+    fetch(config.server + "/user", requestOptions)
+      .then((response) => response.json())
+      .then((result) => dispatch({ type: USER_LOADED, payload: result[0] }))
+      .catch((err) => console.log(err));
+  };
 
   const signup = (user) => {
     var myHeaders = new Headers();
@@ -112,16 +105,19 @@ export const AuthProvider = ({ children }) => {
       type: LOGIN_SUCCESS,
       payload: token,
     });
+    loadUser(token);
   };
 
   return (
     <AuthContext.Provider
       value={{
+        user: state.user,
         authToken: state.authToken,
         isAuth: state.isAuth,
         signup,
         login,
         setToken,
+        loadUser,
         logout,
       }}
     >
