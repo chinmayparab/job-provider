@@ -313,7 +313,7 @@ def upload_file():
                    'Stipend': c, 'Description': d, 'Links': e}
             main.append(ssh)
 
-        resp = jsonify({"jobs": main, "all-text": alt.strip("\n\n")})
+        resp = jsonify({"jobs": main, "all-text-bubbles": alt.split("\n\n")})
         resp.status_code = 200
         return resp
     else:
