@@ -12,19 +12,12 @@ import random
 import string
 
 
-def get_random_alphanumeric_string(length):
-    letters_and_digits = string.ascii_letters + string.digits
-    result_str = ''.join((random.choice(letters_and_digits)
-                          for i in range(length)))
-    return result_str
-
-
-def create_resume_edu():
+def create_resume_projects():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("INSERT INTO resume_edu_details(user_id,status,college,degree,stream,start_year,end_date) VALUES('" + str(request.json['user_id']) + "','"+str(request.json['status']) +
-                    "','"+str(request.json['college']) + "','"+str(request.json['degree']) + "','"+str(request.json['stream']) + "','"+str(request.json['start_year']) + "','"+str(request.json['end_date']) + "');")
+        cur.execute("INSERT INTO resume_projects(user_id,title,start_month,end_month,description,project_link) VALUES('" + str(request.json['user_id']) + "','"+str(request.json['title']) + "','"+str(request.json['start_month']) +
+                    "','"+str(request.json['end_month']) + "','"+str(request.json['description']) + "','"+str(request.json['project_link'])+"');")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'success'})
@@ -38,18 +31,18 @@ def create_resume_edu():
         conn.close()
 
 
-def delete_resume_edu():
+def delete_resume_projects():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("DELETE FROM resume_edu_details WHERE user_id ='"+str(
+        cur.execute("DELETE FROM resume_projects WHERE user_id ='"+str(
             request.json['user_id'])+"';")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'successfully deleted.'})
             resp.status_code = 200
             return resp
-        resp = jsonify({'message': 'Invalid RESUME ID.'})
+        resp = jsonify({'message': 'Invalid User ID.'})
         resp.status_code = 401
         return resp
     finally:
@@ -57,17 +50,16 @@ def delete_resume_edu():
         conn.close()
 
 
-def update_resume_edu():
+def update_resume_projects():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
-    cur.execute("Select * from resume_edu_details Where user_id = '" +
+    cur.execute("Select * from resume_projects Where user_id = '" +
                 str(request.json['user_id'])+"';")
     records = cur.fetchall()
     try:
         if len(records) > 0:
-            cur.execute("UPDATE resume_edu_details SET status = '"+str(
-                request.json['status'])+"', college = '"+str(request.json['college']) + "', degree = '"+str(request.json['degree']) +
-                "', stream = '"+str(request.json['stream']) + "', start_year = '"+str(request.json['startyear']) + "', end_date = '"+str(request.json['enddate']) +
+            cur.execute("UPDATE resume_projects SET title = '"+str(
+                request.json['title'])+"', start_month = '"+str(request.json['start_month']) + "', end_month = '"+str(request.json['end_month']) + "', description = '"+str(request.json['description'])+"', project_link = '"+str(request.json['project_link']) +
                 "' WHERE user_id = '"+str(request.json['user_id'])+"';")
             conn.commit()
             if cur:

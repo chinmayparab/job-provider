@@ -26,8 +26,15 @@ import cv2
 import ocr as ocr  # not a python package.
 import extractpdf as extractpdf  # not a python package.
 import jobs as job  # not a python package.
+
 import resumes as resume  # not a python package.
 import resume_edu as r_edu  # not a python package.
+import resume_work as r_work  # not a python package.
+import resume_skills as r_skills  # not a python package.
+import resume_projects as r_projects  # not a python package.
+import resume_trainings as r_trainings  # not a python package.
+import resume_wexp as r_wexp  # not a python package.
+
 
 CORS(app)
 
@@ -174,6 +181,60 @@ def cud_resume_edu():
         return resp
     elif(request.json['mode'] == "update"):
         resp = r_edu.update_resume_edu()
+        return resp
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
+        return resp
+
+
+@app.route('/resume-work', methods=['POST'])
+@check_for_token
+def cud_resume_work():
+
+    if(request.json['mode'] == "add"):
+        resp = r_work.create_resume_w()
+        return resp
+    elif(request.json['mode'] == "delete"):
+        resp = r_work.delete_resume_w()
+        return resp
+    elif(request.json['mode'] == "update"):
+        resp = r_work.update_resume_w()
+        return resp
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
+        return resp
+
+
+@app.route('/resume-skills', methods=['POST'])
+@check_for_token
+def cud_resume_skills():
+
+    if(request.json['mode'] == "add"):
+        resp = r_skills.create_resume_skills()
+        return resp
+    elif(request.json['mode'] == "delete"):
+        resp = r_skills.delete_resume_skills()
+        return resp
+    elif(request.json['mode'] == "update"):
+        resp = r_skills.update_resume_skills()
+        return resp
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
+        return resp
+
+
+@app.route('/resume-projects', methods=['POST'])
+@check_for_token
+def cud_resume_projects():
+
+    if(request.json['mode'] == "add"):
+        resp = r_projects.create_resume_projects()
+        return resp
+    elif(request.json['mode'] == "delete"):
+        resp = r_projects.delete_resume_projects()
+        return resp
+    elif(request.json['mode'] == "update"):
+        resp = r_projects.update_resume_projects()
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
