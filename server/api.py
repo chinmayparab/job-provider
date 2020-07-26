@@ -36,11 +36,35 @@ import resume_trainings as r_trainings  # not a python package.
 import resume_wexp as r_wexp  # not a python package.
 import resume_fetch as getresume  # not a python package.
 
-
+import user_apis as user_side
+import no_auth_apis as no_auth
 CORS(app)
 
+# Fetch All Courses
+
+
+@app.route('/allcourses', methods=['GET'])
+def all_courses():
+    response = no_auth.all_courses()
+    return response
+
+
+# Fetch All Skills
+@app.route('/allskills', methods=['GET'])
+def all_skills():
+    response = no_auth.all_skills()
+    return response
+
+# Fetch jobs
+
+
+@app.route('/fetch-jobs', methods=['GET'])
+def fetch_jobs():
+    response = no_auth.fetch_jobs()
+    return response
 
 # USER SIDE REQUESTS.
+
 
 def check_for_token(param):
     @wraps(param)
@@ -64,41 +88,8 @@ def check_for_token(param):
 @app.route('/user')
 @check_for_token
 def user():
-    try:
-        conn = mysql.connect()
-        cur = conn.cursor(pymysql.cursors.DictCursor)
-        token = request.headers['Authorization']
-        user = jwt.decode(token, app.config['SECRET_KEY'])
-        cur.execute("Select * from users WHERE user_id=" +
-                    str(user['user_id'])+";")
-        rows = cur.fetchall()
-        resp = jsonify(rows)
-        resp.status_code = 200
-        return resp
-    except Exception as e:
-        print(e)
-    finally:
-        cur.close()
-        conn.close()
-
-
-# Fetch All Users
-@app.route('/users')
-@check_for_token
-def users():
-    try:
-        conn = mysql.connect()
-        cur = conn.cursor(pymysql.cursors.DictCursor)
-        cur.execute("Select * from users;")
-        rows = cur.fetchall()
-        resp = jsonify(rows)
-        resp.status_code = 200
-        return resp
-    except Exception as e:
-        print(e)
-    finally:
-        cur.close()
-        conn.close()
+    response = user_side.user()
+    return response
 
 
 @app.route('/login', methods=['POST'])
@@ -347,6 +338,22 @@ def cud_resume_projects():
     else:
         resp = jsonify({'message': 'Invalid Request.'})
         return resp
+
+
+# Get active user's applied jobs
+@app.route('/user-applied-jobs')
+@check_for_token
+def user_applied_jobs():
+    response = user_side.applied_jobs()
+    return response
+
+
+# Get active user's enrolled courses
+@app.route('/user-enrolled-courses')
+@check_for_token
+def user_enrolled_courses():
+    response = user_side.my_courses()
+    return response
 
 
 # ADMIN SIDE REQUESTS.
