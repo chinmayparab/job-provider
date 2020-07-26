@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Home from "./components/home";
 import Resume from "./components/resume";
+import Jobs from "./components/jobs";
 import Navbar from "./components/layout/Navbar";
 import PrivateRoute from "./components/routing/PrivateRoute";
-import { AuthProvider } from "./context/auth/AuthContext";
+import { AuthContext } from "./context/auth/AuthContext";
+import jwtDecode from "jsonwebtoken/decode";
 
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import {
   createMuiTheme,
   MuiThemeProvider,
   makeStyles,
+  responsiveFontSizes,
 } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -32,6 +35,7 @@ const App = () => {
     palette: {
       type: darkTheme ? "dark" : "light",
       primary: {
+        light: darkTheme ? "#66666" : "#7289DA",
         main: darkTheme ? "#23272A" : "#7289DA",
       },
       secondary: {
@@ -45,23 +49,41 @@ const App = () => {
     },
   });
 
+  const meme = responsiveFontSizes(theme);
+
+  const { setToken, logout } = useContext(AuthContext);
+
+  const checkLogin = () => {
+    const localAuthToken = localStorage.getItem("authToken");
+    if (localAuthToken) {
+      const { exp } = jwtDecode(localAuthToken);
+      if (exp < new Date().getTime()) {
+        setToken(localAuthToken);
+      } else {
+        logout();
+      }
+    }
+  };
+
+  useEffect(checkLogin, []);
+
   return (
-    <AuthProvider>
-      <MuiThemeProvider theme={theme}>
-        <BrowserRouter>
-          <CssBaseline />
-          <Navbar darkTheme={darkTheme} setDarkTheme={setDarkTheme} />
-          <Container>
-            <main className={classes.main}>
-              <Route exact path='/' component={Home} />
-              <PrivateRoute exact path='/resume' component={Resume} />
-              {/* <Route exact path='/jobs' component={Jobs} />
-            <Route exact path='/courses' component={Courses} /> */}
-            </main>
-          </Container>
-        </BrowserRouter>
-      </MuiThemeProvider>
-    </AuthProvider>
+    <MuiThemeProvider theme={meme}>
+      <BrowserRouter>
+        <CssBaseline />
+        <Navbar darkTheme={darkTheme} setDarkTheme={setDarkTheme} />
+        <Container>
+          <main className={classes.main}>
+            <Route exact path='/' component={Home} />
+            <Switch>
+              <Route exact path='/resume' component={Resume} />
+            </Switch>
+            <Route exact path='/jobs' component={Jobs} />
+            {/* <Route exact path='/courses' component={Courses} /> */}
+          </main>
+        </Container>
+      </BrowserRouter>
+    </MuiThemeProvider>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, { createContext, useReducer } from "react";
 import config from "../../config";
-import jwtDecode from "jsonwebtoken/decode";
 
 import authReducer from "./authReducer";
 import {
@@ -94,12 +93,6 @@ export const AuthProvider = ({ children }) => {
       .catch((err) => console.log(err));
   };
 
-  const logout = () => {
-    localStorage.removeItem("authToken");
-    dispatch({
-      type: LOGOUT,
-    });
-  };
   const setToken = (token) => {
     dispatch({
       type: LOGIN_SUCCESS,
@@ -108,12 +101,20 @@ export const AuthProvider = ({ children }) => {
     loadUser(token);
   };
 
+  const logout = () => {
+    localStorage.removeItem("authToken");
+    dispatch({
+      type: LOGOUT,
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user: state.user,
         authToken: state.authToken,
         isAuth: state.isAuth,
+        error: state.error,
         signup,
         login,
         setToken,

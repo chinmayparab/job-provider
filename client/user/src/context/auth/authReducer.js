@@ -23,6 +23,7 @@ export default (state, action) => {
       localStorage.setItem("authToken", action.payload);
       return {
         ...state,
+        isAuth: true,
         authToken: action.payload,
       };
     case SIGNUP_FAIL:
@@ -34,6 +35,7 @@ export default (state, action) => {
         // error: action.payload,
         isAuth: false,
         authToken: "",
+        user: null,
       };
     default:
       return state;

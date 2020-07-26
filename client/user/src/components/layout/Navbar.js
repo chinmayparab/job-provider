@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 
 import { AuthContext } from "../../context/auth/AuthContext";
 import { makeStyles } from "@material-ui/core/styles";
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    textDecorationLine: "none",
     [theme.breakpoints.down("xs")]: {
       display: "block",
     },
@@ -84,13 +86,27 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
               <MenuIcon />
             </IconButton>
           </div>
-          <Typography variant='h6' className={classes.title}>
+          <Typography
+            component={Link}
+            to='/'
+            color='inherit'
+            variant='h6'
+            className={classes.title}
+          >
             JobProvider
           </Typography>
 
           <div className={classes.authDivDesktop}>
-            <Button className={classes.iconColor}>Jobs</Button>
-            <Button className={classes.iconColor}>Courses</Button>
+            <Button component={Link} to='/jobs' className={classes.iconColor}>
+              Jobs
+            </Button>
+            <Button
+              component={Link}
+              to='/courses'
+              className={classes.iconColor}
+            >
+              Courses
+            </Button>
             <Tooltip title='Switch Language'>
               <IconButton className={classes.iconColor}>
                 <LanguageIcon />
