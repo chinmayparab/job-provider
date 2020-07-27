@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 import { AuthContext } from '../../context/authContext/authContext'
 import { Link } from 'react-router-dom'
@@ -12,6 +12,12 @@ import Slide from '@material-ui/core/Slide'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Button from '@material-ui/core/Button'
+import Box from '@material-ui/core/Box'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+
+import { useTranslation } from 'react-i18next'
 
 import SideDrawer from './SideDrawer'
 
@@ -23,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(2)
 	},
 	title: {
-		flexGrow: 1,
+		flexGrow: 1
+	},
+	brand: {
 		textDecoration: 'none'
 	}
 }))
@@ -39,6 +47,7 @@ const HideOnScroll = (props) => {
 }
 
 const Navbar = (props) => {
+	const { t, i18n } = useTranslation()
 	const classes = useStyles()
 	const [open, setOpen] = useState(false)
 
@@ -47,6 +56,14 @@ const Navbar = (props) => {
 	const handleLogout = () => {
 		logoutAdmin()
 	}
+
+	const handleLangChange = (e) => {
+		i18n.changeLanguage(e.target.value)
+	}
+
+	// useEffect(() => {
+	// 	console.log(lang)
+	// }, [lang])
 
 	return (
 		<>
@@ -64,15 +81,32 @@ const Navbar = (props) => {
 								<MenuIcon />
 							</IconButton>
 						) : null}
-						<Typography
-							component={Link}
-							to='/'
-							color='inherit'
-							variant='h6'
-							className={classes.title}
-						>
-							{props.title}
-						</Typography>
+						<Box className={classes.title}>
+							<Typography
+								className={classes.brand}
+								component={Link}
+								to='/'
+								color='inherit'
+								variant='h6'
+							>
+								{t('JobSetu Admin')}
+							</Typography>
+						</Box>
+						<Box>
+							<FormControl variant='outlined'>
+								<Select
+									defaultValue='en'
+									style={{ color: '#fff', marginRight: '3rem' }}
+									onChange={console.log}
+									displayEmpty
+									onChange={handleLangChange}
+								>
+									<MenuItem value='en'>English</MenuItem>
+									<MenuItem value='hi'>Hindi</MenuItem>
+								</Select>
+							</FormControl>
+						</Box>
+
 						{authToken.length > 0 ? (
 							<Button onClick={handleLogout} color='inherit'>
 								Logout

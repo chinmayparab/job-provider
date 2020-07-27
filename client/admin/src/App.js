@@ -13,6 +13,8 @@ import Login from './components/auth/Login'
 import AddJob from './components/jobs/AddJob'
 import ViewJob from './components/jobs/ViewJob'
 
+import { useTranslation } from 'react-i18next'
+
 const App = () => {
 	const { setToken, logoutAdmin } = useContext(AuthContext)
 
@@ -52,12 +54,20 @@ const App = () => {
 	)
 }
 
-const Home = () => (
-	<div
-		style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-	>
-		<h1>Home</h1>
-	</div>
-)
+const Home = () => {
+	const { t, i18n } = useTranslation()
+
+	return (
+		<div
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center'
+			}}
+		>
+			<h1>{t('Home')}</h1>
+		</div>
+	)
+}
 
 export default App

@@ -14,6 +14,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import AddIcon from '@material-ui/icons/AddCircle'
 import ViewDayIcon from '@material-ui/icons/ViewDay'
 import DashIcon from '@material-ui/icons/Dashboard'
+import BookIcon from '@material-ui/icons/Book'
+import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -89,6 +91,31 @@ const SideDrawer = ({ open, setOpen }) => {
 							<ViewDayIcon />
 						</ListItemIcon>
 						<ListItemText primary='View added jobs' />
+					</ListItem>
+				</List>
+				<Divider />
+				<List>
+					<ListItem
+						button
+						onClick={() => setOpen(false)}
+						component={Link}
+						to='/add-courses'
+					>
+						<ListItemIcon>
+							<BookIcon />
+						</ListItemIcon>
+						<ListItemText primary='Add new courses' />
+					</ListItem>
+					<ListItem
+						button
+						onClick={() => setOpen(false)}
+						component={Link}
+						to='/view-courses'
+					>
+						<ListItemIcon>
+							<CollectionsBookmarkIcon />
+						</ListItemIcon>
+						<ListItemText primary='View all courses' />
 					</ListItem>
 				</List>
 			</Drawer>

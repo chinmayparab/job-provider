@@ -5,6 +5,8 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
+import './i18n'
+
 import { AuthProvider } from './context/authContext/authContext'
 import { JobProvider } from './context/jobContext/jobContext'
 
