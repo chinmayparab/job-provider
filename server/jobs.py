@@ -19,11 +19,11 @@ def get_random_alphanumeric_string(length):
     return result_str
 
 
-def create_job():
+def create_job(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("INSERT INTO job(job_id,closing_date,description,pos_names,no_postions,stipend,qualification,extra_info,interview_mode,interveiw_loc,date_time_interview,is_online_test) VALUES('" +
+        cur.execute("INSERT INTO job(posted_by,job_id,closing_date,description,pos_names,no_postions,stipend,qualification,extra_info,interview_mode,interveiw_loc,date_time_interview,is_online_test) VALUES('" + str(naam['username'])+"','" +
                     get_random_alphanumeric_string(8)+"','"+str(request.json['closing_date']) + "','"+str(request.json['description']) + "','"+str(request.json['jobtitle']) +
                     "','"+str(request.json['vacancies']) + "','"+str(request.json['stipend']) + "','"+str(request.json['qualification']) + "','"+str(request.json['extra_info']) +
                     "','"+str(request.json['interview_mode']) + "','"+str(request.json['interview_location']) + "','"+str(request.json['datetime_interview']) + "','"+str(request.json['is_onlinetest']) + "');")
@@ -59,7 +59,7 @@ def delete_job():
         conn.close()
 
 
-def update_job():
+def update_job(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from job Where job_id = '" +
@@ -71,7 +71,9 @@ def update_job():
                 request.json['description'])+"', closing_date = '"+str(request.json['closing_date']) + "', pos_names = '"+str(request.json['jobtitle']) +
                 "', no_postions = '"+str(request.json['vacancies']) + "', stipend = '"+str(request.json['stipend']) + "', qualification = '"+str(request.json['qualification']) +
                 "', extra_info = '"+str(request.json['extra_info']) + "', interview_mode = '"+str(request.json['interview_mode']) + "', interveiw_loc = '"+str(request.json['interview_location']) +
-                "', date_time_interview = '"+str(request.json['datetime_interview']) + "', is_online_test = '"+str(request.json['is_onlinetest']) + "' WHERE job_id = '"+str(request.json['job_id'])+"';")
+                "', date_time_interview = '"+str(request.json['datetime_interview']) + "', is_online_test = '"+str(
+                    request.json['is_onlinetest']) + "' WHERE job_id = '"+str(request.json['job_id'])+"' and posted_by = '"+naam['username']+" ';"
+            )
             conn.commit()
             if cur:
                 resp = jsonify({'message': 'success'})
