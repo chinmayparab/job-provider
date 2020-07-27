@@ -369,6 +369,7 @@ def check_for_token_admin(param):
             return jsonify({'message': 'Missing Token'}), 403
         try:
             data = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
+            rew = data["username"]
         except:
             return jsonify({'message': 'Invalid Token'}), 403
         return param(*args, **kwargs)
@@ -528,15 +529,17 @@ def test():
 @app.route('/admin/cud_job', methods=['POST'])
 @check_for_token_admin
 def crud_job():
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
 
     if(request.json['mode'] == "add"):
-        resp = job.create_job()
+        resp = job.create_job(username)
         return resp
     elif(request.json['mode'] == "delete"):
         resp = job.delete_job()
         return resp
     elif(request.json['mode'] == "update"):
-        resp = job.update_job()
+        resp = job.update_job(username)
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
