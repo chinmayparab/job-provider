@@ -56,25 +56,35 @@ def fetch_jobs():
     cur = conn.cursor(pymysql.cursors.DictCursor)
 
     all = "Select * from job "
+    if(request.json['title'] != "" and request.json['location'] != ""):
+        byloc_title = "WHERE pos_names = '" + \
+            str(request.json['title'])+"' AND interveiw_loc = '" + \
+            str(request.json['location'])+"';"
+        print("three")
+        cur.execute(all+byloc_title)
 
-    if(request.json['location'] != ""):
+    elif(request.json['location'] != ""):
         bylocation = "WHERE interveiw_loc = '" + \
             str(request.json['location'])+"';"
+        print("one")
         cur.execute(all+bylocation)
 
     elif(request.json['title'] != ""):
         bytitle = "WHERE pos_names ='" + str(request.json['title'])+"';"
+        print("two")
         cur.execute(all+bytitle)
 
     elif(request.json['title'] != "" and request.json['location'] != ""):
         byloc_title = "WHERE pos_names = '" + \
             str(request.json['title'])+"' AND interveiw_loc = '" + \
             str(request.json['location'])+"';"
+        print("three")
         cur.execute(all+byloc_title)
 
     elif(request.json['start'] != "" and request.json['end'] != ""):
         start_end = "WHERE stipend BETWEEN " + \
             str(request.json['start'])+" AND " + str(request.json['end'])+";"
+        print("four")
         cur.execute(all+start_end)
 
     else:
