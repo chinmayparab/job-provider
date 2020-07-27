@@ -47,3 +47,18 @@ header: {
   is_onlinetest: ...
 }
 ```
+{
+  mode: 'update',
+  closing_date: ...,
+  description: ...,
+  jobtitle: ...,
+  vacancies: ...,
+  stipend: ...,
+  qualification: ...,
+  extra_info: ...,
+  interview_mode: ...,
+  interview_location: ...,
+  datetime_interview: ...,
+  is_onlinetest: ...,
+  job_id: ...
+}

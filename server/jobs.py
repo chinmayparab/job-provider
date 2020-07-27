@@ -45,7 +45,7 @@ def delete_job():
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         cur.execute("DELETE FROM job WHERE job_id ='"+str(
-            request.json['jobid'])+"';")
+            request.json['job_id'])+"';")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'successfully deleted.'})
