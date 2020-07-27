@@ -17,7 +17,7 @@ def all_courses():
         conn = mysql.connect()
         cur = conn.cursor(pymysql.cursors.DictCursor)
         all = "Select * from courses"
-        if(request.json['skill'] != ""):
+        if(request.json['category'] != ""):
             cur.execute(all+"WHERE category = '" +
                         request.json['category']+"';")
         else:
