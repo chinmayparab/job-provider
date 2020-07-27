@@ -18,11 +18,10 @@ def all_courses():
         cur = conn.cursor(pymysql.cursors.DictCursor)
         all = "Select * from courses"
         if(request.json['category'] != ""):
-            cur.execute(all+"WHERE category = '" +
+            cur.execute(all+" WHERE category = '" +
                         request.json['category']+"';")
         else:
             cur.execute(all+";")
-
         rows = cur.fetchall()
         resp = jsonify(rows)
         resp.status_code = 200
