@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Home from "./components/home";
 import Resume from "./components/resume";
 import Jobs from "./components/jobs";
+import Courses from "./components/courses";
 import Navbar from "./components/layout/Navbar";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import { AuthContext } from "./context/auth/AuthContext";
@@ -44,7 +45,7 @@ const App = () => {
       icons: darkTheme ? "#7289DA" : "#fff",
       iconsAlt: darkTheme ? "#7289DA" : "#7289DA",
       background: {
-        default: darkTheme ? "#303030" : "#e1e2e1",
+        default: darkTheme ? "#303030" : "#f7f7fd",
       },
     },
   });
@@ -79,7 +80,7 @@ const App = () => {
               <Route exact path='/resume' component={Resume} />
             </Switch>
             <Route exact path='/jobs' component={Jobs} />
-            {/* <Route exact path='/courses' component={Courses} /> */}
+            <Route exact path='/courses' component={Courses} />
           </main>
         </Container>
       </BrowserRouter>

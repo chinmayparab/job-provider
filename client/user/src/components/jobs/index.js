@@ -9,7 +9,8 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import { makeStyles } from "@material-ui/core/styles";
-import { AuthContext } from "../../context/auth/AuthContext";
+
+import { JobsContext } from "../../context/jobs/JobsContext";
 import JobCards from "./JobCards";
 import JobDetails from "./JobDetails";
 
@@ -40,7 +41,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Jobs = () => {
   const classes = useStyles();
-  const { user } = useContext(AuthContext);
+  const { setCurrent, current, jobs, fetchJobs } = useContext(JobsContext);
+
+  useEffect(() => {
+    fetchJobs();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <>
       <Box display='flex' justifyContent='space-between' my={2}>
@@ -63,23 +70,14 @@ const Jobs = () => {
 
       <Grid container spacing={3}>
         <Grid item xs={12} md={5}>
-          <JobCards />
-          <JobCards />
-          <JobCards />
-          <JobCards />
-          <JobCards />
-          <JobCards />
-          <JobCards />
-          <JobCards />
-          <JobCards />
+          {jobs && jobs.map((job) => <JobCards job={job} />)}
         </Grid>
         <Grid item xs={12} md={7}>
           <Sticky enabled={true} top={80}>
-            <JobDetails />
+            <JobDetails current={current} />
           </Sticky>
         </Grid>
       </Grid>
-      <Paper elevation={24} className={classes.paper} />
     </>
   );
 };
