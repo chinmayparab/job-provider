@@ -26,7 +26,7 @@ CREATE TABLE `job` (
   `job_id` varchar(10) NOT NULL,
   `posted_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `description` varchar(2000) NOT NULL,
-  `positions` varchar(1000) NOT NULL,
+  `closing_date` datetime NOT NULL,
   `pos_names` varchar(1000) NOT NULL,
   `no_postions` varchar(100) NOT NULL,
   `stipend` varchar(255) NOT NULL,
@@ -36,6 +36,7 @@ CREATE TABLE `job` (
   `interveiw_loc` varchar(100) NOT NULL,
   `date_time_interview` datetime NOT NULL,
   `is_online_test` tinyint(1) NOT NULL,
+  `posted_by` varchar(45) NOT NULL,
   PRIMARY KEY (`job_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -46,6 +47,7 @@ CREATE TABLE `job` (
 
 LOCK TABLES `job` WRITE;
 /*!40000 ALTER TABLE `job` DISABLE KEYS */;
+INSERT INTO `job` VALUES ('bTGMHaDh','2020-07-23 08:19:09','34343434','2018-11-23 17:31:26','fdfdf','4','6000','hfjdhfjf','ydosiahfdjkhfd','online','online','2018-11-23 17:31:26',0,'0'),('iAvNDcI3','2020-07-27 15:42:32','raaj hoon mei','2018-11-23 17:31:26','fdfdf','4','6000','hfjdhfjf','ydosiahfdjkhfd','online','online','2018-11-23 17:31:26',0,'raj'),('lxzqnhnF','2020-07-24 14:39:46','34343434','2018-11-23 17:31:26','fdfdf','4','10000','hfjdhfjf','ydosiahfdjkhfd','online','online','2018-11-23 17:31:26',0,'0'),('ObUxDKSm','2020-07-27 15:44:08','raaj sd mei','2018-11-23 17:31:26','fdfdf','4','6000','hfjdhfjf','ydosiahfdjkhfd','online','online','2018-11-23 17:31:26',0,'raj');
 /*!40000 ALTER TABLE `job` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-05 17:05:16
+-- Dump completed on 2020-07-27 23:12:46

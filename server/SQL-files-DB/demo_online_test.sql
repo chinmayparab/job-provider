@@ -31,7 +31,7 @@ CREATE TABLE `online_test` (
   `option_3` varchar(1000) NOT NULL,
   `option_4` varchar(1000) NOT NULL,
   `reqd_score` int NOT NULL,
-  KEY `job_id` (`job_id`)
+  PRIMARY KEY (`job_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-05 17:05:17
+-- Dump completed on 2020-07-27 23:12:47

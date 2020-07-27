@@ -16,30 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `resume_por`
+-- Table structure for table `enrolled_jobs`
 --
 
-DROP TABLE IF EXISTS `resume_por`;
+DROP TABLE IF EXISTS `enrolled_jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `resume_por` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `u_id` int NOT NULL,
-  `resume_id` int NOT NULL,
-  `description` varchar(1000) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `u_id` (`u_id`),
-  KEY `resume_id` (`resume_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `enrolled_jobs` (
+  `id` int NOT NULL,
+  `job_id` varchar(10) NOT NULL,
+  `user_id` int NOT NULL,
+  `applied_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `resume_por`
+-- Dumping data for table `enrolled_jobs`
 --
 
-LOCK TABLES `resume_por` WRITE;
-/*!40000 ALTER TABLE `resume_por` DISABLE KEYS */;
-/*!40000 ALTER TABLE `resume_por` ENABLE KEYS */;
+LOCK TABLES `enrolled_jobs` WRITE;
+/*!40000 ALTER TABLE `enrolled_jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enrolled_jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-05 17:05:16
+-- Dump completed on 2020-07-27 23:12:46

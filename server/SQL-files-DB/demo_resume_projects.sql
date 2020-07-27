@@ -25,15 +25,13 @@ DROP TABLE IF EXISTS `resume_projects`;
 CREATE TABLE `resume_projects` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `resume_id` int NOT NULL,
   `title` varchar(255) NOT NULL,
   `start_month` varchar(12) NOT NULL,
   `end_month` varchar(12) NOT NULL,
   `description` varchar(1000) DEFAULT NULL,
   `project_link` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `resume_id` (`resume_id`)
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-05 17:05:16
+-- Dump completed on 2020-07-27 23:12:46
