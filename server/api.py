@@ -43,14 +43,14 @@ CORS(app)
 # Fetch All Courses
 
 
-@app.route('/allcourses', methods=['GET'])
+@app.route('/allcourses', methods=['POST'])
 def all_courses():
     response = no_auth.all_courses()
     return response
 
 
 # Fetch All Skills
-@app.route('/allskills', methods=['GET'])
+@app.route('/allskills', methods=['POST'])
 def all_skills():
     response = no_auth.all_skills()
     return response
@@ -58,7 +58,7 @@ def all_skills():
 # Fetch jobs
 
 
-@app.route('/fetch-jobs', methods=['GET'])
+@app.route('/fetch-jobs', methods=['POST'])
 def fetch_jobs():
     response = no_auth.fetch_jobs()
     return response
@@ -167,7 +167,7 @@ def register():
         conn.close()
 
 
-@app.route('/resume-details', methods=['GET'])
+@app.route('/resume-details', methods=['POST'])
 # @check_for_token
 def get_resume():
 
