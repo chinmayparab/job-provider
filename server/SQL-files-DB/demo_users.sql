@@ -32,7 +32,7 @@ CREATE TABLE `users` (
   `forget_otp` int DEFAULT NULL,
   `phone_no` varchar(15) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'r@g.com','l','s','rew',1,0,'9892889172'),(2,'sdsdsds','sdsdsds','sdsdsds','sdsdsds',1,NULL,'sdsdsds'),(3,'sdsdsds','sdsdsds','sdsdsds','sdsdsds',1,NULL,'sdsdsds'),(4,'r@g.cxom','shah','raj','dhsugdsdfdasduhfh',1,NULL,'9892889172'),(5,'r@g.xom','shajh','rajjjj','pbkdf2:sha256:150000$Ef8j5hkJ$0ef8853d3535e3002ace1666d12d27e7d46a6aa189dcb8b9686983606bb62bdf',1,NULL,'9892889171');
+INSERT INTO `users` VALUES (1,'r@g.com','shah','raj','pbkdf2:sha256:150000$OHKT7NQw$b9bb440d1b44c4ef601265f5e4a48122d20b8fdf6bbb457887eabe0530cf4c9c',1,NULL,'9892889172'),(2,'r@g.com','shah','raj','pbkdf2:sha256:150000$W0SWA66k$6767d6aa7ce61ad4a0e3a3248a29c64e7e41bdd331589663b5d73b14f6ddc750',1,NULL,'989288917');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-05 17:05:17
+-- Dump completed on 2020-07-28 10:55:13

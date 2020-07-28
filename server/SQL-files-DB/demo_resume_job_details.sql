@@ -24,7 +24,6 @@ DROP TABLE IF EXISTS `resume_job_details`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `resume_job_details` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `resume_id` int NOT NULL,
   `user_id` int NOT NULL,
   `job_title` varchar(255) NOT NULL,
   `organiztion` varchar(255) NOT NULL,
@@ -34,8 +33,7 @@ CREATE TABLE `resume_job_details` (
   `description` varchar(1000) NOT NULL,
   `type` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `resume_id` (`resume_id`)
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -57,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-05 17:05:16
+-- Dump completed on 2020-07-28 10:55:12

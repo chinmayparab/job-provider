@@ -23,12 +23,11 @@ DROP TABLE IF EXISTS `resume_work_examples`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `resume_work_examples` (
-  `resume_id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `user_id` int NOT NULL AUTO_INCREMENT,
   `blog_url` varchar(100) NOT NULL,
   `github_profile` varchar(100) NOT NULL,
   `portfolio_link` varchar(100) NOT NULL,
-  KEY `resume_id` (`resume_id`),
+  PRIMARY KEY (`user_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,6 +38,7 @@ CREATE TABLE `resume_work_examples` (
 
 LOCK TABLES `resume_work_examples` WRITE;
 /*!40000 ALTER TABLE `resume_work_examples` DISABLE KEYS */;
+INSERT INTO `resume_work_examples` VALUES (2,'asasa','dsdsd','sdd');
 /*!40000 ALTER TABLE `resume_work_examples` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-05 17:05:16
+-- Dump completed on 2020-07-28 10:55:12

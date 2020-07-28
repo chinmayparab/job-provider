@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `resume`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `resume` (
-  `resume_id` int NOT NULL AUTO_INCREMENT,
+  `resume_id` varchar(255) NOT NULL,
   `user_id` int NOT NULL,
   `email` varchar(200) NOT NULL,
   `location` varchar(200) NOT NULL,
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-05 17:05:16
+-- Dump completed on 2020-07-28 10:55:12
