@@ -38,6 +38,7 @@ import resume_fetch as getresume  # not a python package.
 
 import user_apis as user_side
 import no_auth_apis as no_auth
+import courses as courses
 CORS(app)
 
 # Fetch All Courses
@@ -536,7 +537,7 @@ def crud_job():
         resp = job.create_job(username)
         return resp
     elif(request.json['mode'] == "delete"):
-        resp = job.delete_job()
+        resp = job.delete_job(username)
         return resp
     elif(request.json['mode'] == "update"):
         resp = job.update_job(username)
@@ -564,6 +565,25 @@ def all_jobs():
         return resp
     cur.close()
     conn.close()
+
+
+@app.route('/admin/cud_courses', methods=['POST'])
+@check_for_token_admin
+def cud_courses():
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
+    if(request.json['mode'] == "add"):
+        resp = courses.create_course(username)
+        return resp
+    elif(request.json['mode'] == "delete"):
+        resp = courses.delete_course(username)
+        return resp
+    elif(request.json['mode'] == "update"):
+        resp = courses.update_course(username)
+        return resp
+    else:
+        resp = jsonify({'message': 'Invalid Request.'})
+        return resp
 
 
 @app.errorhandler(404)
