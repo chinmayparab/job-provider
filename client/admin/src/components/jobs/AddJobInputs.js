@@ -2,10 +2,7 @@ import React, { useState, useContext } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
-import {
-	KeyboardDatePicker,
-	KeyboardDateTimePicker
-} from '@material-ui/pickers'
+import { KeyboardDateTimePicker } from '@material-ui/pickers'
 import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import TypoGraphy from '@material-ui/core/TypoGraphy'
@@ -177,7 +174,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 
 					<Grid container spacing={3}>
 						<Grid item sm={6} xs={12}>
-							<KeyboardDatePicker
+							<KeyboardDateTimePicker
 								required
 								margin='dense'
 								label='Closing Date'
@@ -229,7 +226,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 							<TextField
 								required
 								margin='dense'
-								label='Interview Location'
+								label='Job Location'
 								fullWidth
 								value={jobDetails.interview_location}
 								onChange={(e) =>
