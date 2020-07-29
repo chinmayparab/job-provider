@@ -16,7 +16,7 @@ def fetch_pd(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume Where user_id = '" +
-                str(naam['username'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
@@ -27,7 +27,7 @@ def fetch_edu(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_edu_details Where user_id = '" +
-                str(naam['username'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
@@ -38,7 +38,7 @@ def fetch_jobs(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_job_details Where user_id = '" +
-                str(naam['username'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
@@ -49,7 +49,7 @@ def fetch_projects(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_projects Where user_id = '" +
-                str(naam['username'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
@@ -60,7 +60,7 @@ def fetch_skills(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_skills Where user_id = '" +
-                str(naam['username'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
@@ -71,7 +71,7 @@ def fetch_trainings(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_trainings Where user_id = '" +
-                str(naam['username'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
@@ -82,7 +82,7 @@ def fetch_wexamples(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_work_examples Where user_id = '" +
-                str(naam['username'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records

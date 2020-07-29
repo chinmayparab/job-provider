@@ -12,11 +12,11 @@ import random
 import string
 
 
-def create_resume_w():
+def create_resume_w(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("INSERT INTO resume_work_examples(user_id,blog_url,github_profile,portfolio_link) VALUES('" + str(request.json['user_id']) + "','"+str(request.json['blog']) +
+        cur.execute("INSERT INTO resume_work_examples(user_id,blog_url,github_profile,portfolio_link) VALUES('" + str(naam['user_id'])+"','"+str(request.json['blog']) +
                     "','"+str(request.json['github']) + "','"+str(request.json['portfolio'])+"');")
         conn.commit()
         if cur:
@@ -31,12 +31,12 @@ def create_resume_w():
         conn.close()
 
 
-def delete_resume_w():
+def delete_resume_w(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("DELETE FROM resume_work_examples WHERE user_id ='"+str(
-            request.json['user_id'])+"';")
+        cur.execute(
+            "DELETE FROM resume_work_examples WHERE user_id ='"+str(naam['user_id'])+"';")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'successfully deleted.'})
@@ -50,17 +50,17 @@ def delete_resume_w():
         conn.close()
 
 
-def update_resume_w():
+def update_resume_w(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_work_examples Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     try:
         if len(records) > 0:
             cur.execute("UPDATE resume_work_examples SET blog_url = '"+str(
                 request.json['blog'])+"', github_profile = '"+str(request.json['github']) + "', portfolio_link = '"+str(request.json['portfolio']) +
-                "' WHERE user_id = '"+str(request.json['user_id'])+"';")
+                "' WHERE user_id = '"+str(naam['user_id'])+"';")
             conn.commit()
             if cur:
                 resp = jsonify({'message': 'success'})

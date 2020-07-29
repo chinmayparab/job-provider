@@ -12,11 +12,11 @@ import random
 import string
 
 
-def create_resume_projects():
+def create_resume_projects(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("INSERT INTO resume_projects(user_id,title,start_month,end_month,description,project_link) VALUES('" + str(request.json['user_id']) +
+        cur.execute("INSERT INTO resume_projects(user_id,title,start_month,end_month,description,project_link) VALUES('" + str(naam['user_id']) +
                     "','"+str(request.json['title']) + "','"+str(request.json['start_month']) +
                     "','"+str(request.json['end_month']) + "','"+str(request.json['description']) + "','"+str(request.json['project_link'])+"');")
         conn.commit()
@@ -32,12 +32,12 @@ def create_resume_projects():
         conn.close()
 
 
-def delete_resume_projects():
+def delete_resume_projects(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("DELETE FROM resume_projects WHERE user_id ='"+str(
-            request.json['user_id'])+"';")
+        cur.execute("DELETE FROM resume_projects WHERE user_id ='" +
+                    str(naam['user_id'])+"';")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'successfully deleted.'})
@@ -51,18 +51,18 @@ def delete_resume_projects():
         conn.close()
 
 
-def update_resume_projects():
+def update_resume_projects(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_projects Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     try:
         if len(records) > 0:
             cur.execute("UPDATE resume_projects SET title = '"+str(
                 request.json['title'])+"', start_month = '"+str(request.json['start_month']) + "', end_month = '"+str(request.json['end_month']) +
                 "', description = '"+str(request.json['description'])+"', project_link = '"+str(request.json['project_link']) +
-                "' WHERE user_id = '"+str(request.json['user_id'])+"';")
+                "' WHERE user_id = '"+str(naam['user_id'])+"';")
             conn.commit()
             if cur:
                 resp = jsonify({'message': 'success'})

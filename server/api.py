@@ -172,7 +172,7 @@ def register():
 # @check_for_token
 def get_resume():
     token = request.headers['Authorization']
-    username = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
+    username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['want'] == "personaldetails"):
         results = getresume.fetch_pd(username)
         resp = jsonify({'output': results})
@@ -219,15 +219,16 @@ def get_resume():
 @app.route('/resume', methods=['POST'])
 @check_for_token
 def cud_resume():
-
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['mode'] == "add"):
-        resp = resume.create_resume()
+        resp = resume.create_resume(username)
         return resp
     elif(request.json['mode'] == "delete"):
-        resp = resume.delete_resume()
+        resp = resume.delete_resume(username)
         return resp
     elif(request.json['mode'] == "update"):
-        resp = resume.update_resume()
+        resp = resume.update_resume(username)
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
@@ -237,15 +238,16 @@ def cud_resume():
 @app.route('/resume-edu', methods=['POST'])
 @check_for_token
 def cud_resume_edu():
-
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['mode'] == "add"):
-        resp = r_edu.create_resume_edu()
+        resp = r_edu.create_resume_edu(username)
         return resp
     elif(request.json['mode'] == "delete"):
-        resp = r_edu.delete_resume_edu()
+        resp = r_edu.delete_resume_edu(username)
         return resp
     elif(request.json['mode'] == "update"):
-        resp = r_edu.update_resume_edu()
+        resp = r_edu.update_resume_edu(username)
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
@@ -255,7 +257,8 @@ def cud_resume_edu():
 @app.route('/resume-work', methods=['POST'])
 @check_for_token
 def cud_resume_work():
-
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['mode'] == "add"):
         resp = r_work.create_resume_w()
         return resp
@@ -273,15 +276,16 @@ def cud_resume_work():
 @app.route('/resume-trainings', methods=['POST'])
 @check_for_token
 def cud_resume_trainings():
-
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['mode'] == "add"):
-        resp = r_trainings.create_resume_trainings()
+        resp = r_trainings.create_resume_trainings(username)
         return resp
     elif(request.json['mode'] == "delete"):
-        resp = r_trainings.delete_resume_trainings()
+        resp = r_trainings.delete_resume_trainings(username)
         return resp
     elif(request.json['mode'] == "update"):
-        resp = r_trainings.update_resume_trainings()
+        resp = r_trainings.update_resume_trainings(username)
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
@@ -291,15 +295,16 @@ def cud_resume_trainings():
 @app.route('/resume-workexp', methods=['POST'])
 @check_for_token
 def cud_resume_workexp():
-
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['mode'] == "add"):
-        resp = r_wexp.create_resume_job_details()
+        resp = r_wexp.create_resume_job_details(username)
         return resp
     elif(request.json['mode'] == "delete"):
-        resp = r_wexp.delete_resume_job_details()
+        resp = r_wexp.delete_resume_job_details(username)
         return resp
     elif(request.json['mode'] == "update"):
-        resp = r_wexp.update_resume_job_details()
+        resp = r_wexp.update_resume_job_details(username)
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
@@ -309,15 +314,16 @@ def cud_resume_workexp():
 @app.route('/resume-skills', methods=['POST'])
 @check_for_token
 def cud_resume_skills():
-
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['mode'] == "add"):
-        resp = r_skills.create_resume_skills()
+        resp = r_skills.create_resume_skills(username)
         return resp
     elif(request.json['mode'] == "delete"):
-        resp = r_skills.delete_resume_skills()
+        resp = r_skills.delete_resume_skills(username)
         return resp
     elif(request.json['mode'] == "update"):
-        resp = r_skills.update_resume_skills()
+        resp = r_skills.update_resume_skills(username)
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
@@ -327,15 +333,16 @@ def cud_resume_skills():
 @app.route('/resume-projects', methods=['POST'])
 @check_for_token
 def cud_resume_projects():
-
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['mode'] == "add"):
-        resp = r_projects.create_resume_projects()
+        resp = r_projects.create_resume_projects(username)
         return resp
     elif(request.json['mode'] == "delete"):
-        resp = r_projects.delete_resume_projects()
+        resp = r_projects.delete_resume_projects(username)
         return resp
     elif(request.json['mode'] == "update"):
-        resp = r_projects.update_resume_projects()
+        resp = r_projects.update_resume_projects(username)
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})

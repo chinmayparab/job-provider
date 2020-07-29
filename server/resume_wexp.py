@@ -12,12 +12,12 @@ import random
 import string
 
 
-def create_resume_job_details():
+def create_resume_job_details(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         cur.execute("INSERT INTO resume_job_details(user_id,job_title,organization,job_location,start_date,end_date,description,type) VALUES('" +
-                    str(request.json['user_id']) + "','"+str(request.json['job_title']) + "','"+str(request.json['organization']) +
+                    str(naam['user_id'])+"','"+str(request.json['job_title']) + "','"+str(request.json['organization']) +
                     "','"+str(request.json['job_location']) + "','"+str(request.json['start_date']) + "','"+str(request.json['end_date']) +
                     "','"+str(request.json['description']) + "','"+str(request.json['type']) + "');")
         conn.commit()
@@ -33,12 +33,12 @@ def create_resume_job_details():
         conn.close()
 
 
-def delete_resume_job_details():
+def delete_resume_job_details(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("DELETE FROM resume_job_details WHERE user_id ='"+str(
-            request.json['user_id'])+"';")
+        cur.execute("DELETE FROM resume_job_details WHERE user_id ='" +
+                    str(naam['user_id'])+"';")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'successfully deleted.'})
@@ -52,11 +52,11 @@ def delete_resume_job_details():
         conn.close()
 
 
-def update_resume_job_details():
+def update_resume_job_details(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_job_details Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     try:
         if len(records) > 0:
@@ -64,7 +64,7 @@ def update_resume_job_details():
                 request.json['jobtitle'])+"', organiztion = '"+str(request.json['organiztion']) + "', job_location = '"+str(request.json['job_location']) +
                 "', start_date = '"+str(request.json['start_date']) + "', end_date = '"+str(request.json['end_date']) +
                 "', description = '"+str(request.json['description']) +
-                "', type = '"+str(request.json['type']) + "'  WHERE user_id = '"+str(request.json['user_id'])+"';")
+                "', type = '"+str(request.json['type']) + "'  WHERE user_id = '"+str(naam['user_id'])+"';")
             conn.commit()
             if cur:
                 resp = jsonify({'message': 'success'})

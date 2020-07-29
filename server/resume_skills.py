@@ -12,11 +12,11 @@ import random
 import string
 
 
-def create_resume_skills():
+def create_resume_skills(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("INSERT INTO resume_skills(user_id,skill_id,level) VALUES('" + str(request.json['user_id']) + "','"+str(request.json['skill_id']) +
+        cur.execute("INSERT INTO resume_skills(user_id,skill_id,level) VALUES('" + str(naam['user_id']) + "','"+str(request.json['skill_id']) +
                     "','"+str(request.json['level'])+"');")
         conn.commit()
         if cur:
@@ -31,12 +31,12 @@ def create_resume_skills():
         conn.close()
 
 
-def delete_resume_skills():
+def delete_resume_skills(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("DELETE FROM resume_skills WHERE user_id ='"+str(
-            request.json['user_id'])+"';")
+        cur.execute("DELETE FROM resume_skills WHERE user_id ='" +
+                    str(naam['user_id'])+"';")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'successfully deleted.'})
@@ -50,17 +50,17 @@ def delete_resume_skills():
         conn.close()
 
 
-def update_resume_skills():
+def update_resume_skills(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_skills Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     try:
         if len(records) > 0:
             cur.execute("UPDATE resume_skills SET skill_id = '"+str(
                 request.json['skill_id'])+"', level = '"+str(request.json['level']) +
-                "' WHERE user_id = '"+str(request.json['user_id'])+"';")
+                "' WHERE user_id = '"+str(naam['user_id'])+"';")
             conn.commit()
             if cur:
                 resp = jsonify({'message': 'success'})
