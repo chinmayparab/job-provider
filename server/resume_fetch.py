@@ -19,8 +19,6 @@ def fetch_pd(naam):
                 str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        for row in records:
-            records = row
         return records
     return 'empty'
 
@@ -32,8 +30,6 @@ def fetch_edu(naam):
                 str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        for row in records:
-            records = row
         return records
     return 'empty'
 
@@ -45,8 +41,6 @@ def fetch_jobs(naam):
                 str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        for row in records:
-            records = row
         return records
     return 'empty'
 
@@ -58,8 +52,6 @@ def fetch_projects(naam):
                 str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        for row in records:
-            records = row
         return records
     return 'empty'
 
@@ -71,8 +63,6 @@ def fetch_skills(naam):
                 str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        for row in records:
-            records = row
         return records
     return 'empty'
 
@@ -84,8 +74,6 @@ def fetch_trainings(naam):
                 str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        for row in records:
-            records = row
         return records
     return 'empty'
 
@@ -97,8 +85,6 @@ def fetch_wexamples(naam):
                 str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
-        for row in records:
-            records = row
         return records
     return 'empty'
 
