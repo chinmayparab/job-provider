@@ -12,98 +12,98 @@ import random
 import string
 
 
-def fetch_pd():
+def fetch_pd(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
     return 'empty'
 
 
-def fetch_edu():
+def fetch_edu(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_edu_details Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
     return 'empty'
 
 
-def fetch_jobs():
+def fetch_jobs(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_job_details Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
     return 'empty'
 
 
-def fetch_projects():
+def fetch_projects(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_projects Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
     return 'empty'
 
 
-def fetch_skills():
+def fetch_skills(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_skills Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
     return 'empty'
 
 
-def fetch_trainings():
+def fetch_trainings(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_trainings Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
     return 'empty'
 
 
-def fetch_wexamples():
+def fetch_wexamples(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_work_examples Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     if len(records) > 0:
         return records
     return 'empty'
 
 
-def fetch_all():
+def fetch_all(naam):
 
-    personal_details = fetch_pd()
+    personal_details = fetch_pd(naam)
 
-    edu_details = fetch_edu()
+    edu_details = fetch_edu(naam)
 
-    job_details = fetch_jobs()
+    job_details = fetch_jobs(naam)
 
-    projects_list = fetch_projects()
+    projects_list = fetch_projects(naam)
 
-    skills_list = fetch_skills()
+    skills_list = fetch_skills(naam)
 
-    trainings_list = fetch_trainings()
+    trainings_list = fetch_trainings(naam)
 
-    work_examples = fetch_wexamples()
+    work_examples = fetch_wexamples(naam)
 
     print(personal_details, edu_details, job_details,
           projects_list, skills_list, trainings_list, work_examples)

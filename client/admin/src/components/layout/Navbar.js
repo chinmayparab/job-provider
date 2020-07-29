@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 
 import { AuthContext } from '../../context/authContext/authContext'
 import { Link } from 'react-router-dom'
@@ -36,12 +36,12 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
-const HideOnScroll = (props) => {
+const HideOnScroll = ({ children }) => {
 	const trigger = useScrollTrigger()
 
 	return (
 		<Slide appear={false} direction='down' in={!trigger}>
-			{props.children}
+			{children}
 		</Slide>
 	)
 }
@@ -60,10 +60,6 @@ const Navbar = (props) => {
 	const handleLangChange = (e) => {
 		i18n.changeLanguage(e.target.value)
 	}
-
-	// useEffect(() => {
-	// 	console.log(lang)
-	// }, [lang])
 
 	return (
 		<>

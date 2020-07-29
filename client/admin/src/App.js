@@ -12,6 +12,8 @@ import Navbar from './components/layout/Navbar'
 import Login from './components/auth/Login'
 import AddJob from './components/jobs/AddJob'
 import ViewJob from './components/jobs/ViewJob'
+import AddCourses from './components/courses/AddCourses'
+import ViewCourses from './components/courses/ViewCourses'
 
 import { useTranslation } from 'react-i18next'
 
@@ -47,6 +49,16 @@ const App = () => {
 						<Switch>
 							<PrivateRoute exact path='/view-job' component={ViewJob} />
 						</Switch>
+						<Switch>
+							<PrivateRoute exact path='/add-courses' component={AddCourses} />
+						</Switch>
+						<Switch>
+							<PrivateRoute
+								exact
+								path='/view-courses'
+								component={ViewCourses}
+							/>
+						</Switch>
 					</Box>
 				</Box>
 			</BrowserRouter>
@@ -55,7 +67,7 @@ const App = () => {
 }
 
 const Home = () => {
-	const { t, i18n } = useTranslation()
+	const { t } = useTranslation()
 
 	return (
 		<div

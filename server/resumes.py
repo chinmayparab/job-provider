@@ -19,12 +19,12 @@ def get_random_alphanumeric_string(length):
     return result_str
 
 
-def create_resume():
+def create_resume(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         cur.execute("INSERT INTO resume(resume_id,user_id,email,location,phone_no,additional_details) VALUES('" +
-                    get_random_alphanumeric_string(8)+"','"+str(request.json['user_id']) + "','"+str(request.json['email']) + "','"+str(request.json['location']) +
+                    get_random_alphanumeric_string(8)+"','"+str(naam['user_id']) + "','"+str(request.json['email']) + "','"+str(request.json['location']) +
                     "','"+str(request.json['phone_no']) + "','"+str(request.json['additional_details']) + "');")
         conn.commit()
         if cur:
@@ -39,12 +39,12 @@ def create_resume():
         conn.close()
 
 
-def delete_resume():
+def delete_resume(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("DELETE FROM resume WHERE user_id ='"+str(
-            request.json['user_id'])+"';")
+        cur.execute("DELETE FROM resume WHERE user_id ='" +
+                    str(naam['user_id'])+"';")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'successfully deleted.'})
@@ -58,17 +58,17 @@ def delete_resume():
         conn.close()
 
 
-def update_resume():
+def update_resume(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume Where user_id = '" +
-                str(request.json['user_id'])+"';")
+                str(naam['user_id'])+"';")
     records = cur.fetchall()
     try:
         if len(records) > 0:
             cur.execute("UPDATE resume SET email = '"+str(
                 request.json['email'])+"', location = '"+str(request.json['location']) + "', phone_no = '"+str(request.json['phone_no']) +
-                "', additional_details = '"+str(request.json['additional_details']) + "' WHERE user_id = '"+str(request.json['user_id'])+"';")
+                "', additional_details = '"+str(request.json['additional_details']) + "' WHERE user_id = '"+str(naam['user_id'])+"';")
             conn.commit()
             if cur:
                 resp = jsonify({'message': 'success'})
