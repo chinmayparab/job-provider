@@ -171,44 +171,45 @@ def register():
 @app.route('/resume-details', methods=['POST'])
 # @check_for_token
 def get_resume():
-
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
     if(request.json['want'] == "personaldetails"):
-        results = getresume.fetch_pd()
+        results = getresume.fetch_pd(username)
         resp = jsonify({'output': results})
         resp.status_code = 200
         return resp
     elif(request.json['want'] == "edu_details"):
-        results = getresume.fetch_edu()
+        results = getresume.fetch_edu(username)
         resp = jsonify({'output': results})
         resp.status_code = 200
         return resp
     elif(request.json['want'] == "job_details"):
-        results = getresume.fetch_jobs()
+        results = getresume.fetch_jobs(username)
         resp = jsonify({'output': results})
         resp.status_code = 200
         return resp
     elif(request.json['want'] == "projects_lists"):
-        results = getresume.fetch_projects()
+        results = getresume.fetch_projects(username)
         resp = jsonify({'output': results})
         resp.status_code = 200
         return resp
     elif(request.json['want'] == "skills_list"):
-        results = getresume.fetch_skills()
+        results = getresume.fetch_skills(username)
         resp = jsonify({'output': results})
         resp.status_code = 200
         return resp
     elif(request.json['want'] == "trainings_list"):
-        results = getresume.fetch_trainings()
+        results = getresume.fetch_trainings(username)
         resp = jsonify({'output': results})
         resp.status_code = 200
         return resp
     elif(request.json['want'] == "work_examples"):
-        results = getresume.fetch_wexamples()
+        results = getresume.fetch_wexamples(username)
         resp = jsonify({'output': results})
         resp.status_code = 200
         return resp
     elif(request.json['want'] == "everything"):
-        resp = getresume.fetch_all()
+        resp = getresume.fetch_all(username)
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
