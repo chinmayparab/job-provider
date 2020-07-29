@@ -12,14 +12,12 @@ import random
 import string
 
 
-def user():
+def user(naam):
     try:
         conn = mysql.connect()
         cur = conn.cursor(pymysql.cursors.DictCursor)
-        token = request.headers['Authorization']
-        user = jwt.decode(token, app.config['SECRET_KEY'])
         cur.execute("Select * from users WHERE user_id=" +
-                    str(user['user_id'])+";")
+                    str(naam['user_id'])+";")
         rows = cur.fetchall()
         resp = jsonify(rows)
         resp.status_code = 200
@@ -31,12 +29,12 @@ def user():
         conn.close()
 
 
-def applied_jobs():
+def applied_jobs(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("Select * FROM enrolled_jobs WHERE user_id ='"+str(
-            request.json['user_id'])+"';")
+        cur.execute("Select * FROM enrolled_jobs WHERE user_id ='" +
+                    str(naam['user_id'])+"';")
         joblists = cur.fetchall()
         if cur:
             resp = jsonify({'applied-jobs': joblists})
@@ -51,12 +49,12 @@ def applied_jobs():
         conn.close()
 
 
-def my_courses():
+def my_courses(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("Select * FROM enrolled_courses WHERE user_id ='"+str(
-            request.json['user_id'])+"';")
+        cur.execute(
+            "Select * FROM enrolled_courses WHERE user_id ='" + str(naam['user_id'])+"';")
         mycourses = cur.fetchall()
         if cur:
             resp = jsonify({'enrolled-courses': mycourses})

@@ -89,7 +89,9 @@ def check_for_token(param):
 @app.route('/user')
 @check_for_token
 def user():
-    response = user_side.user()
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+    response = user_side.user(username)
     return response
 
 
@@ -353,7 +355,9 @@ def cud_resume_projects():
 @app.route('/user-applied-jobs')
 @check_for_token
 def user_applied_jobs():
-    response = user_side.applied_jobs()
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+    response = user_side.applied_jobs(username)
     return response
 
 
@@ -361,7 +365,9 @@ def user_applied_jobs():
 @app.route('/user-enrolled-courses')
 @check_for_token
 def user_enrolled_courses():
-    response = user_side.my_courses()
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+    response = user_side.my_courses(username)
     return response
 
 
