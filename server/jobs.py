@@ -40,12 +40,12 @@ def create_job(naam):
         conn.close()
 
 
-def delete_job():
+def delete_job(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         cur.execute("DELETE FROM job WHERE job_id ='"+str(
-            request.json['job_id'])+"';")
+            request.json['job_id'])+"' and posted_by = '"+naam['username']+"';")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'successfully deleted.'})
@@ -63,7 +63,7 @@ def update_job(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from job Where job_id = '" +
-                str(request.json['job_id'])+"';")
+                str(request.json['job_id'])+"' and posted_by = '"+naam['username']+"';")
     records = cur.fetchall()
     try:
         if len(records) > 0:

@@ -62,3 +62,16 @@ header: {
   is_onlinetest: ...,
   job_id: ...
 }
+
+
+
+http://127.0.0.1:5000/admin/cud_courses
+
+
+{
+    "title":"dsdsd","description":"raaj sd mei","category":"fdfdf","skills_taught":"sdsd","level":"sdsdds","price":100,"url":"ydosiahfdjk.hfd","mode":"add"
+}
+
+{
+    "course_id":1033,"title":"deeesdsd","description":"raaj sd mei","category":"fdfdf","skills_taught":"sdsd","level":"sdsdds","price":100,"url":"ydosiahfdjk.hfd","mode":"update"
+}
