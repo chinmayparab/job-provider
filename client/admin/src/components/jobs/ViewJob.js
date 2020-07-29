@@ -16,11 +16,11 @@ const ViewJob = () => {
 	useEffect(() => {
 		getJobs(authToken).then((res) => setJobs(res.alljobs))
 	}, [])
-	console.log(jobs)
+	// console.log(jobs)
 
 	return (
 		<Container>
-			<Container maxWidth='md'>
+			<Container>
 				<TypoGraphy gutterBottom={true} variant='h5'>
 					View added Jobs
 				</TypoGraphy>
