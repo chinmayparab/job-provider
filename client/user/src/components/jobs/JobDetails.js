@@ -5,6 +5,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 
 import { JobsContext } from "../../context/jobs/JobsContext";
 
@@ -32,7 +33,7 @@ const JobCards = () => {
     qualification,
     no_postions,
     interview_mode,
-    interveiw_loc,
+    description,
   } = current;
 
   return (
@@ -55,6 +56,10 @@ const JobCards = () => {
           {qualification}
           <br />
           Number of Openings: {no_postions}
+        </Typography>
+        <Divider />
+        <Typography variant='body1' component='p'>
+          {description}
         </Typography>
       </CardContent>
       <CardActions>

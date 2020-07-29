@@ -13,12 +13,14 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 275,
     margin: theme.spacing(2, 0),
     boxShadow: "0 8px 8px rgba(0,0,0,0.08)",
+    cursor: "pointer",
   },
   rad: {
     minWidth: 275,
     margin: theme.spacing(2, 0),
     border: `2px solid #7289DA`,
     boxShadow: "0 8px 16px rgba(0,0,0,0.08)",
+    cursor: "pointer",
   },
   title: {
     fontSize: 14,

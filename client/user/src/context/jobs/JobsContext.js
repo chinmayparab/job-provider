@@ -22,7 +22,10 @@ export const JobsProvider = ({ children }) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
-      location: "online",
+      location: "",
+      title: "",
+      start: "120000",
+      end: "900000",
     });
 
     var requestOptions = {
