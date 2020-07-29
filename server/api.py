@@ -248,13 +248,13 @@ def cud_resume_work():
     token = request.headers['Authorization']
     username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['mode'] == "add"):
-        resp = r_work.create_resume_w()
+        resp = r_work.create_resume_w(username)
         return resp
     elif(request.json['mode'] == "delete"):
-        resp = r_work.delete_resume_w()
+        resp = r_work.delete_resume_w(username)
         return resp
     elif(request.json['mode'] == "update"):
-        resp = r_work.update_resume_w()
+        resp = r_work.update_resume_w(username)
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
