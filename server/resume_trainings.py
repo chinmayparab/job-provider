@@ -17,7 +17,7 @@ def create_resume_trainings(naam):
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         cur.execute("INSERT INTO resume_trainings(user_id,program_name,organization_name,location,start_date,end_date,description) VALUES('"
-                    + "','"+str(naam['user_id']) + "','"+str(request.json['program_name']) + "','"+str(request.json['organization_name']) +
+                    + str(naam['user_id']) + "','"+str(request.json['program_name']) + "','"+str(request.json['organization_name']) +
                     "','"+str(request.json['location']) + "','"+str(request.json['start_date']) + "','"+str(request.json['end_date']) + "','"+str(request.json['description']) + "');")
         conn.commit()
         if cur:
