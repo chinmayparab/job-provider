@@ -179,7 +179,6 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 								margin='dense'
 								label='Closing Date'
 								animateYearScrolling
-								format='DD/MM/yyyy'
 								fullWidth
 								disablePast
 								value={jobDetails.closing_date}
