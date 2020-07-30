@@ -15,18 +15,18 @@ const PersonalDetails = ({ user, personal_details }) => {
           {user && user.fname} {user && user.lname}
         </Typography>
         <Typography component='h6' variant='subtitle1'>
-          {personal_details && personal_details[0].email}
+          {user && user.email}
         </Typography>
         <Typography component='h6' variant='subtitle1'>
-          {personal_details && personal_details[0].phone_no}
+          {user && user.phone_no}
         </Typography>
-        <Button
+        {/* <Button
           variant='outlined'
           color='secondary'
           onClick={() => setPersonalFormOpen(true)}
         >
           Add Personal Details
-        </Button>
+        </Button> */}
       </Grid>
       <PersonalForm
         personalFormOpen={personalFormOpen}

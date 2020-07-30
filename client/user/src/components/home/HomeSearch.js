@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 // import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
+
+import { fetchLocations, fetchTitles } from "./functions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +20,15 @@ const useStyles = makeStyles((theme) => ({
 const HomeSearch = (props) => {
   const classes = useStyles();
   const { title, label, placeholder, register, errors, name } = props;
+  const [titles, setTitles] = useState([]);
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    fetchTitles().then((res) => setTitles(res.titles));
+    fetchLocations().then((res) => setLocations(res.locations));
+
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className={classes.root}>
