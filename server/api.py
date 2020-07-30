@@ -41,6 +41,21 @@ import no_auth_apis as no_auth
 import courses as courses
 CORS(app)
 
+
+# Fetch input fields Locations title
+
+
+@app.route('/locationsfield')
+def locations():
+    response = no_auth.locations()
+    return response
+
+
+@app.route('/titlesfield')
+def titles():
+    response = no_auth.titles()
+    return response
+
 # Fetch All Courses
 
 
@@ -89,7 +104,9 @@ def check_for_token(param):
 @app.route('/user')
 @check_for_token
 def user():
-    response = user_side.user()
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+    response = user_side.user(username)
     return response
 
 
@@ -175,39 +192,35 @@ def get_resume():
     username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['want'] == "personaldetails"):
         results = getresume.fetch_pd(username)
-        resp = jsonify({'output': results})
-        resp.status_code = 200
-        return resp
+        return results
     elif(request.json['want'] == "edu_details"):
         results = getresume.fetch_edu(username)
-        resp = jsonify({'output': results})
-        resp.status_code = 200
-        return resp
+        if len(results) != 0:
+            resp = jsonify({'output': results})
+            return resp
     elif(request.json['want'] == "job_details"):
         results = getresume.fetch_jobs(username)
-        resp = jsonify({'output': results})
-        resp.status_code = 200
-        return resp
+        if len(results) != 0:
+            resp = jsonify({'output': results})
+            return resp
     elif(request.json['want'] == "projects_lists"):
         results = getresume.fetch_projects(username)
-        resp = jsonify({'output': results})
-        resp.status_code = 200
-        return resp
+        if len(results) != 0:
+            resp = jsonify({'output': results})
+            return resp
     elif(request.json['want'] == "skills_list"):
         results = getresume.fetch_skills(username)
-        resp = jsonify({'output': results})
-        resp.status_code = 200
-        return resp
+        if len(results) != 0:
+            resp = jsonify({'output': results})
+            return resp
     elif(request.json['want'] == "trainings_list"):
         results = getresume.fetch_trainings(username)
-        resp = jsonify({'output': results})
-        resp.status_code = 200
-        return resp
+        if len(results) != 0:
+            resp = jsonify({'output': results})
+            return resp
     elif(request.json['want'] == "work_examples"):
         results = getresume.fetch_wexamples(username)
-        resp = jsonify({'output': results})
-        resp.status_code = 200
-        return resp
+        return results
     elif(request.json['want'] == "everything"):
         resp = getresume.fetch_all(username)
         return resp
@@ -260,13 +273,13 @@ def cud_resume_work():
     token = request.headers['Authorization']
     username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['mode'] == "add"):
-        resp = r_work.create_resume_w()
+        resp = r_work.create_resume_w(username)
         return resp
     elif(request.json['mode'] == "delete"):
-        resp = r_work.delete_resume_w()
+        resp = r_work.delete_resume_w(username)
         return resp
     elif(request.json['mode'] == "update"):
-        resp = r_work.update_resume_w()
+        resp = r_work.update_resume_w(username)
         return resp
     else:
         resp = jsonify({'message': 'Invalid Request.'})
@@ -348,12 +361,34 @@ def cud_resume_projects():
         resp = jsonify({'message': 'Invalid Request.'})
         return resp
 
+# enroll courses & jobs
+
+
+@app.route('/enroll-course', methods=['POST'])
+@check_for_token
+def enroll_courses():
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+    response = user_side.enroll_courses(username)
+    return response
+
+
+@app.route('/enroll-job', methods=['POST'])
+@check_for_token
+def enroll_jobs():
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+    response = user_side.enroll_jobs(username)
+    return response
+
 
 # Get active user's applied jobs
 @app.route('/user-applied-jobs')
 @check_for_token
 def user_applied_jobs():
-    response = user_side.applied_jobs()
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+    response = user_side.applied_jobs(username)
     return response
 
 
@@ -361,7 +396,9 @@ def user_applied_jobs():
 @app.route('/user-enrolled-courses')
 @check_for_token
 def user_enrolled_courses():
-    response = user_side.my_courses()
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+    response = user_side.my_courses(username)
     return response
 
 
