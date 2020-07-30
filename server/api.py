@@ -41,6 +41,21 @@ import no_auth_apis as no_auth
 import courses as courses
 CORS(app)
 
+
+# Fetch input fields Locations title
+
+
+@app.route('/locationsfield')
+def locations():
+    response = no_auth.locations()
+    return response
+
+
+@app.route('/titlesfield')
+def titles():
+    response = no_auth.titles()
+    return response
+
 # Fetch All Courses
 
 

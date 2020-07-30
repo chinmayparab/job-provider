@@ -12,6 +12,30 @@ import random
 import string
 
 
+def locations():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur.execute("SELECT DISTINCT interveiw_loc FROM job;")
+    records = cur.fetchall()
+    lists = []
+    for r in records:
+        lists.append(r['interveiw_loc'])
+    resp = jsonify({'locations': lists})
+    return resp
+
+
+def titles():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur.execute("SELECT DISTINCT pos_names FROM job;")
+    records = cur.fetchall()
+    lists = []
+    for r in records:
+        lists.append(r['pos_names'])
+    resp = jsonify({'titles': lists})
+    return resp
+
+
 def all_courses():
     try:
         conn = mysql.connect()
