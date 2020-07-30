@@ -29,9 +29,9 @@ def create_job(naam):
         date_int = datetime.datetime.fromtimestamp(
             int(request.json['datetime_interview']) / 1e3).strftime("%Y-%m-%d %H:%M:%S")
         cur.execute("INSERT INTO job(posted_by,job_id,closing_date,description,pos_names,no_postions,stipend,qualification,extra_info,interview_mode,interveiw_loc,date_time_interview,is_online_test) VALUES('" + str(naam['username'])+"','" +
-                    get_random_alphanumeric_string(8)+"','"+datetimee + "','"+str(request.json['description']) + "','"+str(request.json['jobtitle']) +
+                    get_random_alphanumeric_string(8)+"','"+str(datetimee) + "','"+str(request.json['description']) + "','"+str(request.json['jobtitle']) +
                     "','"+str(request.json['vacancies']) + "','"+str(request.json['stipend']) + "','"+str(request.json['qualification']) + "','"+str(request.json['extra_info']) +
-                    "','"+str(request.json['interview_mode']) + "','"+str(date_int) + "','"+str(request.json['is_onlinetest']) + "');")
+                    "','"+str(request.json['interview_mode']) + str(request.json['interview_location']) + "','"+str(date_int) + "','"+str(request.json['is_onlinetest']) + "');")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'success'})
@@ -77,7 +77,7 @@ def update_job(naam):
             date_int = datetime.datetime.fromtimestamp(
                 int(request.json['datetime_interview']) / 1e3).strftime("%Y-%m-%d %H:%M:%S")
             cur.execute("UPDATE job SET description = '"+str(
-                request.json['description'])+"', closing_date = '" + datetimee + "', pos_names = '"+str(request.json['jobtitle']) +
+                request.json['description'])+"', closing_date = '" + str(datetimee) + "', pos_names = '"+str(request.json['jobtitle']) +
                 "', no_postions = '"+str(request.json['vacancies']) + "', stipend = '"+str(request.json['stipend']) + "', qualification = '"+str(request.json['qualification']) +
                 "', extra_info = '"+str(request.json['extra_info']) + "', interview_mode = '"+str(request.json['interview_mode']) + "', interveiw_loc = '"+str(request.json['interview_location']) +
                 "', date_time_interview = '"+str(date_int) + "', is_online_test = '"+str(
