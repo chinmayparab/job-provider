@@ -336,6 +336,26 @@ def cud_resume_projects():
         resp = jsonify({'message': 'Invalid Request.'})
         return resp
 
+# enroll courses & jobs
+
+
+@app.route('/enroll-course', methods=['POST'])
+@check_for_token
+def enroll_courses():
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+    response = user_side.enroll_courses(username)
+    return response
+
+
+@app.route('/enroll-job', methods=['POST'])
+@check_for_token
+def enroll_jobs():
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+    response = user_side.enroll_jobs(username)
+    return response
+
 
 # Get active user's applied jobs
 @app.route('/user-applied-jobs')

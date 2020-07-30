@@ -67,3 +67,41 @@ def my_courses(naam):
     finally:
         cur.close()
         conn.close()
+
+
+def enroll_jobs(naam):
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        cur.execute(
+            "INSERT INTO enrolled_jobs (job_id,user_id) VALUES ('"+str(request.json['job_id'])+"',"+str(naam['user_id'])+");")
+        conn.commit()
+        if cur:
+            resp = jsonify({'message': 'success'})
+            resp.status_code = 200
+            return resp
+        resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
+        return resp
+    finally:
+        cur.close()
+        conn.close()
+
+
+def enroll_courses(naam):
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        cur.execute(
+            "INSERT INTO enrolled_courses (user_id,course_id) VALUES ("+str(naam['user_id'])+","+str(request.json['course_id'])+");")
+        conn.commit()
+        if cur:
+            resp = jsonify({'message': 'success'})
+            resp.status_code = 200
+            return resp
+        resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
+        return resp
+    finally:
+        cur.close()
+        conn.close()
