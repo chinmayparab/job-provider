@@ -72,15 +72,29 @@ def my_courses(naam):
 def enroll_jobs(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur.execute("Select * from job Where job_id = '" +
+                str(request.json['job_id'])+"';")
+    records = cur.fetchall()
+    cur.execute("Select * from enrolled_jobs Where job_id = '" +
+                str(request.json['job_id'])+"' and user_id ='"+str(naam['user_id'])+"';")
+    already = cur.fetchall()
     try:
-        cur.execute(
-            "INSERT INTO enrolled_jobs (job_id,user_id) VALUES ('"+str(request.json['job_id'])+"',"+str(naam['user_id'])+");")
-        conn.commit()
-        if cur:
-            resp = jsonify({'message': 'success'})
-            resp.status_code = 200
+        if len(records) > 0:
+            if len(already) == 0:
+                cur.execute(
+                    "INSERT INTO enrolled_jobs (job_id,user_id) VALUES ('"+str(request.json['job_id'])+"',"+str(naam['user_id'])+");")
+                conn.commit()
+                if cur:
+                    resp = jsonify({'message': 'success'})
+                    resp.status_code = 200
+                    return resp
+                resp = jsonify({'message': 'Error.'})
+                resp.status_code = 401
+                return resp
+            resp = jsonify({'message': 'Already Applied for job.'})
+            resp.status_code = 403
             return resp
-        resp = jsonify({'message': 'Error.'})
+        resp = jsonify({'message': 'no job found with this id.'})
         resp.status_code = 401
         return resp
     finally:
@@ -91,15 +105,29 @@ def enroll_jobs(naam):
 def enroll_courses(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur.execute("Select * from courses Where course_id = '" +
+                str(request.json['course_id'])+"';")
+    records = cur.fetchall()
+    cur.execute("Select * from enrolled_courses Where course_id = '" +
+                str(request.json['course_id'])+"' and user_id ='"+str(naam['user_id'])+"';")
+    already = cur.fetchall()
     try:
-        cur.execute(
-            "INSERT INTO enrolled_courses (user_id,course_id) VALUES ("+str(naam['user_id'])+","+str(request.json['course_id'])+");")
-        conn.commit()
-        if cur:
-            resp = jsonify({'message': 'success'})
-            resp.status_code = 200
+        if len(records) > 0:
+            if len(already) == 0:
+                cur.execute(
+                    "INSERT INTO enrolled_courses (user_id,course_id) VALUES ("+str(naam['user_id'])+","+str(request.json['course_id'])+");")
+                conn.commit()
+                if cur:
+                    resp = jsonify({'message': 'success'})
+                    resp.status_code = 200
+                    return resp
+                resp = jsonify({'message': 'Error.'})
+                resp.status_code = 401
+                return resp
+            resp = jsonify({'message': 'Already enrolled for course.'})
+            resp.status_code = 403
             return resp
-        resp = jsonify({'message': 'Error.'})
+        resp = jsonify({'message': 'no course found with this id.'})
         resp.status_code = 401
         return resp
     finally:
