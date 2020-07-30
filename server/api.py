@@ -177,11 +177,7 @@ def get_resume():
     username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['want'] == "personaldetails"):
         results = getresume.fetch_pd(username)
-        if results != 'empty':
-            return results
-        resp = jsonify({'message': 'Error.'})
-        resp.status_code = 401
-        return resp
+        return results
     elif(request.json['want'] == "edu_details"):
         results = getresume.fetch_edu(username)
         if results != 'empty':
@@ -215,11 +211,7 @@ def get_resume():
         return resp
     elif(request.json['want'] == "work_examples"):
         results = getresume.fetch_wexamples(username)
-        if results != 'empty':
-            return results
-        resp = jsonify({'message': 'Error.'})
-        resp.status_code = 401
-        return resp
+        return results
     elif(request.json['want'] == "everything"):
         resp = getresume.fetch_all(username)
         return resp
