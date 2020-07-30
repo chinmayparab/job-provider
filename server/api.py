@@ -39,6 +39,7 @@ import resume_fetch as getresume  # not a python package.
 import user_apis as user_side
 import no_auth_apis as no_auth
 import courses as courses
+import recommendation as recommend
 CORS(app)
 
 
@@ -400,6 +401,33 @@ def user_enrolled_courses():
     username = jwt.decode(token, app.config['SECRET_KEY'])
     response = user_side.my_courses(username)
     return response
+
+# Courses Recommendtaions
+
+
+@app.route('/recommendations')
+@check_for_token
+def recommendations():
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY'])
+
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur2 = conn.cursor(pymysql.cursors.DictCursor)
+    cur.execute("SELECT skill_id,level FROM resume_skills WHERE user_id = " +
+                str(username['user_id'])+" ;")
+
+    skill_list = []
+    level_list = []
+    for r in cur:
+        level_list.append(r['level'])
+        cur2.execute("SELECT title FROM skills WHERE skill_id ='" +
+                     str(r['skill_id'])+"';")
+        records2 = cur2.fetchone()
+        skill_list.append(records2['title'])
+
+    response = recommend.main(skill_list, level_list)
+    return jsonify({"recommended courses": response})
 
 
 # ADMIN SIDE REQUESTS.
