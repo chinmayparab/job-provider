@@ -31,7 +31,7 @@ def create_job(naam):
         cur.execute("INSERT INTO job(posted_by,job_id,closing_date,description,pos_names,no_postions,stipend,qualification,extra_info,interview_mode,interveiw_loc,date_time_interview,is_online_test) VALUES('" + str(naam['username'])+"','" +
                     get_random_alphanumeric_string(8)+"','"+str(datetimee) + "','"+str(request.json['description']) + "','"+str(request.json['jobtitle']) +
                     "','"+str(request.json['vacancies']) + "','"+str(request.json['stipend']) + "','"+str(request.json['qualification']) + "','"+str(request.json['extra_info']) +
-                    "','"+str(request.json['interview_mode']) + str(request.json['interview_location']) + "','"+str(date_int) + "','"+str(request.json['is_onlinetest']) + "');")
+                    "','"+str(request.json['interview_mode'])+"','" + str(request.json['interview_location']) + "','"+str(date_int) + "','"+str(request.json['is_onlinetest']) + "');")
         conn.commit()
         if cur:
             resp = jsonify({'message': 'success'})
