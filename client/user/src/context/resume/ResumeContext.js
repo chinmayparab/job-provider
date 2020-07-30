@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from "react";
 import config from "../../config";
 
 import resumeReducer from "./resumeReducer";
-import { FETCH_RESUME, RESUME_ERROR } from "./types";
+import { FETCH_RESUME, RESUME_ERROR, SET_LOADING } from "./types";
 
 const initialState = {
   resume: {},
@@ -11,12 +11,12 @@ const initialState = {
 
 export const ResumeContext = createContext(initialState);
 
-export const JobsProvider = ({ children }) => {
+export const ResumeProvider = ({ children }) => {
   const [state, dispatch] = useReducer(resumeReducer, initialState);
 
   //   Fetchin The Whole Frigggggggin Resume
-  const fetchResume = () => {
-    setLoading();
+  const fetchResume = (token) => {
+    // setLoading();
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");

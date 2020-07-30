@@ -1,11 +1,17 @@
 import React, { useEffect, useContext } from "react";
+
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import { makeStyles } from "@material-ui/core/styles";
+
 import { AuthContext } from "../../context/auth/AuthContext";
+import { ResumeContext } from "../../context/resume/ResumeContext";
+import PersonalDetails from "./PersonalDetails";
+import EducationDetails from "./EducationDetails";
+import JobsDetails from "./JobsDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +40,23 @@ const useStyles = makeStyles((theme) => ({
 const Resume = () => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
+  const { resume, fetchResume } = useContext(ResumeContext);
+  const localAuthToken = localStorage.getItem("authToken");
+
+  useEffect(() => {
+    fetchResume(localAuthToken);
+    // eslint-disable-next-line
+  }, []);
+
+  const {
+    personal_details,
+    edu_details,
+    job_details,
+    projects_list,
+    skills_list,
+    trainings_list,
+    work_examples,
+  } = resume;
 
   return (
     <>
@@ -49,18 +72,9 @@ const Resume = () => {
       <Paper elevation={24} className={classes.paper}>
         <Container className={classes.resumeContainer}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Typography component='h6' variant='h6'>
-                {user && user.fname} {user && user.lname}
-              </Typography>
-              <Typography component='h6' variant='subtitle1'>
-                {user && user.email}
-              </Typography>
-              <Typography component='h6' variant='subtitle1'>
-                {user && user.phone_no}
-              </Typography>
-            </Grid>
+            <PersonalDetails user={user} personal_details={personal_details} />
           </Grid>
+
           <Divider className={classes.dividePrettier} />
 
           <Grid container spacing={3}>
@@ -70,17 +84,24 @@ const Resume = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} md={3}>
-              <Typography component='h6' variant='h6'>
-                Degree Name
-              </Typography>
-              <Typography component='h6' variant='subtitle1'>
-                Name of University
-              </Typography>
-              <Typography component='h6' variant='subtitle1'>
-                From and To Dates
-              </Typography>
+              <EducationDetails user={user} edu_details={edu_details} />
             </Grid>
           </Grid>
+
+          <Divider className={classes.dividePrettier} />
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={3}>
+              <Typography component='h6' variant='h6'>
+                Jobs
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <JobsDetails user={user} job_details={job_details} />
+            </Grid>
+          </Grid>
+
+          <Divider className={classes.dividePrettier} />
         </Container>
       </Paper>
     </>

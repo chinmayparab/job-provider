@@ -5,12 +5,15 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { AuthProvider } from "./context/auth/AuthContext";
 import { JobsProvider } from "./context/jobs/JobsContext";
+import { ResumeProvider } from "./context/resume/ResumeContext";
 
 ReactDOM.render(
   <AuthProvider>
-    <JobsProvider>
-      <App />
-    </JobsProvider>
+    <ResumeProvider>
+      <JobsProvider>
+        <App />
+      </JobsProvider>
+    </ResumeProvider>
   </AuthProvider>,
   document.getElementById("root")
 );

@@ -50,11 +50,6 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     },
   },
-  searchInput: {
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
   iconColor: {
     color: theme.palette.icons,
   },
