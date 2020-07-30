@@ -13,7 +13,7 @@ import {
 
 const initialState = {
   isAuth: false,
-  authToken: localStorage.getItem("token"),
+  authToken: localStorage.getItem("authToken"),
   user: null,
   error: null,
 };
@@ -59,13 +59,13 @@ export const AuthProvider = ({ children }) => {
 
     fetch(config.server + "/register", requestOptions)
       .then((response) => response.json())
-      .then((result) => console.log(result))
+      .then((result) =>
+        dispatch({
+          type: SIGNUP_SUCCESS,
+          payload: user,
+        })
+      )
       .catch((err) => console.log(err));
-
-    dispatch({
-      type: SIGNUP_SUCCESS,
-      payload: user,
-    });
   };
 
   const login = (user) => {
@@ -102,7 +102,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("authToken");
     dispatch({
       type: LOGOUT,
     });

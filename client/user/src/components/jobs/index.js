@@ -42,32 +42,16 @@ const useStyles = makeStyles((theme) => ({
 const Jobs = () => {
   const classes = useStyles();
   const { setCurrent, current, jobs, fetchJobs } = useContext(JobsContext);
+  const authToken = localStorage.getItem("token");
 
   useEffect(() => {
-    fetchJobs();
+    // fetchJobs();
+    console.log(authToken);
     // eslint-disable-next-line
   }, []);
 
   return (
     <>
-      <Box display='flex' justifyContent='space-between' my={2}>
-        <Button variant='outlined' color='secondary'>
-          Mumbai
-        </Button>
-        <Button variant='outlined' color='secondary'>
-          Mumbai
-        </Button>
-        <Button variant='outlined' color='secondary'>
-          Mumbai
-        </Button>
-        <Button variant='outlined' color='secondary'>
-          Mumbai
-        </Button>
-        <Button variant='outlined' color='secondary'>
-          Mumbai
-        </Button>
-      </Box>
-
       <Grid container spacing={3}>
         <Grid item xs={12} md={5}>
           {jobs && jobs.map((job) => <JobCards job={job} />)}

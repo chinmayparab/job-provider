@@ -45,6 +45,33 @@ export const JobsProvider = ({ children }) => {
       .catch((err) => console.log(err));
   };
 
+  const searchJobs = (data) => {
+    setLoading();
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var raw = JSON.stringify({
+      location: data.location,
+      title: data.title,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    fetch(config.server + "/fetch-jobs", requestOptions)
+      .then((response) => response.json())
+      .then((result) =>
+        dispatch({
+          type: FETCH_JOBS,
+          payload: result,
+        })
+      )
+      .catch((err) => console.log(err));
+  };
+
   const setLoading = () => dispatch({ type: SET_LOADING });
 
   // Set Current Job
@@ -65,6 +92,7 @@ export const JobsProvider = ({ children }) => {
         loading: state.loading,
         current: state.current,
         fetchJobs,
+        searchJobs,
         setLoading,
         setCurrent,
         clearCurrent,

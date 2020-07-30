@@ -35,34 +35,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const JobsForm = ({ jobsFormOpen, setJobsFormOpen, job_detail }) => {
+const ProjectsForm = ({
+  projectsFormOpen,
+  setProjectFormOpen,
+  project_list,
+}) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const classes = useStyles();
   const localAuthToken = localStorage.getItem("authToken");
-  const { addJobs } = useContext(ResumeContext);
+  const { addProjects } = useContext(ResumeContext);
 
   const { register, handleSubmit, errors } = useForm({
     mode: "onChange",
     reValidateMode: "onChange",
-    defaultValues: job_detail,
+    defaultValues: project_list,
   });
 
   const onSubmit = (data) => {
     // addPersonalDetails(data);
-    addJobs(localAuthToken, data);
-    setJobsFormOpen(false);
+    addProjects(localAuthToken, data);
+    setProjectFormOpen(false);
   };
 
   return (
     <Dialog
       fullScreen={fullScreen}
-      open={jobsFormOpen}
-      onClose={() => setJobsFormOpen(false)}
+      open={projectsFormOpen}
+      onClose={() => setProjectFormOpen(false)}
     >
       <Container maxWidth='md' className={classes.title}>
         <TypoGraphy variant='h5'>Add Job Details</TypoGraphy>
-        <IconButton onClick={() => setJobsFormOpen(false)}>
+        <IconButton onClick={() => setProjectFormOpen(false)}>
           <CloseIcon />
         </IconButton>
       </Container>
@@ -70,45 +74,45 @@ const JobsForm = ({ jobsFormOpen, setJobsFormOpen, job_detail }) => {
         <Container>
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
-              label='Job Title'
+              label='Project Title'
               variant='outlined'
               fullWidth
               size='small'
               color='secondary'
               className={classes.input}
               type='text'
-              name='job_title'
+              name='title'
               inputRef={register({ required: true })}
-              error={!!errors.job_title}
-              helperText={!!errors.job_title && "This is a required field."}
+              error={!!errors.title}
+              helperText={!!errors.title && "This is a required field."}
             />
 
             <TextField
-              label='Organization Name'
+              label='Description'
               variant='outlined'
               fullWidth
               size='small'
               color='secondary'
               className={classes.input}
               type='text'
-              name='organization'
+              name='description'
               inputRef={register({ required: true })}
-              error={!!errors.organization}
-              helperText={!!errors.organization && "This is a required field."}
+              error={!!errors.description}
+              helperText={!!errors.description && "This is a required field."}
             />
 
             <TextField
-              label='Job Location'
+              label='Project Link'
               variant='outlined'
               fullWidth
               size='small'
               color='secondary'
               className={classes.input}
               type='text'
-              name='job_location'
+              name='project_link'
               inputRef={register({ required: true })}
-              error={!!errors.job_location}
-              helperText={!!errors.job_location && "This is a required field."}
+              error={!!errors.project_link}
+              helperText={!!errors.project_link && "This is a required field."}
             />
 
             <TextField
@@ -118,10 +122,10 @@ const JobsForm = ({ jobsFormOpen, setJobsFormOpen, job_detail }) => {
               InputLabelProps={{
                 shrink: true,
               }}
-              name='start_date'
+              name='start_month'
               inputRef={register({ required: true })}
-              error={!!errors.start_date}
-              helperText={!!errors.start_date && "This is a required field."}
+              error={!!errors.start_month}
+              helperText={!!errors.start_month && "This is a required field."}
             />
             <TextField
               label='End Date'
@@ -130,10 +134,10 @@ const JobsForm = ({ jobsFormOpen, setJobsFormOpen, job_detail }) => {
               InputLabelProps={{
                 shrink: true,
               }}
-              name='end_date'
+              name='end_month'
               inputRef={register({ required: true })}
-              error={!!errors.end_date}
-              helperText={!!errors.end_date && "This is a required field."}
+              error={!!errors.end_month}
+              helperText={!!errors.end_month && "This is a required field."}
             />
 
             <Box style={{ textAlign: "right" }}>
@@ -153,4 +157,4 @@ const JobsForm = ({ jobsFormOpen, setJobsFormOpen, job_detail }) => {
   );
 };
 
-export default JobsForm;
+export default ProjectsForm;

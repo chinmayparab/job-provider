@@ -12,6 +12,7 @@ import { ResumeContext } from "../../context/resume/ResumeContext";
 import PersonalDetails from "./PersonalDetails";
 import EducationDetails from "./EducationDetails";
 import JobsDetails from "./JobsDetails";
+import ProjectDetails from "./ProjectDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,6 +103,17 @@ const Resume = () => {
           </Grid>
 
           <Divider className={classes.dividePrettier} />
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={3}>
+              <Typography component='h6' variant='h6'>
+                Projects
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <ProjectDetails user={user} projects_list={projects_list} />
+            </Grid>
+          </Grid>
         </Container>
       </Paper>
     </>

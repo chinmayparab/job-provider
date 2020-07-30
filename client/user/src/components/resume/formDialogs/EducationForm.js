@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,7 +15,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 
-// import { AuthContext } from "../../context/auth/AuthContext";
+import { ResumeContext } from "../../../context/resume/ResumeContext";
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -43,6 +43,8 @@ const EducationForm = ({
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const classes = useStyles();
+  const localAuthToken = localStorage.getItem("authToken");
+  const { addEdu } = useContext(ResumeContext);
 
   const { register, handleSubmit, errors } = useForm({
     mode: "onChange",
@@ -51,8 +53,7 @@ const EducationForm = ({
   });
 
   const onSubmit = (data) => {
-    // addPersonalDetails(data);
-    console.log(data);
+    addEdu(localAuthToken, data);
     setEducationFormOpen(false);
   };
 

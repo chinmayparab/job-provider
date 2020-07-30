@@ -77,7 +77,7 @@ const App = () => {
           <main className={classes.main}>
             <Route exact path='/' component={Home} />
             <Switch>
-              <Route exact path='/resume' component={Resume} />
+              <PrivateRoute exact path='/resume' component={Resume} />
             </Switch>
             <Route exact path='/jobs' component={Jobs} />
             <Route exact path='/courses' component={Courses} />

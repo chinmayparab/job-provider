@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -8,6 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { fetchLocations, fetchTitles } from "./functions";
+import { JobsContext } from "../../context/jobs/JobsContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -28,8 +30,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = (props) => {
   const classes = useStyles();
+  const [errorField, setErrorField] = useState(false);
   const [titles, setTitles] = useState([]);
   const [locations, setLocations] = useState([]);
+  const { searchJobs } = useContext(JobsContext);
+  const history = useHistory();
 
   useEffect(() => {
     fetchTitles().then((res) => setTitles(res.titles));
@@ -49,10 +54,13 @@ const Home = (props) => {
     defaultValues: initialValues,
   });
 
-  const onSubmit = (values) => {
-    values["title"] === "" && values["location"] === ""
-      ? console.error("fml")
-      : console.log(values);
+  const onSubmit = (data) => {
+    if (data.title === "" && data.location === "") {
+      setErrorField(true);
+    } else {
+      searchJobs(data);
+      history.push("/jobs");
+    }
   };
 
   return (
@@ -81,9 +89,9 @@ const Home = (props) => {
                   type='text'
                   name='title'
                   inputRef={register}
-                  error={!!errors.title}
+                  error={!!errorField}
                   helperText={
-                    !!errors.title &&
+                    !!errorField &&
                     "Enter a job title or location to start a search"
                   }
                 />
@@ -106,9 +114,9 @@ const Home = (props) => {
                   type='text'
                   name='location'
                   inputRef={register}
-                  error={!!errors.location}
+                  error={!!errorField}
                   helperText={
-                    !!errors.location &&
+                    !!errorField &&
                     "Enter a job title or location to start a search"
                   }
                 />

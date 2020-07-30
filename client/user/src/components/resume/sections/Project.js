@@ -1,25 +1,28 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 
-const EducationDetails = ({ job_detail }) => {
+const EducationDetails = ({ project_list }) => {
   const {
-    job_title,
-    organiztion,
-    job_location,
-    start_date,
-    end_date,
-  } = job_detail;
+    title,
+    description,
+    project_link,
+    start_month,
+    end_month,
+  } = project_list;
 
   return (
     <>
       <Typography component='h6' variant='h6'>
-        {job_title}
+        {title}
       </Typography>
       <Typography component='h6' variant='subtitle1'>
-        {organiztion}
+        {description}
       </Typography>
       <Typography component='h6' variant='subtitle1'>
-        {start_date} To {end_date}
+        {project_link}
+      </Typography>
+      <Typography component='h6' variant='subtitle1'>
+        {start_month} To {end_month}
       </Typography>
     </>
   );

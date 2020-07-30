@@ -4,6 +4,12 @@ import {
   SET_LOADING,
   SET_CURRENT,
   CLEAR_CURRENT,
+  ADD_EDU,
+  ADD_JOBS,
+  ADD_PROJECTS,
+  ADD_WORKEX,
+  ADD_SKILLS,
+  ADD_TRAININGS,
 } from "./types";
 
 export default (state, action) => {
@@ -12,6 +18,17 @@ export default (state, action) => {
       return {
         ...state,
         resume: action.payload,
+      };
+
+    case ADD_EDU:
+    case ADD_JOBS:
+    case ADD_PROJECTS:
+    case ADD_SKILLS:
+    case ADD_TRAININGS:
+    case ADD_WORKEX:
+      return {
+        ...state,
+        error: null,
       };
 
     case RESUME_ERROR:

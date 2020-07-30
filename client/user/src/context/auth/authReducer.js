@@ -26,10 +26,8 @@ export default (state, action) => {
         isAuth: true,
         authToken: action.payload,
       };
-    case SIGNUP_FAIL:
-    case LOGIN_FAIL:
     case LOGOUT:
-      localStorage.removeItem("token");
+      localStorage.removeItem("authToken");
       return {
         ...state,
         // error: action.payload,
