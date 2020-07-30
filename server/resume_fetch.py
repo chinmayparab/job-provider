@@ -18,8 +18,14 @@ def fetch_pd(naam):
     cur.execute("Select * from resume Where user_id = '" +
                 str(naam['user_id'])+"';")
     records = cur.fetchall()
+    op = {}
     if len(records) > 0:
-        return records
+        for r in records:
+            op['email'] = r['email']
+            op['location'] = r['location']
+            op['phone_no'] = r['phone_no']
+            op['additional_details'] = r['additional_details']
+            return op
     return 'empty'
 
 
@@ -84,8 +90,13 @@ def fetch_wexamples(naam):
     cur.execute("Select * from resume_work_examples Where user_id = '" +
                 str(naam['user_id'])+"';")
     records = cur.fetchall()
+    op = {}
     if len(records) > 0:
-        return records
+        for r in records:
+            op['blog_url'] = r['blog_url']
+            op['github'] = r['github_profile']
+            op['portfolio'] = r['portfolio_link']
+            return op
     return 'empty'
 
 

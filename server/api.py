@@ -177,25 +177,49 @@ def get_resume():
     username = jwt.decode(token, app.config['SECRET_KEY'])
     if(request.json['want'] == "personaldetails"):
         results = getresume.fetch_pd(username)
-        return results
+        if results != 'empty':
+            return results
+        resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
+        return resp
     elif(request.json['want'] == "edu_details"):
         results = getresume.fetch_edu(username)
-        return results
+        if results != 'empty':
+            return results
+        resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
+        return resp
     elif(request.json['want'] == "job_details"):
         results = getresume.fetch_jobs(username)
-        return results
+        if results != 'empty':
+            return results
+        resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
+        return resp
     elif(request.json['want'] == "projects_lists"):
         results = getresume.fetch_projects(username)
-        return results
+        if results != 'empty':
+            return results
+        resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
+        return resp
     elif(request.json['want'] == "skills_list"):
         results = getresume.fetch_skills(username)
         return results
     elif(request.json['want'] == "trainings_list"):
         results = getresume.fetch_trainings(username)
-        return results
+        if results != 'empty':
+            return results
+        resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
+        return resp
     elif(request.json['want'] == "work_examples"):
         results = getresume.fetch_wexamples(username)
-        return results
+        if results != 'empty':
+            return results
+        resp = jsonify({'message': 'Error.'})
+        resp.status_code = 401
+        return resp
     elif(request.json['want'] == "everything"):
         resp = getresume.fetch_all(username)
         return resp
