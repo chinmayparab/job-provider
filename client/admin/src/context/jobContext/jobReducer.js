@@ -1,4 +1,4 @@
-import { SET_LOADING, SET_JOB_DATA, SET_JOBS } from '../types'
+import { SET_LOADING, SET_JOB_DATA, SET_JOBS, SET_POSTED_JOBS } from '../types'
 
 export default (state, action) => {
 	switch (action.type) {
@@ -16,6 +16,11 @@ export default (state, action) => {
 			return {
 				...state,
 				jobs: action.payload
+			}
+		case SET_POSTED_JOBS:
+			return {
+				...state,
+				postedJobs: action.payload
 			}
 		default:
 			return state

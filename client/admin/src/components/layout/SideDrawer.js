@@ -94,7 +94,7 @@ const SideDrawer = ({ open, setOpen }) => {
 						<ListItemIcon>
 							<ViewDayIcon />
 						</ListItemIcon>
-						<ListItemText primary={t('View added jobs')} />
+						<ListItemText primary={t('View all jobs')} />
 					</ListItem>
 				</List>
 				<Divider />
