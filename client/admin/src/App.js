@@ -6,8 +6,10 @@ import MomentUtils from '@date-io/moment'
 import jwtDecode from 'jsonwebtoken/decode'
 
 import { AuthContext } from './context/authContext/authContext'
+import { SnackContext } from './context/snackContext/snackContext'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Box from '@material-ui/core/Box'
+import Snackbar from '@material-ui/core/Snackbar'
 import Navbar from './components/layout/Navbar'
 import Login from './components/auth/Login'
 import AddJob from './components/jobs/AddJob'
@@ -19,6 +21,7 @@ import { useTranslation } from 'react-i18next'
 
 const App = () => {
 	const { setToken, logoutAdmin } = useContext(AuthContext)
+	const { snackOpen, snackMsg, hideSnack } = useContext(SnackContext)
 
 	const checkLogin = () => {
 		const localAuthToken = localStorage.getItem('authToken')
@@ -60,6 +63,16 @@ const App = () => {
 							/>
 						</Switch>
 					</Box>
+					<Snackbar
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'left'
+						}}
+						open={snackOpen}
+						autoHideDuration={3000}
+						onClose={hideSnack}
+						message={snackMsg}
+					/>
 				</Box>
 			</BrowserRouter>
 		</MuiPickersUtilsProvider>

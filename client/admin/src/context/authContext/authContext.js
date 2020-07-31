@@ -6,7 +6,7 @@ import AuthReducer from './authReducer'
 import config from '../../config'
 
 const initialState = {
-	authToken: ''
+	authToken: localStorage.getItem('authToken') || ''
 }
 
 export const AuthContext = createContext(initialState)

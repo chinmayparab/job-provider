@@ -44,8 +44,6 @@ const MobileMenu = ({
           <MenuItem onClick={handleTheme}>
             {darkTheme ? "Light Theme" : "DarkTheme"}
           </MenuItem>
-          <MenuItem onClick={handleClose}>Cart</MenuItem>
-          <MenuItem onClick={handleClose}>Account</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </div>
       ) : (

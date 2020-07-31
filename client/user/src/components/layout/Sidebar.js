@@ -80,34 +80,34 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             button
             onClick={() => setSidebarOpen(false)}
             component={Link}
-            to='/components'
+            to='/jobs'
           >
             <ListItemIcon className={classes.iconColor}>
               <ComponentIcon />
             </ListItemIcon>
-            <ListItemText primary='Components' />
+            <ListItemText primary='Jobs' />
           </ListItem>
           <ListItem
             button
             onClick={() => setSidebarOpen(false)}
             component={Link}
-            to='/templates'
+            to='/courses'
           >
             <ListItemIcon className={classes.iconColor}>
               <TemplatesIcon />
             </ListItemIcon>
-            <ListItemText primary='Templates' />
+            <ListItemText primary='Courses' />
           </ListItem>
           <ListItem
             button
             onClick={() => setSidebarOpen(false)}
             component={Link}
-            to='/products'
+            to='/resume'
           >
             <ListItemIcon className={classes.iconColor}>
               <ProductIcon />
             </ListItemIcon>
-            <ListItemText primary='Products' />
+            <ListItemText primary='Create Resume' />
           </ListItem>
         </List>
       </Drawer>

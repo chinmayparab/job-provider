@@ -23,17 +23,17 @@ export default (state, action) => {
       localStorage.setItem("authToken", action.payload);
       return {
         ...state,
+        isAuth: true,
         authToken: action.payload,
       };
-    case SIGNUP_FAIL:
-    case LOGIN_FAIL:
     case LOGOUT:
-      localStorage.removeItem("token");
+      localStorage.removeItem("authToken");
       return {
         ...state,
         // error: action.payload,
         isAuth: false,
         authToken: "",
+        user: null,
       };
     default:
       return state;

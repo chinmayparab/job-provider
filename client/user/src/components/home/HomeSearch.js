@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 // import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
+
+import { fetchLocations, fetchTitles } from "./functions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +19,16 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeSearch = (props) => {
   const classes = useStyles();
-  const { title, label, placeholder } = props;
+  const { title, label, placeholder, register, errors, name } = props;
+  const [titles, setTitles] = useState([]);
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    fetchTitles().then((res) => setTitles(res.titles));
+    fetchLocations().then((res) => setLocations(res.locations));
+
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -25,11 +36,9 @@ const HomeSearch = (props) => {
         {title}
       </Typography> */}
       <Autocomplete
-        multiple
-        // id='tags-outlined'
-        options={top100Films}
+        id='tags-outlined'
+        options={option}
         getOptionLabel={(option) => option.title}
-        // defaultValue={[top100Films[13]]}
         filterSelectedOptions
         renderInput={(params) => (
           <TextField
@@ -38,6 +47,11 @@ const HomeSearch = (props) => {
             color='secondary'
             label={label}
             placeholder={label}
+            type='text'
+            name={name}
+            inputRef={register({ required: true })}
+            error={!!errors.title}
+            helperText={!!errors.title && "This is a required field."}
           />
         )}
       />
@@ -46,7 +60,7 @@ const HomeSearch = (props) => {
 };
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
+const option = [
   { title: "Mumbai", year: 1994 },
   { title: "Bangalore", year: 1972 },
   { title: "Hyderabad", year: 1974 },

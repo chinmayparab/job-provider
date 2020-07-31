@@ -1,6 +1,5 @@
 import React, { createContext, useReducer } from "react";
 import config from "../../config";
-import jwtDecode from "jsonwebtoken/decode";
 
 import authReducer from "./authReducer";
 import {
@@ -14,7 +13,7 @@ import {
 
 const initialState = {
   isAuth: false,
-  authToken: localStorage.getItem("token"),
+  authToken: localStorage.getItem("authToken"),
   user: null,
   error: null,
 };
@@ -60,13 +59,13 @@ export const AuthProvider = ({ children }) => {
 
     fetch(config.server + "/register", requestOptions)
       .then((response) => response.json())
-      .then((result) => console.log(result))
+      .then((result) =>
+        dispatch({
+          type: SIGNUP_SUCCESS,
+          payload: user,
+        })
+      )
       .catch((err) => console.log(err));
-
-    dispatch({
-      type: SIGNUP_SUCCESS,
-      payload: user,
-    });
   };
 
   const login = (user) => {
@@ -94,12 +93,6 @@ export const AuthProvider = ({ children }) => {
       .catch((err) => console.log(err));
   };
 
-  const logout = () => {
-    localStorage.removeItem("authToken");
-    dispatch({
-      type: LOGOUT,
-    });
-  };
   const setToken = (token) => {
     dispatch({
       type: LOGIN_SUCCESS,
@@ -108,12 +101,19 @@ export const AuthProvider = ({ children }) => {
     loadUser(token);
   };
 
+  const logout = () => {
+    dispatch({
+      type: LOGOUT,
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user: state.user,
         authToken: state.authToken,
         isAuth: state.isAuth,
+        error: state.error,
         signup,
         login,
         setToken,

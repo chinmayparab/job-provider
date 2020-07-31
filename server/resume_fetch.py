@@ -116,8 +116,8 @@ def fetch_all(naam):
 
     work_examples = fetch_wexamples(naam)
 
-    print(personal_details, edu_details, job_details,
-          projects_list, skills_list, trainings_list, work_examples)
+    # print(personal_details, edu_details, job_details,
+    #       projects_list, skills_list, trainings_list, work_examples)
 
     resp = jsonify({'personal_details': personal_details, 'edu_details': edu_details, 'job_details':
                     job_details, 'projects_list': projects_list, 'skills_list':
