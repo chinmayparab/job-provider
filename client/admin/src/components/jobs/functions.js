@@ -1,16 +1,16 @@
 import config from '../../config'
 
 export const addJob = (token, jobDetails) => {
-	var myHeaders = new Headers()
+	let myHeaders = new Headers()
 	myHeaders.append('Authorization', token)
 	myHeaders.append('Content-Type', 'application/json')
 
-	var raw = JSON.stringify({
+	let raw = JSON.stringify({
 		...jobDetails,
 		mode: 'add'
 	})
 
-	var requestOptions = {
+	let requestOptions = {
 		method: 'POST',
 		headers: myHeaders,
 		body: raw,
@@ -18,7 +18,7 @@ export const addJob = (token, jobDetails) => {
 	}
 
 	return fetch(config.server + '/cud_job', requestOptions)
-		.then((response) => (response.type === 200 ? true : false))
+		.then((response) => (response.status === 200 ? true : false))
 		.catch((err) => {
 			console.log(err)
 			return false
@@ -26,11 +26,11 @@ export const addJob = (token, jobDetails) => {
 }
 
 export const getJobs = (token) => {
-	var myHeaders = new Headers()
+	let myHeaders = new Headers()
 	myHeaders.append('Authorization', token)
 	myHeaders.append('Content-Type', 'application/json')
 
-	var requestOptions = {
+	let requestOptions = {
 		method: 'GET',
 		headers: myHeaders,
 		redirect: 'follow'
@@ -39,6 +39,28 @@ export const getJobs = (token) => {
 	return fetch(config.server + '/joblist', requestOptions)
 		.then((response) => response.json())
 		.then((res) => res)
+		.catch((err) => {
+			console.log(err)
+			return false
+		})
+}
+
+export const deleteJob = (token, id) => {
+	let myHeaders = new Headers()
+	myHeaders.append('Authorization', token)
+	myHeaders.append('Content-Type', 'application/json')
+
+	let raw = JSON.stringify({ mode: 'delete', job_id: id })
+
+	let requestOptions = {
+		method: 'POST',
+		headers: myHeaders,
+		body: raw,
+		redirect: 'follow'
+	}
+
+	return fetch(config.server + '/cud_job', requestOptions)
+		.then((response) => (response.status === 200 ? true : false))
 		.catch((err) => {
 			console.log(err)
 			return false

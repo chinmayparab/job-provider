@@ -9,13 +9,16 @@ import './i18n'
 
 import { AuthProvider } from './context/authContext/authContext'
 import { JobProvider } from './context/jobContext/jobContext'
+import { SnackProvider } from './context/snackContext/snackContext'
 
 ReactDOM.render(
-	<AuthProvider>
-		<JobProvider>
-			<App />
-		</JobProvider>
-	</AuthProvider>,
+	<SnackProvider>
+		<AuthProvider>
+			<JobProvider>
+				<App />
+			</JobProvider>
+		</AuthProvider>
+	</SnackProvider>,
 	document.getElementById('root')
 )
 
