@@ -12,8 +12,8 @@ import Button from '@material-ui/core/Button'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
-import { addJob } from './functions'
 import { AuthContext } from '../../context/authContext/authContext'
+import { JobContext } from '../../context/jobContext/jobContext'
 import { SnackContext } from '../../context/snackContext/snackContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +38,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 	const classes = useStyles()
 
 	const { authToken } = useContext(AuthContext)
+	const { addJob } = useContext(JobContext)
 	const { showSnack } = useContext(SnackContext)
 
 	const [jobDetails, setJobDetails] = useState({

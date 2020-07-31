@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 
 import Container from '@material-ui/core/Container'
 import TypoGraphy from '@material-ui/core/Typography'
@@ -6,16 +6,15 @@ import Grid from '@material-ui/core/Grid'
 import JobCard from './JobCard'
 
 import { AuthContext } from '../../context/authContext/authContext'
-import { getJobs } from './functions'
+import { JobContext } from '../../context/jobContext/jobContext'
 
 const ViewJob = () => {
 	const { authToken } = useContext(AuthContext)
-	const [jobs, setJobs] = useState([])
+	const { jobs, getJobs } = useContext(JobContext)
 
 	useEffect(() => {
-		getJobs(authToken).then((res) => setJobs(res.alljobs))
+		getJobs(authToken)
 	}, [])
-	// console.log(jobs)
 
 	return (
 		<>

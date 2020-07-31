@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 
 import AddJobForm from './AddJobForm'
 
@@ -52,9 +52,6 @@ const AddJob = () => {
 
 	const jobs = jobData.jobs || []
 	const allText = jobData['all-text-bubbles'] || []
-	useEffect(() => {
-		console.log(jobData.jobs)
-	}, [jobData])
 
 	const handleUploadedFile = (e) => {
 		const files = Array.from(e.target.files)

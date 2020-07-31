@@ -9,11 +9,12 @@ import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 
 import { AuthContext } from '../../context/authContext/authContext'
+import { CourseContext } from '../../context/courseContext/courseContext'
 import { SnackContext } from '../../context/snackContext/snackContext'
-import { addCourse } from './functions'
 
 const AddCourses = () => {
 	const { authToken } = useContext(AuthContext)
+	const { addCourse } = useContext(CourseContext)
 	const { showSnack } = useContext(SnackContext)
 
 	const [data, setData] = useState({
