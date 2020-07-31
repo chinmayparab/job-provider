@@ -37,6 +37,7 @@ import resume_wexp as r_wexp  # not a python package.
 import resume_fetch as getresume  # not a python package.
 
 import user_apis as user_side
+import admin_api as ad_api
 import no_auth_apis as no_auth
 import courses as courses
 import recommendation as recommend
@@ -425,7 +426,7 @@ def recommendations():
         records2 = cur2.fetchone()
         skill_list.append(records2['title'])
 
-    response = recommend.main(skill_list, level_list)
+    response = recommend.calling(skill_list, level_list)
     return jsonify({"recommended courses": response})
 
 
@@ -625,8 +626,10 @@ def crud_job():
 def all_jobs():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
-
-    cur.execute("Select * from job ;")
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
+    cur.execute("Select * from job WHERE posted_by ='" +
+                str(username['username'])+"';")
     records = cur.fetchall()
     if records:
         resp = jsonify({'alljobs': records})
@@ -657,6 +660,24 @@ def cud_courses():
     else:
         resp = jsonify({'message': 'Invalid Request.'})
         return resp
+
+# get all aplicants details
+
+# get isliye use kia hai qki body se nhi bhej skte in get..aisa kuch bola tha chinmay
+
+
+@app.route('/admin/applicants-jobs', methods=['POST'])
+@check_for_token_admin
+def postedjobs():
+    resp = ad_api.postedjobs()
+    return resp
+
+
+@app.route('/admin/applicants-details', methods=['POST'])
+@check_for_token_admin
+def applicantdetails():
+    resp = ad_api.applicantdetails()
+    return resp
 
 
 @app.errorhandler(404)

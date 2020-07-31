@@ -63,13 +63,19 @@ def fetch_projects(naam):
 
 
 def fetch_skills(naam):
+    skills = {}
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur1 = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_skills Where user_id = '" +
                 str(naam['user_id'])+"';")
-    records = cur.fetchall()
-    if len(records) > 0:
-        return records
+    if cur.rowcount > 0:
+        for r in cur:
+            cur1.execute("Select title from skills Where skill_id = '" +
+                         str(r['skill_id'])+"';")
+            k = cur1.fetchone()
+            skills[k['title']] = r['level']
+        return skills
     return 'empty'
 
 
@@ -116,8 +122,8 @@ def fetch_all(naam):
 
     work_examples = fetch_wexamples(naam)
 
-    print(personal_details, edu_details, job_details,
-          projects_list, skills_list, trainings_list, work_examples)
+    # print(personal_details, edu_details, job_details,
+    #       projects_list, skills_list, trainings_list, work_examples)
 
     resp = jsonify({'personal_details': personal_details, 'edu_details': edu_details, 'job_details':
                     job_details, 'projects_list': projects_list, 'skills_list':

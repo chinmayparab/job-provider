@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import HomeSearch from "./HomeSearch";
+import { fetchLocations, fetchTitles } from "./functions";
+import { JobsContext } from "../../context/jobs/JobsContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,46 +23,121 @@ const useStyles = makeStyles((theme) => ({
   btoon: {
     padding: theme.spacing(2),
   },
+  form: {
+    display: "flex",
+  },
 }));
 
 const Home = (props) => {
   const classes = useStyles();
+  const [errorField, setErrorField] = useState(false);
+  const [titles, setTitles] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const { searchJobs } = useContext(JobsContext);
+  const history = useHistory();
+
+  useEffect(() => {
+    fetchTitles().then((res) => setTitles(res.titles));
+    fetchLocations().then((res) => setLocations(res.locations));
+
+    // eslint-disable-next-line
+  }, []);
+
+  const initialValues = {
+    title: "",
+    location: "",
+  };
+
+  const { register, handleSubmit, errors, watch } = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
+    defaultValues: initialValues,
+  });
+
+  const onSubmit = (data) => {
+    if (data.title === "" && data.location === "") {
+      setErrorField(true);
+    } else {
+      searchJobs(data);
+      history.push("/jobs");
+    }
+  };
 
   return (
     <Paper elevation={8} square className={classes.paper}>
-      <Grid
-        container
-        direction='row'
-        justify='center'
-        alignItems='center'
-        spacing={3}
-      >
-        <Grid item md xs={12}>
-          <HomeSearch
-            // title='What?'
-            label='Engineering, Management, etc...'
-            placeholder=''
-          />
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+        <Grid
+          container
+          direction='row'
+          justify='center'
+          alignItems='center'
+          spacing={3}
+        >
+          <Grid item md xs={12}>
+            <Autocomplete
+              id='tags-outlined'
+              options={titles}
+              getOptionLabel={(titles) => titles}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='outlined'
+                  color='secondary'
+                  label='Job Title'
+                  placeholder='Job Title'
+                  type='text'
+                  name='title'
+                  inputRef={register}
+                  error={!!errorField}
+                  helperText={
+                    !!errorField &&
+                    "Enter a job title or location to start a search"
+                  }
+                />
+              )}
+            />
+          </Grid>
+          <Grid item md xs={12}>
+            <Autocomplete
+              id='tags-outlined'
+              options={locations}
+              getOptionLabel={(locations) => locations}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='outlined'
+                  color='secondary'
+                  label='City'
+                  placeholder='City'
+                  type='text'
+                  name='location'
+                  inputRef={register}
+                  error={!!errorField}
+                  helperText={
+                    !!errorField &&
+                    "Enter a job title or location to start a search"
+                  }
+                />
+              )}
+            />
+          </Grid>
+          <Grid item md xs={12}>
+            <Button
+              type='submit'
+              variant='contained'
+              color='secondary'
+              className={classes.btoon}
+              fullWidth
+            >
+              Find Jobs
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item md xs={12}>
-          <HomeSearch
-            // title='Where?'
-            label='City, State or Pin Code'
-            placeholder='Cities'
-          />
-        </Grid>
-        <Grid item md xs={12}>
-          <Button
-            variant='contained'
-            color='secondary'
-            className={classes.btoon}
-            fullWidth
-          >
-            Find Jobs
-          </Button>
-        </Grid>
-      </Grid>
+      </form>
     </Paper>
   );
 };
+
 export default Home;

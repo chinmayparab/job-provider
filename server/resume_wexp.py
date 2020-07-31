@@ -16,7 +16,7 @@ def create_resume_job_details(naam):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
-        cur.execute("INSERT INTO resume_job_details(user_id,job_title,organization,job_location,start_date,end_date,description,type) VALUES('" +
+        cur.execute("INSERT INTO resume_job_details(user_id,job_title,organiztion,job_location,start_date,end_date,description,type) VALUES('" +
                     str(naam['user_id'])+"','"+str(request.json['job_title']) + "','"+str(request.json['organization']) +
                     "','"+str(request.json['job_location']) + "','"+str(request.json['start_date']) + "','"+str(request.json['end_date']) +
                     "','"+str(request.json['description']) + "','"+str(request.json['type']) + "');")
