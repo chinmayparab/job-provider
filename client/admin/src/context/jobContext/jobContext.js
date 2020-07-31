@@ -1,12 +1,13 @@
 import React, { createContext, useReducer } from 'react'
 
-import { SET_LOADING, SET_JOB_DATA } from '../types'
+import { SET_LOADING, SET_JOB_DATA, SET_JOBS } from '../types'
 import JobReducer from './jobReducer'
 
 import config from '../../config'
 
 const initialState = {
 	jobData: {},
+	jobs: [],
 	loading: false
 }
 
@@ -51,13 +52,89 @@ export const JobProvider = ({ children }) => {
 			.catch((error) => console.log('error', error))
 	}
 
+	const addJob = (token, jobDetails) => {
+		let myHeaders = new Headers()
+		myHeaders.append('Authorization', token)
+		myHeaders.append('Content-Type', 'application/json')
+
+		let raw = JSON.stringify({
+			...jobDetails,
+			mode: 'add'
+		})
+
+		let requestOptions = {
+			method: 'POST',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow'
+		}
+
+		return fetch(config.server + '/cud_job', requestOptions)
+			.then((response) => (response.status === 200 ? true : false))
+			.catch((err) => {
+				console.log(err)
+				return false
+			})
+	}
+
+	const getJobs = (token) => {
+		let myHeaders = new Headers()
+		myHeaders.append('Authorization', token)
+		myHeaders.append('Content-Type', 'application/json')
+
+		let requestOptions = {
+			method: 'GET',
+			headers: myHeaders,
+			redirect: 'follow'
+		}
+
+		fetch(config.server + '/joblist', requestOptions)
+			.then((response) => response.json())
+			.then((res) =>
+				dispatch({
+					type: SET_JOBS,
+					payload: res.alljobs
+				})
+			)
+			.catch((err) => {
+				console.log(err)
+				return false
+			})
+	}
+
+	const deleteJob = (token, id) => {
+		let myHeaders = new Headers()
+		myHeaders.append('Authorization', token)
+		myHeaders.append('Content-Type', 'application/json')
+
+		let raw = JSON.stringify({ mode: 'delete', job_id: id })
+
+		let requestOptions = {
+			method: 'POST',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow'
+		}
+
+		return fetch(config.server + '/cud_job', requestOptions)
+			.then((response) => (response.status === 200 ? true : false))
+			.catch((err) => {
+				console.log(err)
+				return false
+			})
+	}
+
 	return (
 		<JobContext.Provider
 			value={{
 				scanJobPdf,
 				setLoading,
+				getJobs,
+				addJob,
+				deleteJob,
 				loading: state.loading,
-				jobData: state.jobData
+				jobData: state.jobData,
+				jobs: state.jobs
 			}}
 		>
 			{children}

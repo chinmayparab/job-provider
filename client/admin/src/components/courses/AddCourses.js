@@ -7,13 +7,15 @@ import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
-import Snackbar from '@material-ui/core/Snackbar'
 
 import { AuthContext } from '../../context/authContext/authContext'
-import { addCourse } from './functions'
+import { CourseContext } from '../../context/courseContext/courseContext'
+import { SnackContext } from '../../context/snackContext/snackContext'
 
 const AddCourses = () => {
 	const { authToken } = useContext(AuthContext)
+	const { addCourse } = useContext(CourseContext)
+	const { showSnack } = useContext(SnackContext)
 
 	const [data, setData] = useState({
 		category: '',
@@ -25,8 +27,6 @@ const AddCourses = () => {
 		url: ''
 	})
 
-	const [isSnackOpen, setSnackOpen] = useState(false)
-	const [snackMessage, setSnackMessage] = useState('')
 	const handleInput = (e) => {
 		setData({
 			...data,
@@ -37,11 +37,9 @@ const AddCourses = () => {
 	const handleAddCourse = () => {
 		addCourse(data, authToken).then((res) => {
 			if (res) {
-				setSnackMessage('New course added')
-				setSnackOpen(true)
+				showSnack('New course added')
 			} else {
-				setSnackMessage('Something went wrong. Try again')
-				setSnackOpen(true)
+				showSnack('Something went wrong. Try again')
 			}
 		})
 	}
@@ -148,16 +146,6 @@ const AddCourses = () => {
 					</Box>
 				</Paper>
 			</Container>
-			<Snackbar
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'left'
-				}}
-				open={isSnackOpen}
-				autoHideDuration={3000}
-				onClose={() => setSnackOpen(false)}
-				message={snackMessage}
-			/>
 		</>
 	)
 }

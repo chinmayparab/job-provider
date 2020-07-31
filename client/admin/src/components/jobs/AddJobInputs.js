@@ -11,10 +11,10 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import Snackbar from '@material-ui/core/Snackbar'
 
-import { addJob } from './functions'
 import { AuthContext } from '../../context/authContext/authContext'
+import { JobContext } from '../../context/jobContext/jobContext'
+import { SnackContext } from '../../context/snackContext/snackContext'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -38,6 +38,8 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 	const classes = useStyles()
 
 	const { authToken } = useContext(AuthContext)
+	const { addJob } = useContext(JobContext)
+	const { showSnack } = useContext(SnackContext)
 
 	const [jobDetails, setJobDetails] = useState({
 		jobtitle: job ? job.NameOfPosition : '',
@@ -53,17 +55,12 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 		is_onlinetest: ''
 	})
 
-	const [isSnackOpen, setSnackOpen] = useState(false)
-	const [snackMessage, setSnackMessage] = useState('')
-
 	const handleAddJob = () => {
 		addJob(authToken, jobDetails).then((res) => {
 			if (res) {
-				setSnackMessage('New job added')
-				setSnackOpen(true)
+				showSnack('New job added')
 			} else {
-				setSnackMessage('Something went wrong. Try again')
-				setSnackOpen(true)
+				showSnack('Something went wrong. Try again')
 			}
 		})
 	}
@@ -284,16 +281,6 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 					</Box>
 				</Container>
 			</Paper>
-			<Snackbar
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'left'
-				}}
-				open={isSnackOpen}
-				autoHideDuration={3000}
-				onClose={() => setSnackOpen(false)}
-				message={snackMessage}
-			/>
 		</>
 	)
 }

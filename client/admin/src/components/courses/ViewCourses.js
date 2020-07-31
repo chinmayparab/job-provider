@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
-import { getAllCourses } from './functions'
+import { CourseContext } from '../../context/courseContext/courseContext'
 import CourseCard from './CourseCard.js'
 
 const ViewCourses = () => {
-	const [courses, setCourses] = useState([])
+	const { courses, getAllCourses } = useContext(CourseContext)
 
 	useEffect(() => {
-		getAllCourses().then((res) => setCourses(res))
+		getAllCourses()
 	}, [])
 
 	return (
@@ -21,17 +21,10 @@ const ViewCourses = () => {
 					View all Courses
 				</Typography>
 				<Grid container spacing={3}>
-					{courses.length > 0 ? (
+					{courses && courses.length > 0 ? (
 						courses.map((course, index) => (
 							<Grid key={index} item xs={12} sm={6} md={4}>
-								<CourseCard
-									category={course.category}
-									title={course.title}
-									price={course.price}
-									description={course.description}
-									skills={course.skills_taught}
-									level={course.level}
-								/>
+								<CourseCard course={course} />
 							</Grid>
 						))
 					) : (
