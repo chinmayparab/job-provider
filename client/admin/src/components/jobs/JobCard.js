@@ -14,8 +14,8 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
 import { AuthContext } from '../../context/authContext/authContext'
+import { JobContext } from '../../context/jobContext/jobContext'
 import { SnackContext } from '../../context/snackContext/snackContext'
-import { deleteJob } from './functions'
 import JobDialog from './JobDialog'
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +33,7 @@ const JobCard = ({ job }) => {
 	const [detailsOpen, setDetailsOpen] = useState(false)
 	const [deleteOpen, setDeleteOpen] = useState(false)
 	const { authToken } = useContext(AuthContext)
+	const { deleteJob, getJobs } = useContext(JobContext)
 	const { showSnack } = useContext(SnackContext)
 
 	const handleDetailsOpen = () => {
@@ -43,6 +44,7 @@ const JobCard = ({ job }) => {
 			if (res === true) {
 				setDeleteOpen(false)
 				showSnack('Job Deleted')
+				getJobs(authToken)
 			} else {
 				setDeleteOpen(false)
 				showSnack('Something went wrong')

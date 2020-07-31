@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -16,10 +15,10 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
 import { AuthContext } from '../../context/authContext/authContext'
+import { CourseContext } from '../../context/courseContext/courseContext'
 import { SnackContext } from '../../context/snackContext/snackContext'
 
 import CourseDialog from './CourseDialog'
-import { deleteCourse } from './functions'
 
 const useStyles = makeStyles((theme) => ({
 	card: {
@@ -35,10 +34,10 @@ const CourseCard = ({ course }) => {
 	const classes = useStyles()
 
 	const { authToken } = useContext(AuthContext)
+	const { deleteCourse, getAllCourses } = useContext(CourseContext)
 	const { showSnack } = useContext(SnackContext)
 	const [detailsOpen, setDetailsOpen] = useState(false)
 	const [deleteOpen, setDeleteOpen] = useState(false)
-	const history = useHistory()
 
 	const handleDetailsOpen = () => {
 		setDetailsOpen(true)
@@ -48,7 +47,7 @@ const CourseCard = ({ course }) => {
 			if (res === true) {
 				setDeleteOpen(false)
 				showSnack('Course Deleted')
-				history.push('/view-courses')
+				getAllCourses()
 			} else {
 				setDeleteOpen(false)
 				showSnack('Something went wrong')

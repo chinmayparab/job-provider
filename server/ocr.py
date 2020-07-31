@@ -5,7 +5,7 @@ import pytesseract
 
 
 def ocr(imo):
-    pytesseract.pytesseract.tesseract_cmd = 'D:/Tesseract-OCR/tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = 'D:/_dev/Tesseract-OCR/tesseract.exe'
     text = pytesseract.image_to_string(imo)
     y = text.split()
     a = 0
