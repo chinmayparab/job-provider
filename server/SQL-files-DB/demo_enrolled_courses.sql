@@ -26,9 +26,8 @@ CREATE TABLE `enrolled_courses` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `course_id` int NOT NULL,
-  `transaction_status` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +36,7 @@ CREATE TABLE `enrolled_courses` (
 
 LOCK TABLES `enrolled_courses` WRITE;
 /*!40000 ALTER TABLE `enrolled_courses` DISABLE KEYS */;
+INSERT INTO `enrolled_courses` VALUES (1,1,5);
 /*!40000 ALTER TABLE `enrolled_courses` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-29 17:10:14
+-- Dump completed on 2020-08-01  0:45:20

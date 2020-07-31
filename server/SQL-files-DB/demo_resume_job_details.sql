@@ -28,13 +28,13 @@ CREATE TABLE `resume_job_details` (
   `job_title` varchar(255) NOT NULL,
   `organiztion` varchar(255) NOT NULL,
   `job_location` varchar(255) NOT NULL,
-  `start_date` datetime NOT NULL,
-  `end_date` varchar(10) NOT NULL,
+  `start_date` varchar(12) NOT NULL,
+  `end_date` varchar(12) NOT NULL,
   `description` varchar(1000) NOT NULL,
   `type` varchar(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +43,7 @@ CREATE TABLE `resume_job_details` (
 
 LOCK TABLES `resume_job_details` WRITE;
 /*!40000 ALTER TABLE `resume_job_details` DISABLE KEYS */;
+INSERT INTO `resume_job_details` VALUES (1,1,'SDE','MSI','dubaii','32232323','32233223','ddsafdgfsadgfadgsfdgvfvfdfdvb','sfddfsf');
 /*!40000 ALTER TABLE `resume_job_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-29 17:10:14
+-- Dump completed on 2020-08-01  0:45:20
