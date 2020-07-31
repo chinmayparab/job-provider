@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `enrolled_jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `enrolled_jobs` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `job_id` varchar(10) NOT NULL,
   `user_id` int NOT NULL,
   `applied_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +37,7 @@ CREATE TABLE `enrolled_jobs` (
 
 LOCK TABLES `enrolled_jobs` WRITE;
 /*!40000 ALTER TABLE `enrolled_jobs` DISABLE KEYS */;
+INSERT INTO `enrolled_jobs` VALUES (1,'cscordwx',1,'2020-07-31 20:04:08'),(2,'cscordwx',2,'2020-07-31 20:14:36'),(3,'cscorewb',2,'2020-07-31 20:18:57');
 /*!40000 ALTER TABLE `enrolled_jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-29 17:10:14
+-- Dump completed on 2020-08-01  0:45:20

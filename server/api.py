@@ -37,6 +37,7 @@ import resume_wexp as r_wexp  # not a python package.
 import resume_fetch as getresume  # not a python package.
 
 import user_apis as user_side
+import admin_api as ad_api
 import no_auth_apis as no_auth
 import courses as courses
 import recommendation as recommend
@@ -113,7 +114,6 @@ def user():
 
 @app.route('/login', methods=['POST'])
 def login():
-    app.config["SECRET_KEY"] = "SIh2020jobocr"
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     if(request.json['type'] == 0):
@@ -436,15 +436,17 @@ def recommendations():
 def check_for_token_admin(param):
     @wraps(param)
     def wrapped(*args, **kwargs):
-        token = ''
+        token = request.headers['Authorization'] or ''
         if 'Authorization' in request.headers:
             token = request.headers['Authorization']
         if not token:
+            print('missing')
             return jsonify({'message': 'Missing Token'}), 403
         try:
             data = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
             rew = data["username"]
-        except:
+        except Exception as e:
+            print(e)
             return jsonify({'message': 'Invalid Token'}), 403
         return param(*args, **kwargs)
     return wrapped
@@ -452,7 +454,6 @@ def check_for_token_admin(param):
 
 @app.route('/admin/login', methods=['POST'])
 def admin_login():
-    app.config["SECRET_KEY_ADMIN"] = "SIH2020ADMIN"
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
 
@@ -625,8 +626,10 @@ def crud_job():
 def all_jobs():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
-
-    cur.execute("Select * from job ;")
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
+    cur.execute("Select * from job WHERE posted_by ='" +
+                str(username['username'])+"';")
     records = cur.fetchall()
     if records:
         resp = jsonify({'alljobs': records})
@@ -658,6 +661,24 @@ def cud_courses():
         resp = jsonify({'message': 'Invalid Request.'})
         return resp
 
+# get all aplicants details
+
+# get isliye use kia hai qki body se nhi bhej skte in get..aisa kuch bola tha chinmay
+
+
+@app.route('/admin/applicants-jobs', methods=['POST'])
+@check_for_token_admin
+def postedjobs():
+    resp = ad_api.postedjobs()
+    return resp
+
+
+@app.route('/admin/applicants-details', methods=['POST'])
+@check_for_token_admin
+def applicantdetails():
+    resp = ad_api.applicantdetails()
+    return resp
+
 
 @app.errorhandler(404)
 def not_found(error=None):
@@ -673,4 +694,4 @@ def not_found(error=None):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

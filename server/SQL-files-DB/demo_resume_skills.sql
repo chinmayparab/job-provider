@@ -30,7 +30,7 @@ CREATE TABLE `resume_skills` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `skill_id` (`skill_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `resume_skills` (
 
 LOCK TABLES `resume_skills` WRITE;
 /*!40000 ALTER TABLE `resume_skills` DISABLE KEYS */;
+INSERT INTO `resume_skills` VALUES (2,1,'SK001','Intermediate'),(3,1,'SK031','Advanced'),(4,1,'SK131','Intermediate'),(5,1,'SK214','Intermediate'),(6,1,'SK006','Intermediate');
 /*!40000 ALTER TABLE `resume_skills` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-29 17:10:14
+-- Dump completed on 2020-08-01  0:45:20

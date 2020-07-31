@@ -28,8 +28,8 @@ CREATE TABLE `resume_trainings` (
   `program_name` varchar(255) NOT NULL,
   `organization_name` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
-  `start_date` datetime NOT NULL,
-  `end_date` varchar(10) NOT NULL,
+  `start_date` varchar(12) NOT NULL,
+  `end_date` varchar(12) NOT NULL,
   `description` varchar(1000) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-29 17:10:14
+-- Dump completed on 2020-08-01  0:45:20

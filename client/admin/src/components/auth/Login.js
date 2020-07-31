@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button'
 
 import jwtDecode from 'jsonwebtoken/decode'
 
+import { useTranslation } from 'react-i18next'
+
 const Login = () => {
 	const { loginAdmin, authToken } = useContext(AuthContext)
 	const [user, setUser] = useState({ id: '', password: '' })
@@ -19,17 +21,19 @@ const Login = () => {
 		loginAdmin(user)
 	}
 
+	const { t } = useTranslation()
+
 	if (authToken.length > 0) {
 		const loggedInUser = jwtDecode(authToken)
 		return (
 			<Container align='center'>
 				<Typography variant='h2' align='center'>
-					You are logged in
+					{t('You are logged in')}
 				</Typography>
 				<Typography variant='subtitle2'>{`ID: ${loggedInUser.username}`}</Typography>
 				<Box mt={10}>
 					<Button variant='outlined' component={Link} to='/'>
-						Home
+						{t('Home')}
 					</Button>
 				</Box>
 			</Container>
@@ -38,7 +42,7 @@ const Login = () => {
 	return (
 		<Container>
 			<Typography variant='h2' align='center'>
-				Login to Continue
+				{t('Login to Continue')}
 			</Typography>
 			<Container maxWidth='xs'>
 				<Box mb={2} mt={5}>
@@ -64,7 +68,7 @@ const Login = () => {
 				</Box>
 				<Box>
 					<Button variant='outlined' onClick={handleLogin}>
-						Login
+						{t('Login')}
 					</Button>
 				</Box>
 			</Container>

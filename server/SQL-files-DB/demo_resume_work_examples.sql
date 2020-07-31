@@ -29,7 +29,7 @@ CREATE TABLE `resume_work_examples` (
   `portfolio_link` varchar(100) NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `resume_work_examples` (
 
 LOCK TABLES `resume_work_examples` WRITE;
 /*!40000 ALTER TABLE `resume_work_examples` DISABLE KEYS */;
-INSERT INTO `resume_work_examples` VALUES (2,'asasa','dsdsd','sdd');
+INSERT INTO `resume_work_examples` VALUES (1,'asasa','dsdsd','sdd');
 /*!40000 ALTER TABLE `resume_work_examples` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-29 17:10:14
+-- Dump completed on 2020-08-01  0:45:19

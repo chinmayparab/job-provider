@@ -29,11 +29,10 @@ CREATE TABLE `resume_edu_details` (
   `college` varchar(255) NOT NULL,
   `degree` varchar(100) NOT NULL,
   `stream` varchar(255) NOT NULL,
-  `start_year` varchar(10) NOT NULL,
-  `end_date` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id_UNIQUE` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `start_year` varchar(12) NOT NULL,
+  `end_date` varchar(12) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +41,7 @@ CREATE TABLE `resume_edu_details` (
 
 LOCK TABLES `resume_edu_details` WRITE;
 /*!40000 ALTER TABLE `resume_edu_details` DISABLE KEYS */;
+INSERT INTO `resume_edu_details` VALUES (1,1,'pursuing','UCOE','Computer Engineering','TECHHNOLOGY','122122','312231'),(2,1,'pursuing','Cgdfhf','dsfssvfdvfvf','dadssaad','1111-11-11','2222-02-22');
 /*!40000 ALTER TABLE `resume_edu_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-29 17:10:15
+-- Dump completed on 2020-08-01  0:45:20

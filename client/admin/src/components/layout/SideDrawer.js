@@ -17,6 +17,8 @@ import DashIcon from '@material-ui/icons/Dashboard'
 import BookIcon from '@material-ui/icons/Book'
 import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark'
 
+import { useTranslation } from 'react-i18next'
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex'
@@ -39,6 +41,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SideDrawer = ({ open, setOpen }) => {
 	const classes = useStyles()
+
+	const { t } = useTranslation()
 
 	return (
 		<div className={classes.root}>
@@ -68,7 +72,7 @@ const SideDrawer = ({ open, setOpen }) => {
 						<ListItemIcon>
 							<DashIcon />
 						</ListItemIcon>
-						<ListItemText primary='Dashboard' />
+						<ListItemText primary={t('Dashboard')} />
 					</ListItem>
 					<ListItem
 						button
@@ -79,7 +83,7 @@ const SideDrawer = ({ open, setOpen }) => {
 						<ListItemIcon>
 							<AddIcon />
 						</ListItemIcon>
-						<ListItemText primary='Add new job' />
+						<ListItemText primary={t('Add new job')} />
 					</ListItem>
 					<ListItem
 						button
@@ -90,7 +94,7 @@ const SideDrawer = ({ open, setOpen }) => {
 						<ListItemIcon>
 							<ViewDayIcon />
 						</ListItemIcon>
-						<ListItemText primary='View added jobs' />
+						<ListItemText primary={t('View added jobs')} />
 					</ListItem>
 				</List>
 				<Divider />
@@ -104,7 +108,7 @@ const SideDrawer = ({ open, setOpen }) => {
 						<ListItemIcon>
 							<BookIcon />
 						</ListItemIcon>
-						<ListItemText primary='Add new courses' />
+						<ListItemText primary={t('Add new courses')} />
 					</ListItem>
 					<ListItem
 						button
@@ -115,7 +119,7 @@ const SideDrawer = ({ open, setOpen }) => {
 						<ListItemIcon>
 							<CollectionsBookmarkIcon />
 						</ListItemIcon>
-						<ListItemText primary='View all courses' />
+						<ListItemText primary={t('View all courses')} />
 					</ListItem>
 				</List>
 			</Drawer>
