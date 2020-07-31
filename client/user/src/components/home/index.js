@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { useTranslation } from "react-i18next";
 
 import { fetchLocations, fetchTitles } from "./functions";
 import { JobsContext } from "../../context/jobs/JobsContext";
@@ -35,6 +36,7 @@ const Home = (props) => {
   const [locations, setLocations] = useState([]);
   const { searchJobs } = useContext(JobsContext);
   const history = useHistory();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchTitles().then((res) => setTitles(res.titles));
@@ -84,8 +86,8 @@ const Home = (props) => {
                   {...params}
                   variant='outlined'
                   color='secondary'
-                  label='Job Title'
-                  placeholder='Job Title'
+                  label={t("Job Title")}
+                  placeholder={t("Job Title")}
                   type='text'
                   name='title'
                   inputRef={register}
@@ -109,8 +111,8 @@ const Home = (props) => {
                   {...params}
                   variant='outlined'
                   color='secondary'
-                  label='City'
-                  placeholder='City'
+                  label={t("Location")}
+                  placeholder={t("Location")}
                   type='text'
                   name='location'
                   inputRef={register}
@@ -131,7 +133,7 @@ const Home = (props) => {
               className={classes.btoon}
               fullWidth
             >
-              Find Jobs
+              {t("Find Jobs")}
             </Button>
           </Grid>
         </Grid>

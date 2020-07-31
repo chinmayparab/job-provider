@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 
 import { JobsContext } from "../../context/jobs/JobsContext";
+import JobDialog from "./JobDialog";
 
 const useStyles = makeStyles({
   root: {
@@ -24,10 +25,12 @@ const useStyles = makeStyles({
 
 const JobCards = () => {
   const classes = useStyles();
+  const [jobDialogOpen, setJobDialogOpen] = useState(false);
 
   const { current } = useContext(JobsContext);
 
   const {
+    job_id,
     stipend,
     pos_names,
     qualification,
@@ -35,6 +38,10 @@ const JobCards = () => {
     interview_mode,
     description,
   } = current;
+
+  const onSubmit = () => {
+    setJobDialogOpen(true);
+  };
 
   return (
     <Card className={classes.root} variant='outlined'>
@@ -63,10 +70,20 @@ const JobCards = () => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant='contained' color='secondary' size='small'>
+        <Button
+          variant='contained'
+          color='secondary'
+          size='small'
+          onClick={onSubmit}
+        >
           Apply Now
         </Button>
       </CardActions>
+      <JobDialog
+        jobDialogOpen={jobDialogOpen}
+        setJobDialogOpen={setJobDialogOpen}
+        job_id={job_id}
+      />
     </Card>
   );
 };

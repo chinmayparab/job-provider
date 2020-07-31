@@ -104,6 +104,34 @@ export const JobsProvider = ({ children }) => {
       });
   };
 
+  const applyJob = (data, job_id, token) => {
+    setLoading();
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", token);
+    var raw = JSON.stringify({
+      answer: data.answer,
+      job_id: job_id,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    fetch(config.server + "/enroll-job", requestOptions)
+      .then((response) => response.json())
+      .then((result) =>
+        dispatch({
+          type: SET_CURRENT,
+          payload: result,
+        })
+      )
+      .catch((err) => console.log(err));
+  };
+
   const setLoading = () => dispatch({ type: SET_LOADING });
 
   // Set Current Job
@@ -130,6 +158,7 @@ export const JobsProvider = ({ children }) => {
         setLoading,
         setCurrent,
         clearCurrent,
+        applyJob,
       }}
     >
       {children}

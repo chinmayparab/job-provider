@@ -21,6 +21,7 @@ import NotificationsRoundedIcon from "@material-ui/icons/NotificationsRounded";
 import Sidebar from "./Sidebar";
 import AuthDialog from "../auth/AuthDialog";
 import MobileMenu from "./MobileMenu";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = ({ darkTheme, setDarkTheme }) => {
   const classes = useStyles();
+  const { t, i18n } = useTranslation();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
@@ -65,6 +67,10 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
 
   const handleMobMenu = (e) => {
     setMobMenuAnchor(e.currentTarget);
+  };
+
+  const handleLangChange = () => {
+    i18n.changeLanguage("hi");
   };
 
   return (
@@ -88,22 +94,22 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
             variant='h6'
             className={classes.title}
           >
-            JobProvider
+            {t("JobSetu")}
           </Typography>
 
           <div className={classes.authDivDesktop}>
-            <Button component={Link} to='/jobs' className={classes.iconColor}>
-              Jobs
-            </Button>
             <Button
               component={Link}
               to='/courses'
               className={classes.iconColor}
             >
-              Courses
+              {t("Courses")}
             </Button>
             <Tooltip title='Switch Language'>
-              <IconButton className={classes.iconColor}>
+              <IconButton
+                className={classes.iconColor}
+                onClick={handleLangChange}
+              >
                 <LanguageIcon />
               </IconButton>
             </Tooltip>
@@ -117,11 +123,6 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
             </Tooltip>
             {authToken ? (
               <>
-                <Tooltip title='Notifications'>
-                  <IconButton className={classes.iconColor}>
-                    <NotificationsRoundedIcon />
-                  </IconButton>
-                </Tooltip>
                 <Tooltip title='Account'>
                   <IconButton className={classes.iconColor}>
                     <UserIcon />
@@ -141,7 +142,7 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
                 onClick={() => setAuthDialogOpen(true)}
                 className={classes.iconColor}
               >
-                Login
+                {t("Login")}
               </Button>
             )}
           </div>
