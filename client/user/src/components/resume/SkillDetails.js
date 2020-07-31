@@ -11,11 +11,7 @@ const SkillDetails = ({ user, skills_list }) => {
     <>
       {skills_list &&
         skills_list.map((skill) => <Skill user={user} skill={skill} />)}
-      <Button
-        variant='outlined'
-        color='secondary'
-        onClick={() => setSkillFormOpen(true)}
-      >
+      <Button color='secondary' onClick={() => setSkillFormOpen(true)}>
         Add Skillal Details
       </Button>
       <SkillForm

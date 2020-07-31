@@ -190,6 +190,36 @@ export const ResumeProvider = ({ children }) => {
     fetchResume(token);
   };
 
+  // Add WorkDetails
+  const addWork = (token, data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", token);
+    var raw = JSON.stringify({
+      mode: "add",
+      blog: data.blog,
+      github: data.github,
+      portfolio: data.portfolio,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    fetch(config.server + "/resume-work", requestOptions)
+      .then((response) => response.json())
+      .then((result) =>
+        dispatch({
+          type: ADD_WORKEX,
+          payload: result,
+        })
+      )
+      .catch((err) => console.log(err));
+    fetchResume(token);
+  };
+
   const setLoading = () => dispatch({ type: SET_LOADING });
 
   return (
@@ -202,6 +232,7 @@ export const ResumeProvider = ({ children }) => {
         addJobs,
         addProjects,
         addTraining,
+        addWork,
       }}
     >
       {children}

@@ -13,6 +13,7 @@ import PersonalDetails from "./PersonalDetails";
 import EducationDetails from "./EducationDetails";
 import JobsDetails from "./JobsDetails";
 import ProjectDetails from "./ProjectDetails";
+import WorkDetails from "./WorkDetails";
 import TrainingDetails from "./TrainingDetails";
 
 const useStyles = makeStyles((theme) => ({
@@ -126,6 +127,19 @@ const Resume = () => {
               </Grid>
             </Grid>
 
+            {/* <Divider className={classes.dividePrettier} />
+
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={3}>
+                <Typography component='h6' variant='h6'>
+                  Skills
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <SkillDetails user={user} skills_list={skills_list} />
+              </Grid>
+            </Grid> */}
+
             <Divider className={classes.dividePrettier} />
 
             <Grid container spacing={3}>
@@ -138,6 +152,21 @@ const Resume = () => {
                 <TrainingDetails user={user} trainings_list={trainings_list} />
               </Grid>
             </Grid>
+
+            <Divider className={classes.dividePrettier} />
+
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={3}>
+                <Typography component='h6' variant='h6'>
+                  Work Samples
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <WorkDetails user={user} work_examples={work_examples} />
+              </Grid>
+            </Grid>
+
+            <Divider className={classes.dividePrettier} />
           </Container>
         </Paper>
       </Container>

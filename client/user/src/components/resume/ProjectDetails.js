@@ -13,11 +13,7 @@ const ProjectDetails = ({ user, projects_list }) => {
         projects_list.map((project_list) => (
           <Project user={user} project_list={project_list} />
         ))}
-      <Button
-        variant='outlined'
-        color='secondary'
-        onClick={() => setProjectFormOpen(true)}
-      >
+      <Button color='secondary' onClick={() => setProjectFormOpen(true)}>
         Add Project Details
       </Button>
       <ProjectForm

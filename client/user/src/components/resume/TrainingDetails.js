@@ -13,11 +13,7 @@ const TrainingDetails = ({ user, trainings_list }) => {
         trainings_list.map((training) => (
           <Training user={user} training={training} />
         ))}
-      <Button
-        variant='outlined'
-        color='secondary'
-        onClick={() => setTrainingFormOpen(true)}
-      >
+      <Button color='secondary' onClick={() => setTrainingFormOpen(true)}>
         Add Training Details
       </Button>
       <TrainingForm

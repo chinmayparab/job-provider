@@ -13,11 +13,7 @@ const EducationDetails = ({ user, edu_details }) => {
         edu_details.map((edu_detail) => (
           <Education user={user} edu_detail={edu_detail} />
         ))}
-      <Button
-        variant='outlined'
-        color='secondary'
-        onClick={() => setEducationFormOpen(true)}
-      >
+      <Button color='secondary' onClick={() => setEducationFormOpen(true)}>
         Add Educational Details
       </Button>
       <EducationForm
