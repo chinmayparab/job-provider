@@ -119,7 +119,7 @@ const CourseDialog = ({ detailsOpen, setDetailsOpen, course }) => {
 						</Grid>
 						<Grid item style={{ width: '100%' }} sm={6}>
 							<Typography gutterBottom variant='h6'>
-								Applied Candidates
+								Enrolled Candidates
 							</Typography>
 							<TableContainer component={Paper}>
 								<Table className={classes.table} aria-label='simple table'>

@@ -82,7 +82,7 @@ def enroll_jobs(naam):
         if len(records) > 0:
             if len(already) == 0:
                 cur.execute(
-                    "INSERT INTO enrolled_jobs (job_id,user_id) VALUES ('"+str(request.json['job_id'])+"',"+str(naam['user_id'])+");")
+                    "INSERT INTO enrolled_jobs (job_id,user_id,question) VALUES ('"+str(request.json['job_id'])+"',"+str(naam['user_id'])+"',"+str(request.json['answer'])+");")
                 conn.commit()
                 if cur:
                     resp = jsonify({'message': 'success'})

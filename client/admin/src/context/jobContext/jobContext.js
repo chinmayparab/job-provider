@@ -1,6 +1,12 @@
 import React, { createContext, useReducer } from 'react'
 
-import { SET_LOADING, SET_JOB_DATA, SET_JOBS } from '../types'
+import {
+	SET_LOADING,
+	SET_JOB_DATA,
+	SET_JOBS,
+	SET_POSTED_JOBS,
+	SET_APPLICANTS
+} from '../types'
 import JobReducer from './jobReducer'
 
 import config from '../../config'
@@ -8,6 +14,7 @@ import config from '../../config'
 const initialState = {
 	jobData: {},
 	jobs: [],
+	postedJobs: [],
 	loading: false
 }
 
@@ -77,7 +84,34 @@ export const JobProvider = ({ children }) => {
 			})
 	}
 
-	const getJobs = (token) => {
+	const getJobs = () => {
+		let myHeaders = new Headers()
+		myHeaders.append('Content-Type', 'application/json')
+
+		let raw = JSON.stringify({ title: '', location: '', start: '', end: '' })
+
+		let requestOptions = {
+			method: 'POST',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow'
+		}
+
+		fetch(config.root + '/fetch-jobs', requestOptions)
+			.then((response) => response.json())
+			.then((res) =>
+				dispatch({
+					type: SET_JOBS,
+					payload: res
+				})
+			)
+			.catch((err) => {
+				console.log(err)
+				return false
+			})
+	}
+
+	const getPostedJobs = (token) => {
 		let myHeaders = new Headers()
 		myHeaders.append('Authorization', token)
 		myHeaders.append('Content-Type', 'application/json')
@@ -92,7 +126,7 @@ export const JobProvider = ({ children }) => {
 			.then((response) => response.json())
 			.then((res) =>
 				dispatch({
-					type: SET_JOBS,
+					type: SET_POSTED_JOBS,
 					payload: res.alljobs
 				})
 			)
@@ -124,17 +158,79 @@ export const JobProvider = ({ children }) => {
 			})
 	}
 
+	const getApplicants = (token, id) => {
+		let myHeaders = new Headers()
+		myHeaders.append('Authorization', token)
+		myHeaders.append('Content-Type', 'application/json')
+
+		let raw = JSON.stringify({ job_id: id })
+
+		let requestOptions = {
+			method: 'POST',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow'
+		}
+
+		return fetch(config.server + '/applicants-jobs', requestOptions)
+			.then((response) => response.json())
+			.then((result) => {
+				if (typeof result === Array && result.length > 0) {
+					return result
+				} else {
+					return false
+				}
+			})
+			.catch((error) => {
+				console.log('error', error)
+				return false
+			})
+	}
+
+	const getApplicantDetails = (token, id) => {
+		var myHeaders = new Headers()
+		myHeaders.append('Authorization', token)
+		myHeaders.append('Content-Type', 'application/json')
+
+		var raw = JSON.stringify({ user_id: id })
+
+		var requestOptions = {
+			method: 'POST',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow'
+		}
+
+		return fetch(config.server + '/applicants-details', requestOptions)
+			.then((response) => response.json())
+			.then((result) => {
+				if (result) {
+					return result
+				} else {
+					return false
+				}
+			})
+			.catch((error) => {
+				console.log('error', error)
+				return false
+			})
+	}
+
 	return (
 		<JobContext.Provider
 			value={{
 				scanJobPdf,
 				setLoading,
 				getJobs,
+				getPostedJobs,
 				addJob,
 				deleteJob,
+				getApplicants,
+				getApplicantDetails,
 				loading: state.loading,
 				jobData: state.jobData,
-				jobs: state.jobs
+				jobs: state.jobs,
+				postedJobs: state.postedJobs
 			}}
 		>
 			{children}
