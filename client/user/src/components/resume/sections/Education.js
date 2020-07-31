@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 
-const EducationDetails = ({ edu_detail }) => {
+const Education = ({ edu_detail }) => {
   const { degree, college, start_year, end_date } = edu_detail;
 
   return (
@@ -19,4 +19,4 @@ const EducationDetails = ({ edu_detail }) => {
   );
 };
 
-export default EducationDetails;
+export default Education;

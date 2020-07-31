@@ -2,10 +2,17 @@ import React, { createContext, useReducer } from "react";
 import config from "../../config";
 
 import jobsReducer from "./jobsReducer";
-import { FETCH_JOBS, SET_LOADING, SET_CURRENT, CLEAR_CURRENT } from "./types";
+import {
+  FETCH_JOBS,
+  FETCH_APPLIED_JOBS,
+  SET_LOADING,
+  SET_CURRENT,
+  CLEAR_CURRENT,
+} from "./types";
 
 const initialState = {
   jobs: [],
+  appliedJobs: [],
   job: {},
   loading: false,
   current: {},
@@ -24,8 +31,8 @@ export const JobsProvider = ({ children }) => {
     var raw = JSON.stringify({
       location: "",
       title: "",
-      start: "120000",
-      end: "900000",
+      start: "",
+      end: "",
     });
 
     var requestOptions = {
@@ -72,6 +79,31 @@ export const JobsProvider = ({ children }) => {
       .catch((err) => console.log(err));
   };
 
+  const fetchAppliedJobs = (token) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", token);
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return fetch(config.server + "/user-applied-jobs", requestOptions)
+      .then((response) => response.json())
+      .then((res) =>
+        dispatch({
+          type: FETCH_APPLIED_JOBS,
+          payload: res.appliedjobs,
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
+  };
+
   const setLoading = () => dispatch({ type: SET_LOADING });
 
   // Set Current Job
@@ -89,10 +121,12 @@ export const JobsProvider = ({ children }) => {
       value={{
         job: state.job,
         jobs: state.jobs,
+        appliedJobs: state.appliedJobs,
         loading: state.loading,
         current: state.current,
         fetchJobs,
         searchJobs,
+        fetchAppliedJobs,
         setLoading,
         setCurrent,
         clearCurrent,

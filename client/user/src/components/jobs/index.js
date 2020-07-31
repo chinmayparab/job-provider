@@ -54,7 +54,7 @@ const Jobs = () => {
     <>
       <Grid container spacing={3}>
         <Grid item xs={12} md={5}>
-          {jobs && jobs.map((job) => <JobCards job={job} />)}
+          {jobs && jobs.map((job, index) => <JobCards key={index} job={job} />)}
         </Grid>
         <Grid item xs={12} md={7}>
           <Sticky enabled={true} top={80}>

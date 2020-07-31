@@ -23,3 +23,23 @@ export const fetchCourses = () => {
       return false;
     });
 };
+
+export const fetchAppliedCourses = (token) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", token);
+
+  var requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(config.server + "/user-enrolled-courses", requestOptions)
+    .then((response) => response.json())
+    .then((res) => res)
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+};

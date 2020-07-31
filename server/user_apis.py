@@ -37,7 +37,7 @@ def applied_jobs(naam):
                     str(naam['user_id'])+"';")
         joblists = cur.fetchall()
         if cur:
-            resp = jsonify({'applied-jobs': joblists})
+            resp = jsonify({'appliedjobs': joblists})
             resp.status_code = 200
             conn.commit()
             return resp
@@ -57,7 +57,7 @@ def my_courses(naam):
             "Select * FROM enrolled_courses WHERE user_id ='" + str(naam['user_id'])+"';")
         mycourses = cur.fetchall()
         if cur:
-            resp = jsonify({'enrolled-courses': mycourses})
+            resp = jsonify({'enrolledcourses': mycourses})
             resp.status_code = 200
             conn.commit()
             return resp

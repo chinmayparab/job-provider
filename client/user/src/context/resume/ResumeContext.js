@@ -10,6 +10,7 @@ import {
   ADD_WORKEX,
   ADD_JOBS,
   ADD_PROJECTS,
+  ADD_TRAININGS,
 } from "./types";
 import data from "../../config";
 
@@ -156,6 +157,39 @@ export const ResumeProvider = ({ children }) => {
     fetchResume(token);
   };
 
+  // Add Training Details
+  const addTraining = (token, data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", token);
+    var raw = JSON.stringify({
+      mode: "add",
+      program_name: data.program_name,
+      organization_name: data.organization_name,
+      description: data.description,
+      location: data.location,
+      start_date: data.start_date,
+      end_date: data.end_date,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    fetch(config.server + "/resume-trainings", requestOptions)
+      .then((response) => response.json())
+      .then((result) =>
+        dispatch({
+          type: ADD_TRAININGS,
+          payload: result,
+        })
+      )
+      .catch((err) => console.log(err));
+    fetchResume(token);
+  };
+
   const setLoading = () => dispatch({ type: SET_LOADING });
 
   return (
@@ -167,6 +201,7 @@ export const ResumeProvider = ({ children }) => {
         addEdu,
         addJobs,
         addProjects,
+        addTraining,
       }}
     >
       {children}

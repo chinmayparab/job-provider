@@ -2,7 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import Home from "./components/home";
 import Resume from "./components/resume";
 import Jobs from "./components/jobs";
+import AppliedJobs from "./components/jobs/AppliedJobs";
 import Courses from "./components/courses";
+import AppliedCourses from "./components/courses/AppliedCourses";
 import Navbar from "./components/layout/Navbar";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import { AuthContext } from "./context/auth/AuthContext";
@@ -78,6 +80,16 @@ const App = () => {
             <Route exact path='/' component={Home} />
             <Switch>
               <PrivateRoute exact path='/resume' component={Resume} />
+              <PrivateRoute
+                exact
+                path='/applied-courses'
+                component={AppliedCourses}
+              />
+              <PrivateRoute
+                exact
+                path='/applied-jobs'
+                component={AppliedJobs}
+              />
             </Switch>
             <Route exact path='/jobs' component={Jobs} />
             <Route exact path='/courses' component={Courses} />
