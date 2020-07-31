@@ -1,8 +1,5 @@
-import datetime
-import time
-import pandas as pd
 from flask import jsonify
-
+import pandas as pd
 df1 = pd.read_excel('courses.xlsx')
 
 
@@ -46,6 +43,7 @@ def main(skillList, level):
             yofo[yofo['level'] == 'Advanced']
         elif levelselec == 0:
             yofo[yofo['level'] == 'Advanced']
+
         for i in yofo['course_id']:
             preds.append(i)
 
@@ -63,5 +61,21 @@ def main(skillList, level):
     for i in yofo1['course_id']:
         preds.append(i)
 
-    resp = jsonify({'courses': preds})
-    return resp
+    return jsonify({"courses recommended": preds})
+
+
+def calling(skillslist, levelslist):
+    # ---------------
+    skills = skillslist
+    level = levelslist
+    # -------------
+    finalSkill = []
+    finalLevel = []
+
+    for i, j in zip(skills, level):
+        for k in df1['skills_taught']:
+            if i.lower() in k.lower():
+                finalSkill.append(i)
+                finalLevel.append(j)
+                break
+    main(finalSkill, finalLevel)

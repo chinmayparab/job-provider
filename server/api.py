@@ -426,7 +426,7 @@ def recommendations():
         records2 = cur2.fetchone()
         skill_list.append(records2['title'])
 
-    response = recommend.main(skill_list, level_list)
+    response = recommend.calling(skill_list, level_list)
     return jsonify({"recommended courses": response})
 
 
