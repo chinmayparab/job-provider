@@ -63,13 +63,19 @@ def fetch_projects(naam):
 
 
 def fetch_skills(naam):
+    skills = {}
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur1 = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute("Select * from resume_skills Where user_id = '" +
                 str(naam['user_id'])+"';")
-    records = cur.fetchall()
-    if len(records) > 0:
-        return records
+    if cur.rowcount > 0:
+        for r in cur:
+            cur1.execute("Select title from skills Where skill_id = '" +
+                         str(r['skill_id'])+"';")
+            k = cur1.fetchone()
+            skills[k['title']] = r['level']
+        return skills
     return 'empty'
 
 
