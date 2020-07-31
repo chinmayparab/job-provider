@@ -17,7 +17,7 @@ import ViewJob from './components/jobs/ViewJob'
 import AddCourses from './components/courses/AddCourses'
 import ViewCourses from './components/courses/ViewCourses'
 
-import { useTranslation } from 'react-i18next'
+import Dashboard from './components/home/Dashboard'
 
 const App = () => {
 	const { setToken, logoutAdmin } = useContext(AuthContext)
@@ -44,8 +44,10 @@ const App = () => {
 				<Box style={{ backgroundColor: '#e5e5e5', minHeight: '100vh' }}>
 					<Navbar title={'JobSetu Admin'} />
 					<Box my={12}>
-						<Route exact path='/' component={Home} />
 						<Route exact path='/login' component={Login} />
+						<Switch>
+							<PrivateRoute exact path='/' component={Dashboard} />
+						</Switch>
 						<Switch>
 							<PrivateRoute exact path='/add-job' component={AddJob} />
 						</Switch>
@@ -76,22 +78,6 @@ const App = () => {
 				</Box>
 			</BrowserRouter>
 		</MuiPickersUtilsProvider>
-	)
-}
-
-const Home = () => {
-	const { t } = useTranslation()
-
-	return (
-		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center'
-			}}
-		>
-			<h1>{t('Home')}</h1>
-		</div>
 	)
 }
 

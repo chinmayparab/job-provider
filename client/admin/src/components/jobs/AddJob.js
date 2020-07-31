@@ -19,6 +19,8 @@ import Skeleton from '@material-ui/lab/Skeleton'
 import { AuthContext } from '../../context/authContext/authContext'
 import { JobContext } from '../../context/jobContext/jobContext'
 
+import { useTranslation } from 'react-i18next'
+
 const useStyles = makeStyles({
 	paper: {
 		paddingBottom: '20px'
@@ -50,6 +52,8 @@ const AddJob = () => {
 	const [uploadedFiles, setUploadedFiles] = useState([])
 	const [inputElement, setInputElement] = useState([])
 
+	const { t } = useTranslation()
+
 	const jobs = jobData.jobs || []
 	const allText = jobData['all-text-bubbles'] || []
 
@@ -66,14 +70,14 @@ const AddJob = () => {
 	return (
 		<Container>
 			<TypoGraphy gutterBottom={true} variant='h5'>
-				Add a Job
+				{t('Add a Job')}
 			</TypoGraphy>
 			<Grid container spacing={0}>
 				<Grid item md={2} xs={12}>
 					<Paper className={classes.paper}>
 						<Box p={2}>
 							<TypoGraphy color='textSecondary' variant='subtitle2'>
-								Upload a Document
+								{t('Upload a Document')}
 							</TypoGraphy>
 						</Box>
 						<Box className={classes.flexCenter}>
@@ -115,7 +119,7 @@ const AddJob = () => {
 										color='secondary'
 										variant='contained'
 									>
-										Upload
+										{t('Upload')}
 									</Button>
 								</>
 							) : null}
@@ -128,7 +132,7 @@ const AddJob = () => {
 					className={classes.flexCenter}
 					style={{ minHeight: '50px' }}
 				>
-					OR
+					{t('OR')}
 				</TypoGraphy>
 				<Grid item md={9} xs={12}>
 					{loading ? (
