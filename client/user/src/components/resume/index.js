@@ -33,6 +33,12 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2),
     },
   },
+  extraContainer: {
+    margin: theme.spacing(0, 5),
+    [theme.breakpoints.down("md")]: {
+      margin: theme.spacing(0),
+    },
+  },
   dividePrettier: {
     margin: theme.spacing(2, 0),
   },
@@ -70,52 +76,57 @@ const Resume = () => {
         Resume
       </Typography>
 
-      <Paper elevation={24} className={classes.paper}>
-        <Container className={classes.resumeContainer}>
-          <Grid container spacing={3}>
-            <PersonalDetails user={user} personal_details={personal_details} />
-          </Grid>
-
-          <Divider className={classes.dividePrettier} />
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={3}>
-              <Typography component='h6' variant='h6'>
-                Education
-              </Typography>
+      <Container className={classes.extraContainer}>
+        <Paper elevation={24} className={classes.paper}>
+          <Container className={classes.resumeContainer}>
+            <Grid container spacing={3}>
+              <PersonalDetails
+                user={user}
+                personal_details={personal_details}
+              />
             </Grid>
-            <Grid item xs={12} md={3}>
-              <EducationDetails user={user} edu_details={edu_details} />
-            </Grid>
-          </Grid>
 
-          <Divider className={classes.dividePrettier} />
+            <Divider className={classes.dividePrettier} />
 
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={3}>
-              <Typography component='h6' variant='h6'>
-                Jobs
-              </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={3}>
+                <Typography component='h6' variant='h6'>
+                  Education
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <EducationDetails user={user} edu_details={edu_details} />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={3}>
-              <JobsDetails user={user} job_details={job_details} />
-            </Grid>
-          </Grid>
 
-          <Divider className={classes.dividePrettier} />
+            <Divider className={classes.dividePrettier} />
 
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={3}>
-              <Typography component='h6' variant='h6'>
-                Projects
-              </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={3}>
+                <Typography component='h6' variant='h6'>
+                  Jobs
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <JobsDetails user={user} job_details={job_details} />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={3}>
-              <ProjectDetails user={user} projects_list={projects_list} />
+
+            <Divider className={classes.dividePrettier} />
+
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={3}>
+                <Typography component='h6' variant='h6'>
+                  Projects
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <ProjectDetails user={user} projects_list={projects_list} />
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </Paper>
+          </Container>
+        </Paper>
+      </Container>
     </>
   );
 };
