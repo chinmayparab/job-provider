@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(2)
 	},
 	title: {
-		flexGrow: 1
+		flexGrow: 1,
+		[theme.breakpoints.down('sm')]: {
+			display: 'none'
+		}
 	},
 	brand: {
 		textDecoration: 'none'
@@ -92,24 +95,26 @@ const Navbar = (props) => {
 							<FormControl variant='outlined'>
 								<Select
 									defaultValue='en'
-									style={{ color: '#fff', marginRight: '3rem' }}
-									onChange={console.log}
+									style={{
+										color: '#fff',
+										marginRight: '3rem'
+									}}
 									displayEmpty
 									onChange={handleLangChange}
 								>
-									<MenuItem value='en'>English</MenuItem>
-									<MenuItem value='hi'>Hindi</MenuItem>
+									<MenuItem value='en'>{t('English')}</MenuItem>
+									<MenuItem value='hi'>{t('Hindi')}</MenuItem>
 								</Select>
 							</FormControl>
 						</Box>
 
 						{authToken.length > 0 ? (
 							<Button onClick={handleLogout} color='inherit'>
-								Logout
+								{t('Logout')}
 							</Button>
 						) : (
 							<Button component={Link} to='/login' color='inherit'>
-								Login
+								{t('Login')}
 							</Button>
 						)}
 					</Toolbar>

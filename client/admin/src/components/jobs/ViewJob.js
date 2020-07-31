@@ -8,6 +8,8 @@ import JobCard from './JobCard'
 import { AuthContext } from '../../context/authContext/authContext'
 import { JobContext } from '../../context/jobContext/jobContext'
 
+import { useTranslation } from 'react-i18next'
+
 const ViewJob = () => {
 	const { authToken } = useContext(AuthContext)
 	const { jobs, getJobs } = useContext(JobContext)
@@ -16,12 +18,14 @@ const ViewJob = () => {
 		getJobs(authToken)
 	}, [])
 
+	const { t } = useTranslation()
+
 	return (
 		<>
 			<Container>
 				<Container>
 					<TypoGraphy gutterBottom={true} variant='h5'>
-						View added Jobs
+						{t('View added Jobs')}
 					</TypoGraphy>
 					<Grid container spacing={2}>
 						{jobs && jobs.length > 0 ? (
@@ -31,7 +35,7 @@ const ViewJob = () => {
 								</Grid>
 							))
 						) : (
-							<TypoGraphy variant='subtitle2'>No jobs added</TypoGraphy>
+							<TypoGraphy variant='subtitle2'>{t('No jobs added')}</TypoGraphy>
 						)}
 					</Grid>
 				</Container>

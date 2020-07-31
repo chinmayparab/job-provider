@@ -18,6 +18,8 @@ import { JobContext } from '../../context/jobContext/jobContext'
 import { SnackContext } from '../../context/snackContext/snackContext'
 import JobDialog from './JobDialog'
 
+import { useTranslation } from 'react-i18next'
+
 const useStyles = makeStyles((theme) => ({
 	card: {
 		padding: theme.spacing(2),
@@ -35,6 +37,8 @@ const JobCard = ({ job }) => {
 	const { authToken } = useContext(AuthContext)
 	const { deleteJob, getJobs } = useContext(JobContext)
 	const { showSnack } = useContext(SnackContext)
+
+	const { t } = useTranslation()
 
 	const handleDetailsOpen = () => {
 		setDetailsOpen(true)
@@ -77,7 +81,7 @@ const JobCard = ({ job }) => {
 					<Grid container spacing={2}>
 						<Grid item xs={6}>
 							<Typography noWrap variant='subtitle2'>
-								No. of positions
+								{t('No. of positions')}
 							</Typography>
 							<Typography noWrap variant='body2'>
 								{job.no_postions}
@@ -85,7 +89,7 @@ const JobCard = ({ job }) => {
 						</Grid>
 						<Grid item xs={6}>
 							<Typography noWrap variant='subtitle2'>
-								Stipend
+								{t('Stipend')}
 							</Typography>
 							<Typography noWrap variant='body2'>
 								{job.stipend}
@@ -95,7 +99,7 @@ const JobCard = ({ job }) => {
 					<Grid container spacing={2}>
 						<Grid item xs={6}>
 							<Typography noWrap variant='subtitle2'>
-								Closing Date
+								{t('Closing Date')}
 							</Typography>
 							<Typography noWrap variant='body2'>
 								{new Date(job.closing_date).toLocaleDateString('en-GB')}
@@ -103,7 +107,7 @@ const JobCard = ({ job }) => {
 						</Grid>
 						<Grid item xs={6}>
 							<Typography noWrap variant='subtitle2'>
-								Interview Date
+								{t('Interview Date')}
 							</Typography>
 							<Typography noWrap variant='body2'>
 								{new Date(job.date_time_interview).toLocaleDateString('en-GB')}
@@ -118,7 +122,7 @@ const JobCard = ({ job }) => {
 							color='primary'
 							variant='outlined'
 						>
-							View
+							{t('View')}
 						</Button>
 					</Grid>
 					<Grid style={{ textAlign: 'center' }} item xs={6}>
@@ -127,7 +131,7 @@ const JobCard = ({ job }) => {
 							color='secondary'
 							variant='outlined'
 						>
-							Delete
+							{t('Delete')}
 						</Button>
 					</Grid>
 				</Grid>
@@ -138,19 +142,21 @@ const JobCard = ({ job }) => {
 				setDetailsOpen={setDetailsOpen}
 			/>
 			<Dialog open={deleteOpen} onClose={handleDeleteClose}>
-				<DialogTitle>Delete Job?</DialogTitle>
+				<DialogTitle>{t('Delete Job?')}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						This action cannot be reverted. Are you sure you want to delete job{' '}
+						{t(
+							'This action cannot be reverted. Are you sure you want to delete job'
+						)}{' '}
 						<span style={{ fontWeight: '700' }}>{job.pos_names}</span> ?
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleDelete} color='secondary'>
-						Delete Job
+						{t('Delete Job')}
 					</Button>
 					<Button onClick={handleDeleteClose} autoFocus>
-						Cancel
+						{t('Cancel')}
 					</Button>
 				</DialogActions>
 			</Dialog>

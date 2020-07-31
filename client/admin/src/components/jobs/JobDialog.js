@@ -20,6 +20,8 @@ import Grid from '@material-ui/core/Grid'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
+import { useTranslation } from 'react-i18next'
+
 const useStyles = makeStyles((theme) => ({
 	appBar: {
 		position: 'relative'
@@ -44,6 +46,8 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 		setDetailsOpen(false)
 	}
 
+	const { t } = useTranslation()
+
 	return (
 		<Dialog
 			fullScreen
@@ -55,7 +59,7 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 				<AppBar className={classes.appBar}>
 					<Toolbar>
 						<Typography variant='h6' className={classes.title}>
-							View Details
+							{t('View Details')}
 						</Typography>
 						<IconButton
 							edge='start'
@@ -69,11 +73,11 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 				</AppBar>
 				<Container className={classes.body}>
 					<Box>
-						<Typography variant='subtitle2'>Title</Typography>
+						<Typography variant='subtitle2'>{t('Title')}</Typography>
 						<Typography gutterBottom variant='body1'>
 							{job.pos_names}
 						</Typography>
-						<Typography variant='subtitle2'>Description</Typography>
+						<Typography variant='subtitle2'>{t('Description')}</Typography>
 						<Typography gutterBottom variant='body1'>
 							{job.description}
 						</Typography>
@@ -82,38 +86,38 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 					<Grid container spacing={3}>
 						<Grid item style={{ width: '100%' }} sm={6}>
 							<Typography gutterBottom variant='h6'>
-								Job Details
+								{t('Job Details')}
 							</Typography>
 							<TableContainer component={Paper}>
 								<Table className={classes.table} aria-label='simple table'>
 									<TableBody>
 										<TableRow>
 											<TableCell align='left' component='th' scope='row'>
-												No. of Positions
+												{t('No. of Positions')}
 											</TableCell>
 											<TableCell align='right'>{job.no_postions}</TableCell>
 										</TableRow>
 										<TableRow>
 											<TableCell align='left' component='th' scope='row'>
-												Stipend
+												{t('Stipend')}
 											</TableCell>
 											<TableCell align='right'>{job.stipend}</TableCell>
 										</TableRow>
 										<TableRow>
 											<TableCell align='left' component='th' scope='row'>
-												Job Location
+												{t('Job Location')}
 											</TableCell>
 											<TableCell align='right'>{job.interveiw_loc}</TableCell>
 										</TableRow>
 										<TableRow>
 											<TableCell align='left' component='th' scope='row'>
-												Interview Mode
+												{t('Interview Mode')}
 											</TableCell>
 											<TableCell align='right'>{job.interview_mode}</TableCell>
 										</TableRow>
 										<TableRow>
 											<TableCell align='left' component='th' scope='row'>
-												Interview Date
+												{t('Interview Date')}
 											</TableCell>
 											<TableCell align='right'>
 												{new Date(job.date_time_interview).toLocaleDateString(
@@ -123,7 +127,7 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 										</TableRow>
 										<TableRow>
 											<TableCell align='left' component='th' scope='row'>
-												Closing Date
+												{t('Closing Date')}
 											</TableCell>
 											<TableCell align='right'>
 												{new Date(job.closing_date).toLocaleDateString('en-GB')}
@@ -131,13 +135,13 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 										</TableRow>
 										<TableRow>
 											<TableCell align='left' component='th' scope='row'>
-												Posted By
+												{t('Posted By')}
 											</TableCell>
 											<TableCell align='right'>{job.posted_by}</TableCell>
 										</TableRow>
 										<TableRow>
 											<TableCell align='left' component='th' scope='row'>
-												Posted On
+												{t('Posted On')}
 											</TableCell>
 											<TableCell align='right'>
 												{new Date(job.posted_on).toLocaleString('en-GB')}
@@ -149,7 +153,7 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 						</Grid>
 						<Grid item style={{ width: '100%' }} sm={6}>
 							<Typography gutterBottom variant='h6'>
-								Applied Candidates
+								{t('Applied Candidates')}
 							</Typography>
 							<TableContainer component={Paper}>
 								<Table className={classes.table} aria-label='simple table'>

@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import { KeyboardDateTimePicker } from '@material-ui/pickers'
 import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
-import TypoGraphy from '@material-ui/core/TypoGraphy'
+import TypoGraphy from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
@@ -15,6 +15,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import { AuthContext } from '../../context/authContext/authContext'
 import { JobContext } from '../../context/jobContext/jobContext'
 import { SnackContext } from '../../context/snackContext/snackContext'
+
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -40,6 +42,8 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 	const { authToken } = useContext(AuthContext)
 	const { addJob } = useContext(JobContext)
 	const { showSnack } = useContext(SnackContext)
+
+	const { t } = useTranslation()
 
 	const [jobDetails, setJobDetails] = useState({
 		jobtitle: job ? job.NameOfPosition : '',
@@ -71,15 +75,15 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 				<Box p={2}>
 					<TypoGraphy color='textSecondary' variant='subtitle2'>
 						{job
-							? `Edit scanned job(${renderVar + 1}/${totalJobs})`
-							: 'Manually Add Job'}
+							? `${t('Edit scanned job')}(${renderVar + 1}/${totalJobs})`
+							: t('Manually Add Job')}
 					</TypoGraphy>
 				</Box>
 				<Container maxWidth='md'>
 					<TextField
 						required
 						margin='dense'
-						label='Job Title'
+						label={t('Job Title')}
 						fullWidth
 						value={jobDetails.jobtitle}
 						onChange={(e) =>
@@ -89,10 +93,10 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 					<TextField
 						required
 						margin='dense'
-						label='Job Description'
+						label={t('Job Description')}
 						multiline
 						rowsMax={10}
-						helperText='Maximum 1000 characters'
+						helperText={t('Maximum 1000 characters')}
 						fullWidth
 						value={jobDetails.description}
 						onChange={(e) =>
@@ -107,7 +111,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 							<TextField
 								required
 								margin='dense'
-								label='Total Vacancies'
+								label={t('Total Vacancies')}
 								type='number'
 								fullWidth
 								value={jobDetails.vacancies}
@@ -123,7 +127,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 							<TextField
 								required
 								margin='dense'
-								label='Stipend'
+								label={t('Stipend')}
 								type='number'
 								fullWidth
 								value={jobDetails.stipend}
@@ -141,7 +145,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 							<TextField
 								required
 								margin='dense'
-								label='Qualification'
+								label={t('Qualification')}
 								fullWidth
 								value={jobDetails.qualification}
 								onChange={(e) =>
@@ -156,7 +160,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 							<TextField
 								required
 								margin='dense'
-								label='Interview Mode'
+								label={t('Interview Mode')}
 								fullWidth
 								value={jobDetails.interview_mode}
 								onChange={(e) =>
@@ -174,7 +178,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 							<KeyboardDateTimePicker
 								required
 								margin='dense'
-								label='Closing Date'
+								label={t('Closing Date')}
 								animateYearScrolling
 								fullWidth
 								disablePast
@@ -191,7 +195,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 							<KeyboardDateTimePicker
 								required
 								margin='dense'
-								label='InterView Date'
+								label={t('InterView Date')}
 								animateYearScrolling
 								fullWidth
 								disablePast
@@ -208,7 +212,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 					<TextField
 						required
 						margin='dense'
-						label='Extra Information'
+						label={t('Extra Information')}
 						fullWidth
 						multiline
 						rowsMax={3}
@@ -222,7 +226,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 							<TextField
 								required
 								margin='dense'
-								label='Job Location'
+								label={t('Job Location')}
 								fullWidth
 								value={jobDetails.interview_location}
 								onChange={(e) =>
@@ -237,7 +241,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 							<TextField
 								required
 								margin='dense'
-								label='Online Test'
+								label={t('Online Test')}
 								fullWidth
 								value={jobDetails.is_onlinetest}
 								onChange={(e) =>
@@ -266,7 +270,7 @@ const AddJobInputs = ({ renderVar, totalJobs, prevJob, nextJob, job }) => {
 							onClick={handleAddJob}
 							variant='contained'
 						>
-							Add Job
+							{t('Add Job')}
 						</Button>
 						{totalJobs > 1 ? (
 							<Button

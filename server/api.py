@@ -113,7 +113,6 @@ def user():
 
 @app.route('/login', methods=['POST'])
 def login():
-    app.config["SECRET_KEY"] = "SIh2020jobocr"
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     if(request.json['type'] == 0):
@@ -436,15 +435,17 @@ def recommendations():
 def check_for_token_admin(param):
     @wraps(param)
     def wrapped(*args, **kwargs):
-        token = ''
+        token = request.headers['Authorization'] or ''
         if 'Authorization' in request.headers:
             token = request.headers['Authorization']
         if not token:
+            print('missing')
             return jsonify({'message': 'Missing Token'}), 403
         try:
             data = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
             rew = data["username"]
-        except:
+        except Exception as e:
+            print(e)
             return jsonify({'message': 'Invalid Token'}), 403
         return param(*args, **kwargs)
     return wrapped
@@ -452,7 +453,6 @@ def check_for_token_admin(param):
 
 @app.route('/admin/login', methods=['POST'])
 def admin_login():
-    app.config["SECRET_KEY_ADMIN"] = "SIH2020ADMIN"
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
 
@@ -673,4 +673,4 @@ def not_found(error=None):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

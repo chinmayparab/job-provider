@@ -7,6 +7,8 @@ import Box from '@material-ui/core/Box'
 import TypoGraphy from '@material-ui/core/TypoGraphy'
 import Grid from '@material-ui/core/Grid'
 
+import { useTranslation } from 'react-i18next'
+
 import AddJobInputs from './AddJobInputs'
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +34,8 @@ const AddJobForm = ({ jobs, allText }) => {
 
 	const totalJobs = jobs.length
 	const [renderVar, setRenderVar] = useState(0)
+
+	const { t } = useTranslation()
 
 	const nextJob = () => {
 		setRenderVar(Math.min(renderVar + 1, totalJobs - 1))
@@ -60,7 +64,7 @@ const AddJobForm = ({ jobs, allText }) => {
 					<Paper className={classes.copyPaper}>
 						<Box p={1}>
 							<TypoGraphy color='textSecondary' variant='subtitle2'>
-								Other relevant data
+								{t('Other relevant data')}
 							</TypoGraphy>
 						</Box>
 						{allText && allText.length > 0 ? (
@@ -76,7 +80,7 @@ const AddJobForm = ({ jobs, allText }) => {
 							))
 						) : (
 							<TypoGraphy variant='subtitle2'>
-								No additional data found
+								{t('No additional data found')}
 							</TypoGraphy>
 						)}
 					</Paper>
