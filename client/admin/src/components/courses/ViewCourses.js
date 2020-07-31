@@ -24,14 +24,7 @@ const ViewCourses = () => {
 					{courses.length > 0 ? (
 						courses.map((course, index) => (
 							<Grid key={index} item xs={12} sm={6} md={4}>
-								<CourseCard
-									category={course.category}
-									title={course.title}
-									price={course.price}
-									description={course.description}
-									skills={course.skills_taught}
-									level={course.level}
-								/>
+								<CourseCard course={course} />
 							</Grid>
 						))
 					) : (
