@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -13,17 +13,25 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Table from '@material-ui/core/Table'
 import Box from '@material-ui/core/Box'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 import Divider from '@material-ui/core/Divider'
 
 import Slider from 'react-slick'
 
+import { AuthContext } from '../../context/authContext/authContext'
 import { useTranslation } from 'react-i18next'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './overwrite.css'
 
-const ApplicantDialog = ({ open, setOpen, details }) => {
+import { getStatus, setDBStatus } from './functions'
+
+const ApplicantDialog = ({ open, setOpen, details, userId, jobId }) => {
 	const { t } = useTranslation()
+
+	const { authToken } = useContext(AuthContext)
+	const [status, setStatus] = useState('')
 
 	const personal = details.personal_details
 	const skills = details.skills_list
@@ -40,6 +48,16 @@ const ApplicantDialog = ({ open, setOpen, details }) => {
 		slidesToScroll: 1
 	}
 
+	useEffect(() => {
+		getStatus(authToken, userId, jobId).then((res) => setStatus(res))
+	}, [])
+
+	const handleStatusChange = (e) => {
+		setDBStatus(authToken, userId, jobId, e.target.value).then((res) =>
+			res ? setStatus(e.target.value) : console.log('setStatusError')
+		)
+	}
+
 	return (
 		<Dialog open={open} fullWidth onClose={() => setOpen(false)}>
 			<DialogTitle style={{ background: '#f2f2f2' }}>
@@ -47,7 +65,7 @@ const ApplicantDialog = ({ open, setOpen, details }) => {
 			</DialogTitle>
 			<DialogContent style={{ background: '#f2f2f2' }}>
 				<Container>
-					<Slider {...settings} style={{ outline: 'none' }}>
+					<Slider {...settings}>
 						{/* PERSONAL */}
 						<TableContainer component={Box}>
 							<Typography gutterBottom variant='body1'>
@@ -241,7 +259,21 @@ const ApplicantDialog = ({ open, setOpen, details }) => {
 								))}
 						</TableContainer>
 					</Slider>
-					<Box my={3}></Box>
+					<Divider />
+					<Box style={{ textAlign: 'center' }} my={3}>
+						<Typography gutterBottom>Application Status</Typography>
+						<Select
+							variant='outlined'
+							margin='dense'
+							value={status}
+							onChange={handleStatusChange}
+						>
+							<MenuItem value='applied'>Applied</MenuItem>
+							<MenuItem value='selected'>Selected</MenuItem>
+							<MenuItem value='underreview'>Under Review</MenuItem>
+							<MenuItem value='notselected'>Not Selected</MenuItem>
+						</Select>
+					</Box>
 				</Container>
 			</DialogContent>
 			<DialogActions style={{ background: '#f2f2f2' }}>
