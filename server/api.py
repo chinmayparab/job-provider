@@ -699,10 +699,34 @@ def postedjobs():
     return resp
 
 
+@app.route('/admin/enrollments-courses-count', methods=['GET'])
+@check_for_token_admin
+def enrollments_courses_count():
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
+    resp = ad_api.enrollments_courses_count(username)
+    return resp
+
+
+@app.route('/admin/applicants-jobs-count', methods=['GET'])
+@check_for_token_admin
+def applicantjobs_count():
+    token = request.headers['Authorization']
+    username = jwt.decode(token, app.config['SECRET_KEY_ADMIN'])
+    resp = ad_api.applicantjobs_count(username)
+    return resp
+
+
 @app.route('/admin/applicants-details', methods=['POST'])
 @check_for_token_admin
 def applicantdetails():
     resp = ad_api.applicantdetails()
+    return resp
+
+
+@app.route('/users-count')
+def ucounts():
+    resp = no_auth.ucounts()
     return resp
 
 

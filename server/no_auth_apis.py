@@ -124,3 +124,16 @@ def fetch_jobs():
         return resp
     cur.close()
     conn.close()
+
+
+def ucounts():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur.execute("Select * from users ;")
+    rows = cur.fetchall()
+    resp = jsonify({"usercounts": len(rows)})
+    resp.status_code = 200
+    cur.close()
+    conn.close()
+
+    return resp

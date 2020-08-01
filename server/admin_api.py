@@ -46,3 +46,63 @@ def applicantdetails():
     finally:
         cur.close()
         conn.close()
+
+
+def enrollments_courses_count(naam):
+
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur1 = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        a = []
+        cur.execute("Select course_id FROM courses WHERE posted_by ='" +
+                    str(naam['username'])+"';")
+        if cur.rowcount > 0:
+            for rec in cur:
+                cur1.execute("Select user_id FROM enrolled_courses WHERE course_id ='" +
+                             str(rec['course_id'])+"';")
+                if cur1.rowcount > 0:
+                    for rec in cur1:
+                        a.append(rec['user_id'])
+                else:
+                    continue
+            if a != []:
+                resp = jsonify({"enrolled_by": len(a)})
+            else:
+                resp = jsonify({"enrolled_by": 'no enrollments'})
+            conn.commit()
+        return resp
+    finally:
+        cur.close()
+        cur1.close()
+        conn.close()
+
+
+def applicantjobs_count(naam):
+
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur1 = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        a = []
+        cur.execute("Select job_id FROM job WHERE posted_by ='" +
+                    str(naam['username'])+"';")
+        if cur.rowcount > 0:
+            for rec in cur:
+                cur1.execute("Select user_id FROM enrolled_jobs WHERE job_id ='" +
+                             str(rec['job_id'])+"';")
+                if cur1.rowcount > 0:
+                    for rr in cur1:
+                        a.append(rr['user_id'])
+                else:
+                    continue
+            if a != []:
+                resp = jsonify({"enrolled_by": len(a)})
+            else:
+                resp = jsonify({"enrolled_by": 'no applicants'})
+            conn.commit()
+        return resp
+    finally:
+        cur.close()
+        cur1.close()
+        conn.close()
