@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
@@ -6,7 +6,8 @@ import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import TypoGraphy from '@material-ui/core/TypoGraphy'
 import Grid from '@material-ui/core/Grid'
-
+import { SnackContext } from '../../context/snackContext/snackContext'
+import copy from 'copy-to-clipboard'
 import { useTranslation } from 'react-i18next'
 
 import AddJobInputs from './AddJobInputs'
@@ -32,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
 const AddJobForm = ({ jobs, allText }) => {
 	const classes = useStyles()
 
+	const { showSnack } = useContext(SnackContext)
+
 	const totalJobs = jobs.length
 	const [renderVar, setRenderVar] = useState(0)
 
@@ -43,6 +46,11 @@ const AddJobForm = ({ jobs, allText }) => {
 
 	const prevJob = () => {
 		setRenderVar(Math.max(renderVar - 1, 0))
+	}
+
+	const handleCopyToClipboard = (e) => {
+		copy(e.target.value)
+		showSnack('Copied to clipboard')
 	}
 
 	if (jobs.length > 0) {
@@ -76,6 +84,7 @@ const AddJobForm = ({ jobs, allText }) => {
 									fullWidth
 									multiline
 									value={text}
+									onClick={handleCopyToClipboard}
 								/>
 							))
 						) : (
