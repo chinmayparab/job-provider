@@ -176,7 +176,7 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 									<TableBody>
 										{applicants && applicants.length > 0 ? (
 											applicants.map((id, index) => (
-												<ApplicantRow key={index} id={id} />
+												<ApplicantRow key={index} id={id} jobId={job.job_id} />
 											))
 										) : (
 											<TableRow>

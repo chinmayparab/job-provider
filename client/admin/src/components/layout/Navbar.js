@@ -95,6 +95,7 @@ const Navbar = (props) => {
 							<FormControl variant='outlined'>
 								<Select
 									defaultValue='en'
+									margin='dense'
 									style={{
 										color: '#fff',
 										marginRight: '3rem'

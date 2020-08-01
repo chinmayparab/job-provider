@@ -8,7 +8,7 @@ import ApplicantDialog from './ApplicantDialog'
 import { AuthContext } from '../../context/authContext/authContext'
 import { JobContext } from '../../context/jobContext/jobContext'
 
-const ApplicantRow = ({ id }) => {
+const ApplicantRow = ({ id, jobId }) => {
 	const { authToken } = useContext(AuthContext)
 	const { getApplicantDetails } = useContext(JobContext)
 
@@ -34,7 +34,13 @@ const ApplicantRow = ({ id }) => {
 					</Button>
 				</TableCell>
 			</TableRow>
-			<ApplicantDialog open={open} setOpen={setOpen} details={details} />
+			<ApplicantDialog
+				open={open}
+				setOpen={setOpen}
+				details={details}
+				userId={id}
+				jobId={jobId}
+			/>
 		</>
 	)
 }
