@@ -48,24 +48,26 @@ def applicantdetails():
         conn.close()
 
 
-def dispstatus():
+def ustatus():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         cur.execute("Update enrolled_jobs SET  status ='" +
                     str(request.json["ustatus"])+"' Where user_id ='"+str(request.json['user_id'])+"' and  job_id= '"+str(request.json['job_id'])+"';")
-        return cur
+        resp = jsonify({"message": 'success'})
+        resp.status_code = 200
+        return resp
     finally:
         cur.close()
         conn.close()
 
 
-def ustatus():
+def dispstatus():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         j = request.json['user_id']
-        cur.execute("Select * FROM enrolled_jobs WHERE job_id ='" +
+        cur.execute("Select * FROM enrolled_jobs WHERE user_id ='" +
                     str(j)+"';")
         return cur
     finally:
