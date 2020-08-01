@@ -96,7 +96,7 @@ const Resume = () => {
                   Education
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={6}>
                 <EducationDetails user={user} edu_details={edu_details} />
               </Grid>
             </Grid>
@@ -109,7 +109,7 @@ const Resume = () => {
                   Jobs
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={6}>
                 <JobsDetails user={user} job_details={job_details} />
               </Grid>
             </Grid>
@@ -122,7 +122,7 @@ const Resume = () => {
                   Projects
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={6}>
                 <ProjectDetails user={user} projects_list={projects_list} />
               </Grid>
             </Grid>
@@ -148,7 +148,7 @@ const Resume = () => {
                   Trainings
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={6}>
                 <TrainingDetails user={user} trainings_list={trainings_list} />
               </Grid>
             </Grid>
@@ -161,7 +161,7 @@ const Resume = () => {
                   Work Samples
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={6}>
                 <WorkDetails user={user} work_examples={work_examples} />
               </Grid>
             </Grid>
