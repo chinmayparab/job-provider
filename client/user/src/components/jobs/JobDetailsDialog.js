@@ -58,6 +58,7 @@ const JobDetailsDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 
   const { applyJob } = useContext(JobsContext);
   const localAuthToken = localStorage.getItem("authToken");
+  const { current } = useContext(JobsContext);
 
   const { register, handleSubmit, errors } = useForm({
     mode: "onChange",
@@ -65,14 +66,17 @@ const JobDetailsDialog = ({ detailsOpen, setDetailsOpen, job }) => {
     defaultValues: { answer: "", job_id: "" },
   });
   const onSubmit = (data) => {
-    applyJob(data, job.job_id, localAuthToken).then((res) => {
+    console.log(data);
+    console.log(job);
+    console.log(current);
+    applyJob(data, current, localAuthToken).then((res) => {
       if (res === true) {
-        showAlert("Application Success");
+        showAlert("Applied Job");
       } else {
         showAlert("Something went wrong");
       }
+      setDetailsOpen(false);
     });
-    setDetailsOpen(false);
   };
 
   return (
