@@ -1,12 +1,6 @@
 import React, { createContext, useReducer } from 'react'
 
-import {
-	SET_LOADING,
-	SET_JOB_DATA,
-	SET_JOBS,
-	SET_POSTED_JOBS,
-	SET_APPLICANTS
-} from '../types'
+import { SET_LOADING, SET_JOB_DATA, SET_JOBS, SET_POSTED_JOBS } from '../types'
 import JobReducer from './jobReducer'
 
 import config from '../../config'
@@ -175,8 +169,11 @@ export const JobProvider = ({ children }) => {
 		return fetch(config.server + '/applicants-jobs', requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
-				if (typeof result === Array && result.length > 0) {
-					return result
+				if (
+					typeof result['jobs-applicants'] === 'object' &&
+					result['jobs-applicants'].length > 0
+				) {
+					return result['jobs-applicants']
 				} else {
 					return false
 				}
@@ -204,6 +201,7 @@ export const JobProvider = ({ children }) => {
 		return fetch(config.server + '/applicants-details', requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
+				// console.log(result)
 				if (result) {
 					return result
 				} else {

@@ -23,6 +23,8 @@ import Paper from '@material-ui/core/Paper'
 import { AuthContext } from '../../context/authContext/authContext'
 import { JobContext } from '../../context/jobContext/jobContext'
 
+import ApplicantRow from './ApplicantRow'
+
 import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
@@ -173,13 +175,8 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 								<Table className={classes.table} aria-label='simple table'>
 									<TableBody>
 										{applicants && applicants.length > 0 ? (
-											applicants.map((applicant, index) => (
-												<TableRow key={index}>
-													<TableCell align='left' component='th' scope='row'>
-														I am Applicant
-													</TableCell>
-													<TableCell align='right'>Hi</TableCell>
-												</TableRow>
+											applicants.map((id, index) => (
+												<ApplicantRow key={index} id={id} />
 											))
 										) : (
 											<TableRow>
