@@ -48,6 +48,31 @@ def applicantdetails():
         conn.close()
 
 
+def dispstatus():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        cur.execute("Update enrolled_jobs SET  status ='" +
+                    str(request.json["ustatus"])+"' Where user_id ='"+str(request.json['user_id'])+"' and  job_id= '"+str(request.json['job_id'])+"';")
+        return cur
+    finally:
+        cur.close()
+        conn.close()
+
+
+def ustatus():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        j = request.json['user_id']
+        cur.execute("Select * FROM enrolled_jobs WHERE job_id ='" +
+                    str(j)+"';")
+        return cur
+    finally:
+        cur.close()
+        conn.close()
+
+
 def enrollments_courses_count(naam):
 
     conn = mysql.connect()

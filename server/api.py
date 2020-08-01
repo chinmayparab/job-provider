@@ -405,7 +405,7 @@ def user_enrolled_courses():
 # Courses Recommendtaions
 
 
-@app.route('/recommendations')
+@app.route('/recommendations', methods=['POST'])
 @check_for_token
 def recommendations():
     token = request.headers['Authorization']
@@ -428,35 +428,37 @@ def recommendations():
         skill_list.append(records2['title'])
         category_list.append(records2['category'])
 
-    response = recommend.apna_cat_predictor(
-        skill_list, level_list, category_list)
-    conn = mysql.connect()
-    cur = conn.cursor(pymysql.cursors.DictCursor)
-    if(response == 'fincount'):
-        cur.execute('SELECT * FROM courses WHERE category in ("Finance & Accounting Courses", "Business", "Marketing", "Office Productivity", "Personal Development"'+') '+'  ORDER BY price DESC LIMIT 10')
-        records = cur.fetchall()
-        courses = records
-    elif(response == 'itbizcount'):
-        cur.execute('SELECT * FROM courses WHERE category in ("Finance & Accounting Courses", "Development", "Business", "IT & Software", "Design","Marketing", "Office Productivity"'+') ' + 'ORDER BY price DESC LIMIT 10')
+    if(request.json['which'] == "pred_cat"):
+        response = recommend.apna_cat_predictor(
+            skill_list, level_list, category_list)
+        conn = mysql.connect()
+        cur = conn.cursor(pymysql.cursors.DictCursor)
+        if(response == 'fincount'):
+            cur.execute('SELECT * FROM courses WHERE category in ("Finance & Accounting Courses", "Business", "Marketing", "Office Productivity", "Personal Development"'+') '+'  ORDER BY price DESC LIMIT 10')
+            records = cur.fetchall()
+            courses = records
+        elif(response == 'itbizcount'):
+            cur.execute('SELECT * FROM courses WHERE category in ("Finance & Accounting Courses", "Development", "Business", "IT & Software", "Design","Marketing", "Office Productivity"'+') ' + 'ORDER BY price DESC LIMIT 10')
 
-        records = cur.fetchall()
-        courses = records
-    elif(response == 'itcount'):
-        cur.execute('SELECT * FROM courses WHERE category in ("Development", "IT & Software", "Design","Marketing", "Teaching & Academics"' +
-                    ') ' + ' ORDER BY price DESC LIMIT 10')
+            records = cur.fetchall()
+            courses = records
+        elif(response == 'itcount'):
+            cur.execute('SELECT * FROM courses WHERE category in ("Development", "IT & Software", "Design","Marketing", "Teaching & Academics"' +
+                        ') ' + ' ORDER BY price DESC LIMIT 10')
 
-        records = cur.fetchall()
-        courses = records
-    else:
-        cur.execute('SELECT * FROM courses WHERE category in ("Personal Development", "Lifestyle", "Photography","Music", "Teaching & Academics", "Health & Fitness"'+') ' + 'ORDER BY price DESC LIMIT 10')
+            records = cur.fetchall()
+            courses = records
+        else:
+            cur.execute('SELECT * FROM courses WHERE category in ("Personal Development", "Lifestyle", "Photography","Music", "Teaching & Academics", "Health & Fitness"'+') ' + 'ORDER BY price DESC LIMIT 10')
 
-        records = cur.fetchall()
-        courses = records
+            records = cur.fetchall()
+            courses = records
 
-    return jsonify({"recommended courses": courses})
+        return jsonify({"recommended courses": courses})
+    elif (request.json['which'] == "upgradeskill"):
+        response = recommend.main(skill_list, level_list)
 
-
-# ADMIN SIDE REQUESTS.
+        # ADMIN SIDE REQUESTS.
 
 
 def check_for_token_admin(param):
@@ -689,8 +691,6 @@ def cud_courses():
 
 # get all aplicants details
 
-# get isliye use kia hai qki body se nhi bhej skte in get..aisa kuch bola tha chinmay
-
 
 @app.route('/admin/applicants-jobs', methods=['POST'])
 @check_for_token_admin
@@ -722,6 +722,17 @@ def applicantjobs_count():
 def applicantdetails():
     resp = ad_api.applicantdetails()
     return resp
+
+
+@app.route('/admin/update-status', methods=['POST'])
+@check_for_token_admin
+def ustatus():
+    if(request.json['mode'] == 'fetch'):
+        resp = ad_api.dispstatus()
+        return resp
+    if(request.json['mode'] == 'update'):
+        resp = ad_api.ustatus()
+        return resp
 
 
 @app.route('/users-count')
