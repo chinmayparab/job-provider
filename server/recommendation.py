@@ -6,7 +6,7 @@ import pandas as pd
 
 conn = mysql.connect()
 cur = conn.cursor(pymysql.cursors.DictCursor)
-cur.execute("Select category,skills_taught,level,course_id from courses ;")
+cur.execute("Select title,category,skills_taught,level,course_id from courses ;")
 records = cur.fetchall()
 
 
@@ -20,7 +20,7 @@ for r in range(0, len(records)):
     dataa.append(convert(list))
 
 df1 = pd.DataFrame(
-    dataa, columns=['category', 'skills_taught', 'level', 'course_id'])
+    dataa, columns=['title', 'category', 'skills_taught', 'level', 'course_id'])
 
 
 def apna_cat_predictor(skill_list, level_list, cats_list):
@@ -109,7 +109,7 @@ def main(skillList, level):
         elif convLevel == 0:
             yofo[yofo['level'] == 'Advanced']
 
-        for i in yofo['course_id']:
+        for i in yofo['title']:
             preds.append(i)
     return jsonify({"results": preds})
 
