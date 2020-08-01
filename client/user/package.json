@@ -20,7 +20,9 @@
     "react-player": "^2.6.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "react-stickynode": "^3.0.3"
+    "react-slick": "^0.27.1",
+    "react-stickynode": "^3.0.3",
+    "slick-carousel": "^1.8.1"
   },
   "scripts": {
     "start": "set PORT=4000 && react-scripts start",

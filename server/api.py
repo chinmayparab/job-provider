@@ -454,7 +454,7 @@ def recommendations():
             records = cur.fetchall()
             courses = records
 
-        return jsonify({"recommended courses": courses})
+        return jsonify({"recommended_courses": courses})
     elif (request.json['which'] == "upgradeskill"):
         response = recommend.mainMain(skill_list, level_list)
         return response

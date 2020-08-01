@@ -19,21 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CourseCard = ({
-  course_id,
-  title,
-  price,
-  category,
-  description,
-  skills,
-  level,
-}) => {
+const CourseCard = ({ course }) => {
   const classes = useStyles();
   const localAuthToken = localStorage.getItem("authToken");
   const { showAlert } = useContext(AlertContext);
 
   const enrol = () => {
-    enrolCourses(course_id, localAuthToken).then((res) => {
+    enrolCourses(course.course_id, localAuthToken).then((res) => {
       if (res) {
         showAlert("Successfully Enrolled");
       } else {
@@ -45,30 +37,30 @@ const CourseCard = ({
   return (
     <Paper className={classes.card}>
       <Typography noWrap noWrap variant='h6'>
-        {title}
+        {course.title}
       </Typography>
       <Typography noWrap noWrap gutterBottom variant='subtitle2'>
-        {level}
+        {course.level}
       </Typography>
       <Typography noWrap gutterBottom noWrap variant='subtitle2'>
-        Rs. {price}
+        Rs. {course.price}
       </Typography>
-      <Chip label={category} />
+      <Chip label={course.category} />
       <Box my={1}>
         <Typography noWrap variant='subtitle2'>
           Description
         </Typography>
         <Typography noWrap variant='subtitle1'>
-          {description}
+          {course.description}
         </Typography>
       </Box>
       <Typography noWrap variant='subtitle2'>
         Skills taught
       </Typography>
       <Typography noWrap variant='subtitle1'>
-        {skills}
+        {course.skills}
       </Typography>
-      {course_id && (
+      {course.course_id && (
         <Grid className={classes.buttons} container spacing={2}>
           <Button onClick={enrol} color='secondary'>
             Enrol

@@ -9,7 +9,8 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { useTranslation } from "react-i18next";
 
-import { fetchLocations, fetchTitles } from "./functions";
+import { fetchRecommendations, fetchLocations, fetchTitles } from "./functions";
+import CourseCarousel from "./CourseCarousel";
 import { JobsContext } from "../../context/jobs/JobsContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,14 +35,18 @@ const Home = (props) => {
   const [errorField, setErrorField] = useState(false);
   const [titles, setTitles] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const { searchJobs } = useContext(JobsContext);
   const history = useHistory();
   const { t } = useTranslation();
 
+  const localAuthToken = localStorage.getItem("authToken");
   useEffect(() => {
     fetchTitles().then((res) => setTitles(res.titles));
     fetchLocations().then((res) => setLocations(res.locations));
-
+    fetchRecommendations(localAuthToken).then((res) =>
+      setRecommendations(res.recommended_courses)
+    );
     // eslint-disable-next-line
   }, []);
 
@@ -66,79 +71,92 @@ const Home = (props) => {
   };
 
   return (
-    <Paper elevation={8} square className={classes.paper}>
-      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-        <Grid
-          container
-          direction='row'
-          justify='center'
-          alignItems='center'
-          spacing={3}
-        >
-          <Grid item md xs={12}>
-            <Autocomplete
-              id='tags-outlined'
-              options={titles}
-              getOptionLabel={(titles) => titles}
-              filterSelectedOptions
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant='outlined'
-                  color='secondary'
-                  label={t("Job Title")}
-                  placeholder={t("Job Title")}
-                  type='text'
-                  name='title'
-                  inputRef={register}
-                  error={!!errorField}
-                  helperText={
-                    !!errorField &&
-                    "Enter a job title or location to start a search"
-                  }
-                />
-              )}
-            />
+    <>
+      <Paper elevation={8} square className={classes.paper}>
+        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+          <Grid
+            container
+            direction='row'
+            justify='center'
+            alignItems='center'
+            spacing={3}
+          >
+            <Grid item md xs={12}>
+              <Autocomplete
+                id='tags-outlined'
+                options={titles}
+                getOptionLabel={(titles) => titles}
+                filterSelectedOptions
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant='outlined'
+                    color='secondary'
+                    label={t("Job Title")}
+                    placeholder={t("Job Title")}
+                    type='text'
+                    name='title'
+                    inputRef={register}
+                    error={!!errorField}
+                    helperText={
+                      !!errorField &&
+                      "Enter a job title or location to start a search"
+                    }
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item md xs={12}>
+              <Autocomplete
+                id='tags-outlined'
+                options={locations}
+                getOptionLabel={(locations) => locations}
+                filterSelectedOptions
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant='outlined'
+                    color='secondary'
+                    label={t("Location")}
+                    placeholder={t("Location")}
+                    type='text'
+                    name='location'
+                    inputRef={register}
+                    error={!!errorField}
+                    helperText={
+                      !!errorField &&
+                      "Enter a job title or location to start a search"
+                    }
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item md xs={12}>
+              <Button
+                type='submit'
+                variant='contained'
+                color='secondary'
+                className={classes.btoon}
+                fullWidth
+              >
+                {t("Find Jobs")}
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item md xs={12}>
-            <Autocomplete
-              id='tags-outlined'
-              options={locations}
-              getOptionLabel={(locations) => locations}
-              filterSelectedOptions
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant='outlined'
-                  color='secondary'
-                  label={t("Location")}
-                  placeholder={t("Location")}
-                  type='text'
-                  name='location'
-                  inputRef={register}
-                  error={!!errorField}
-                  helperText={
-                    !!errorField &&
-                    "Enter a job title or location to start a search"
-                  }
-                />
-              )}
-            />
-          </Grid>
-          <Grid item md xs={12}>
-            <Button
-              type='submit'
-              variant='contained'
-              color='secondary'
-              className={classes.btoon}
-              fullWidth
-            >
-              {t("Find Jobs")}
-            </Button>
-          </Grid>
+        </form>
+      </Paper>
+      <Grid
+        container
+        direction='row'
+        justify='center'
+        alignItems='center'
+        spacing={3}
+      >
+        <Grid item md xs={12}>
+          <CourseCarousel recommendations={recommendations} />
         </Grid>
-      </form>
-    </Paper>
+      </Grid>
+    </>
   );
 };
 
