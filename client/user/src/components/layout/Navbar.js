@@ -64,13 +64,19 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [mobMenuAnchor, setMobMenuAnchor] = useState(null);
   const { authToken, logout } = useContext(AuthContext);
+  const [isHindi, setHindi] = useState(false);
 
   const handleMobMenu = (e) => {
     setMobMenuAnchor(e.currentTarget);
   };
 
   const handleLangChange = () => {
-    i18n.changeLanguage("hi");
+    setHindi(!isHindi);
+    if (isHindi) {
+      i18n.changeLanguage("hi");
+    } else {
+      i18n.changeLanguage("en");
+    }
   };
 
   return (

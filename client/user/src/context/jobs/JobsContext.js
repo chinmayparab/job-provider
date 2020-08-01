@@ -123,12 +123,7 @@ export const JobsProvider = ({ children }) => {
 
     fetch(config.server + "/enroll-job", requestOptions)
       .then((response) => response.json())
-      .then((result) =>
-        dispatch({
-          type: SET_CURRENT,
-          payload: result,
-        })
-      )
+      .then((result) => (result.status === 200 ? true : false))
       .catch((err) => console.log(err));
   };
 

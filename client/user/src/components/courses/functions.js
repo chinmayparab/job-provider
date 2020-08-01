@@ -43,3 +43,28 @@ export const fetchAppliedCourses = (token) => {
       return false;
     });
 };
+
+export const enrolCourses = (course_id, token) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", token);
+
+  var raw = JSON.stringify({
+    course_id: course_id,
+  });
+
+  var requestOptions = {
+    method: "POST",
+    body: raw,
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(config.server + "/enroll-course", requestOptions)
+    .then((response) => response.json())
+    .then((res) => res)
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+};

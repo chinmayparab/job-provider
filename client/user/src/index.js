@@ -7,15 +7,18 @@ import * as serviceWorker from "./serviceWorker";
 import { AuthProvider } from "./context/auth/AuthContext";
 import { JobsProvider } from "./context/jobs/JobsContext";
 import { ResumeProvider } from "./context/resume/ResumeContext";
+import { AlertProvider } from "./context/alert/AlertContext";
 
 ReactDOM.render(
-  <AuthProvider>
-    <ResumeProvider>
-      <JobsProvider>
-        <App />
-      </JobsProvider>
-    </ResumeProvider>
-  </AuthProvider>,
+  <AlertProvider>
+    <AuthProvider>
+      <ResumeProvider>
+        <JobsProvider>
+          <App />
+        </JobsProvider>
+      </ResumeProvider>
+    </AuthProvider>
+  </AlertProvider>,
   document.getElementById("root")
 );
 

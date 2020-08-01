@@ -13,6 +13,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { JobsContext } from "../../context/jobs/JobsContext";
 import JobCards from "./JobCards";
 import JobDetails from "./JobDetails";
+import JobCard from "./JobCard";
+
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,18 +53,28 @@ const Jobs = () => {
     // eslint-disable-next-line
   }, []);
 
+  const { t } = useTranslation();
+
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={5}>
-          {jobs && jobs.map((job, index) => <JobCards key={index} job={job} />)}
-        </Grid>
-        <Grid item xs={12} md={7}>
-          <Sticky enabled={true} top={80}>
-            <JobDetails current={current} />
-          </Sticky>
-        </Grid>
-      </Grid>
+      <Container>
+        <Container>
+          <Typography gutterBottom={true} variant='h5'>
+            {t("View all jobs")}
+          </Typography>
+          <Grid container spacing={2}>
+            {jobs && jobs.length > 0 ? (
+              jobs.map((job, index) => (
+                <Grid key={index} item xs={12} sm={6} md={4}>
+                  <JobCard job={job} />
+                </Grid>
+              ))
+            ) : (
+              <Typography variant='subtitle2'>{t("No jobs added")}</Typography>
+            )}
+          </Grid>
+        </Container>
+      </Container>
     </>
   );
 };

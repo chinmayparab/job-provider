@@ -78,9 +78,9 @@ const Resume = () => {
         Resume
       </Typography>
 
-      <Container className={classes.extraContainer}>
+      <Container maxWidth='md'>
         <Paper elevation={24} className={classes.paper}>
-          <Container className={classes.resumeContainer}>
+          <Container>
             <Grid container spacing={3}>
               <PersonalDetails
                 user={user}

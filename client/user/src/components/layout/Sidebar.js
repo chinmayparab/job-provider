@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Link } from "react-router-dom";
 
@@ -15,6 +15,8 @@ import ComponentIcon from "@material-ui/icons/Extension";
 import TemplatesIcon from "@material-ui/icons/Web";
 import HomeIcon from "@material-ui/icons/Home";
 import ProductIcon from "@material-ui/icons/ImportantDevices";
+
+import { AuthContext } from "../../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const classes = useStyles();
+  const { isAuth } = useContext(AuthContext);
 
   const handleClickAway = () => {
     setSidebarOpen(false);
@@ -80,17 +83,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             button
             onClick={() => setSidebarOpen(false)}
             component={Link}
-            to='/jobs'
-          >
-            <ListItemIcon className={classes.iconColor}>
-              <ComponentIcon />
-            </ListItemIcon>
-            <ListItemText primary='Jobs' />
-          </ListItem>
-          <ListItem
-            button
-            onClick={() => setSidebarOpen(false)}
-            component={Link}
             to='/courses'
           >
             <ListItemIcon className={classes.iconColor}>
@@ -98,17 +90,43 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             </ListItemIcon>
             <ListItemText primary='Courses' />
           </ListItem>
-          <ListItem
-            button
-            onClick={() => setSidebarOpen(false)}
-            component={Link}
-            to='/resume'
-          >
-            <ListItemIcon className={classes.iconColor}>
-              <ProductIcon />
-            </ListItemIcon>
-            <ListItemText primary='Create Resume' />
-          </ListItem>
+          {isAuth && (
+            <>
+              <ListItem
+                button
+                onClick={() => setSidebarOpen(false)}
+                component={Link}
+                to='/resume'
+              >
+                <ListItemIcon className={classes.iconColor}>
+                  <ProductIcon />
+                </ListItemIcon>
+                <ListItemText primary='Create Resume' />
+              </ListItem>
+              <ListItem
+                button
+                onClick={() => setSidebarOpen(false)}
+                component={Link}
+                to='/applied-jobs'
+              >
+                <ListItemIcon className={classes.iconColor}>
+                  <ComponentIcon />
+                </ListItemIcon>
+                <ListItemText primary='Applied Jobs' />
+              </ListItem>
+              <ListItem
+                button
+                onClick={() => setSidebarOpen(false)}
+                component={Link}
+                to='/applied-courses'
+              >
+                <ListItemIcon className={classes.iconColor}>
+                  <ComponentIcon />
+                </ListItemIcon>
+                <ListItemText primary='Applied Courses' />
+              </ListItem>
+            </>
+          )}
         </List>
       </Drawer>
     </div>

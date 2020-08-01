@@ -17,7 +17,6 @@ export default (state, action) => {
     case SIGNUP_SUCCESS:
       return {
         ...state,
-        isAuth: true,
       };
     case LOGIN_SUCCESS:
       localStorage.setItem("authToken", action.payload);

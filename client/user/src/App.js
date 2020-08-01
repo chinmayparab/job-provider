@@ -8,10 +8,12 @@ import AppliedCourses from "./components/courses/AppliedCourses";
 import Navbar from "./components/layout/Navbar";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import { AuthContext } from "./context/auth/AuthContext";
+import { AlertContext } from "./context/alert/AlertContext";
 import jwtDecode from "jsonwebtoken/decode";
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import Snackbar from "@material-ui/core/Snackbar";
 import {
   createMuiTheme,
   MuiThemeProvider,
@@ -55,6 +57,7 @@ const App = () => {
   const meme = responsiveFontSizes(theme);
 
   const { setToken, logout } = useContext(AuthContext);
+  const { alertOpen, alertMsg, hideAlert } = useContext(AlertContext);
 
   const checkLogin = () => {
     const localAuthToken = localStorage.getItem("authToken");
@@ -94,6 +97,16 @@ const App = () => {
             <Route exact path='/jobs' component={Jobs} />
             <Route exact path='/courses' component={Courses} />
           </main>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            open={alertOpen}
+            autoHideDuration={3000}
+            onClose={hideAlert}
+            message={alertMsg}
+          />
         </Container>
       </BrowserRouter>
     </MuiThemeProvider>
