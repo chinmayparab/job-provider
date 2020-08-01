@@ -1,6 +1,26 @@
+import pymysql
+from app import app
+from db_config import mysql
 from flask import jsonify
 import pandas as pd
-df1 = pd.read_excel('courses.xlsx')
+
+conn = mysql.connect()
+cur = conn.cursor(pymysql.cursors.DictCursor)
+cur.execute("Select category,skills_taught,level,course_id from courses ;")
+records = cur.fetchall()
+
+
+def convert(list):
+    return tuple(list)
+
+
+dataa = []
+for r in range(0, len(records)):
+    list = [(category) for category in records[r].values()]
+    dataa.append(convert(list))
+
+df1 = pd.DataFrame(
+    dataa, columns=['category', 'skills_taught', 'level', 'course_id'])
 
 
 def apna_cat_predictor(skill_list, level_list, cats_list):
@@ -25,19 +45,19 @@ def apna_cat_predictor(skill_list, level_list, cats_list):
     level_list = level_list
     cats_list = cats_list
 
-    for i in skill_list:
+    for j in cats_list:
         for i in fin_biz:
-            #             if  str(i)==str(j) :
-            fincount += 1
+            if str(i) == str(j):
+                fincount += 1
         for i in IT_biz:
-            #             if  str(i)==str(j) :
-            itbizcount += 1
+            if str(i) == str(j):
+                itbizcount += 1
         for i in IT:
-            #             if  str(i)==str(j) :
-            itcount += 1
+            if str(i) == str(j):
+                itcount += 1
         for i in fit_lifestyl:
-            #             if  str(i)==str(j) :
-            fitcount += 1
+            if str(i) == str(j):
+                fitcount += 1
         list1 = {}
         list1['fincount'] = fincount
         list1['itbizcount'] = fincount
@@ -57,6 +77,7 @@ def levelConv(level):
             yay.append(1)
         elif i == 'Advanced':
             yay.append(0)
+    print(yay)
     return yay
 
 
@@ -81,45 +102,25 @@ def main(skillList, level):
         cats.append(mainCategory)
         # first df
         yofo = df1.loc[df1['course_id'].isin(k)]  # naya df
-        if levelselec == 1:
+        if convLevel == 1:
             yofo[yofo['level'] == 'Intermediate']
-        elif levelselec == 2:
+        elif convLevel == 2:
             yofo[yofo['level'] == 'Advanced']
-        elif levelselec == 0:
+        elif convLevel == 0:
             yofo[yofo['level'] == 'Advanced']
 
         for i in yofo['course_id']:
             preds.append(i)
-
-    mmm = []
-    for i in range(len(level)):
-        yyy = findSkill(level[i])
-        sss = [x for x in yyy if x not in preds]
-        for f in sss:
-            mmm.append(f)
-    for i in mmm:
-        preds.append(i)
-
-    yofo1 = df1[df1['category'] == mainCategory]
-    yofo1.sort_values(by=['price'], inplace=True, ascending=True)
-    for i in yofo1['course_id']:
-        preds.append(i)
-
-    return jsonify({"courses recommended": preds})
+    return jsonify({"results": preds})
 
 
-def calling(skillslist, levelslist):
-    # ---------------
-    skills = skillslist
-    level = levelslist
-    # -------------
+def mainMain(skills, level):
     finalSkill = []
     finalLevel = []
-
     for i, j in zip(skills, level):
         for k in df1['skills_taught']:
             if i.lower() in k.lower():
                 finalSkill.append(i)
                 finalLevel.append(j)
                 break
-    main(finalSkill, finalLevel)
+    return main(finalSkill, finalLevel)

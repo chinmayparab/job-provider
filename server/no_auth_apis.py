@@ -133,7 +133,18 @@ def ucounts():
     rows = cur.fetchall()
     resp = jsonify({"usercounts": len(rows)})
     resp.status_code = 200
+    return resp
     cur.close()
     conn.close()
 
+
+def skillcounts():
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur.execute("Select * from skills ;")
+    rows = cur.fetchall()
+    resp = jsonify({"skillcounts": len(rows)})
+    resp.status_code = 200
     return resp
+    cur.close()
+    conn.close()
