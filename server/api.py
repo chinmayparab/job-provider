@@ -735,13 +735,19 @@ def ustatus():
         return resp
 
 
-@app.route('/users-count')
+@app.route('/users-count',  methods=['GET'])
 def ucounts():
     resp = no_auth.ucounts()
     return resp
 
 
-@app.errorhandler(404)
+@ app.route('/skills-count',  methods=['GET'])
+def skillcounts():
+    resp = no_auth.skillcounts()
+    return resp
+
+
+@ app.errorhandler(404)
 def not_found(error=None):
     message = {
         'status': 404,
