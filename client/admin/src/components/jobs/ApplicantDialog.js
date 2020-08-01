@@ -241,6 +241,7 @@ const ApplicantDialog = ({ open, setOpen, details }) => {
 								))}
 						</TableContainer>
 					</Slider>
+					<Box my={3}></Box>
 				</Container>
 			</DialogContent>
 			<DialogActions style={{ background: '#f2f2f2' }}>
