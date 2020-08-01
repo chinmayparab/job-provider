@@ -24,19 +24,13 @@ const Courses = () => {
             courses.map((course, index) => (
               <Grid key={index} item xs={12} sm={6} md={4}>
                 <CourseCard
-                  course_id={course.course_id}
-                  category={course.category}
-                  title={course.title}
-                  price={course.price}
-                  description={course.description}
-                  skills={course.skills_taught}
-                  level={course.level}
+                  course={course}
                 />
               </Grid>
             ))
           ) : (
-            <span />
-          )}
+              <span />
+            )}
         </Grid>
       </Container>
     </Container>
