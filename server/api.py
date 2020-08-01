@@ -456,8 +456,8 @@ def recommendations():
 
         return jsonify({"recommended courses": courses})
     elif (request.json['which'] == "upgradeskill"):
-        response = recommend.main(skill_list, level_list)
-
+        response = recommend.mainMain(skill_list, level_list)
+        return response
         # ADMIN SIDE REQUESTS.
 
 
