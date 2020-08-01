@@ -21,6 +21,7 @@ import NotificationsRoundedIcon from "@material-ui/icons/NotificationsRounded";
 import Sidebar from "./Sidebar";
 import AuthDialog from "../auth/AuthDialog";
 import MobileMenu from "./MobileMenu";
+import ProfileMenu from "./ProfileMenu";
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
@@ -63,6 +64,7 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [mobMenuAnchor, setMobMenuAnchor] = useState(null);
+  const [profileMenuAnchor, setProfileMenuAnchor] = useState(null);
   const { authToken, logout } = useContext(AuthContext);
   const [isHindi, setHindi] = useState(false);
 
@@ -130,7 +132,10 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
             {authToken ? (
               <>
                 <Tooltip title='Account'>
-                  <IconButton className={classes.iconColor}>
+                  <IconButton
+                    onClick={(e) => setProfileMenuAnchor(e.currentTarget)}
+                    className={classes.iconColor}
+                  >
                     <UserIcon />
                   </IconButton>
                 </Tooltip>
@@ -171,6 +176,11 @@ const Navbar = ({ darkTheme, setDarkTheme }) => {
       <AuthDialog
         authDialogOpen={authDialogOpen}
         setAuthDialogOpen={setAuthDialogOpen}
+      />
+
+      <ProfileMenu
+        profileMenuAnchor={profileMenuAnchor}
+        setProfileMenuAnchor={setProfileMenuAnchor}
       />
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
     </div>
