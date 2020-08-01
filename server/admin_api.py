@@ -67,9 +67,11 @@ def dispstatus():
     cur = conn.cursor(pymysql.cursors.DictCursor)
     try:
         j = request.json['user_id']
+        k = request.json['job_id']
         cur.execute("Select * FROM enrolled_jobs WHERE user_id ='" +
-                    str(j)+"';")
-        return cur
+                    str(j)+"' and job_id = '"+str(k)+"';")
+        r = cur.fetchone()
+        return jsonify({'status': r['status']})
     finally:
         cur.close()
         conn.close()
