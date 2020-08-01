@@ -418,23 +418,49 @@ def recommendations():
                 str(username['user_id'])+" ;")
 
     skill_list = []
+    category_list = []
     level_list = []
     for r in cur:
         level_list.append(r['level'])
-        cur2.execute("SELECT title FROM skills WHERE skill_id ='" +
+        cur2.execute("SELECT title,category FROM skills WHERE skill_id ='" +
                      str(r['skill_id'])+"';")
         records2 = cur2.fetchone()
         skill_list.append(records2['title'])
+        category_list.append(records2['category'])
 
-    response = recommend.calling(skill_list, level_list)
-    return jsonify({"recommended courses": response})
+    response = recommend.apna_cat_predictor(
+        skill_list, level_list, category_list)
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    if(response == 'fincount'):
+        cur.execute('SELECT * FROM courses WHERE category in ("Finance & Accounting Courses", "Business", "Marketing", "Office Productivity", "Personal Development"'+') '+'  ORDER BY price DESC LIMIT 10')
+        records = cur.fetchall()
+        courses = records
+    elif(response == 'itbizcount'):
+        cur.execute('SELECT * FROM courses WHERE category in ("Finance & Accounting Courses", "Development", "Business", "IT & Software", "Design","Marketing", "Office Productivity"'+') ' + 'ORDER BY price DESC LIMIT 10')
+
+        records = cur.fetchall()
+        courses = records
+    elif(response == 'itcount'):
+        cur.execute('SELECT * FROM courses WHERE category in ("Development", "IT & Software", "Design","Marketing", "Teaching & Academics"' +
+                    ') ' + ' ORDER BY price DESC LIMIT 10')
+
+        records = cur.fetchall()
+        courses = records
+    else:
+        cur.execute('SELECT * FROM courses WHERE category in ("Personal Development", "Lifestyle", "Photography","Music", "Teaching & Academics", "Health & Fitness"'+') ' + 'ORDER BY price DESC LIMIT 10')
+
+        records = cur.fetchall()
+        courses = records
+
+    return jsonify({"recommended courses": courses})
 
 
 # ADMIN SIDE REQUESTS.
 
 
 def check_for_token_admin(param):
-    @wraps(param)
+    @ wraps(param)
     def wrapped(*args, **kwargs):
         token = request.headers['Authorization'] or ''
         if 'Authorization' in request.headers:
@@ -452,7 +478,7 @@ def check_for_token_admin(param):
     return wrapped
 
 
-@app.route('/admin/login', methods=['POST'])
+@ app.route('/admin/login', methods=['POST'])
 def admin_login():
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
