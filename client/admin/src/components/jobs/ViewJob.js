@@ -5,17 +5,15 @@ import TypoGraphy from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import JobCard from './JobCard'
 
-import { AuthContext } from '../../context/authContext/authContext'
 import { JobContext } from '../../context/jobContext/jobContext'
 
 import { useTranslation } from 'react-i18next'
 
 const ViewJob = () => {
-	const { authToken } = useContext(AuthContext)
 	const { jobs, getJobs } = useContext(JobContext)
 
 	useEffect(() => {
-		getJobs(authToken)
+		getJobs()
 	}, [])
 
 	const { t } = useTranslation()
@@ -25,7 +23,7 @@ const ViewJob = () => {
 			<Container>
 				<Container>
 					<TypoGraphy gutterBottom={true} variant='h5'>
-						{t('View added Jobs')}
+						{t('View all jobs')}
 					</TypoGraphy>
 					<Grid container spacing={2}>
 						{jobs && jobs.length > 0 ? (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useContext, forwardRef } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
@@ -20,6 +20,9 @@ import Grid from '@material-ui/core/Grid'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
+import { AuthContext } from '../../context/authContext/authContext'
+import { JobContext } from '../../context/jobContext/jobContext'
+
 import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
@@ -35,12 +38,23 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
 	return <Slide direction='up' ref={ref} {...props} />
 })
 
 const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 	const classes = useStyles()
+
+	const { authToken } = useContext(AuthContext)
+	const { getApplicants } = useContext(JobContext)
+
+	const [applicants, setApplicants] = useState([])
+
+	useState(() =>
+		getApplicants(authToken, job.job_id).then((res) =>
+			res ? setApplicants(res) : null
+		)
+	)
 
 	const handleClose = () => {
 		setDetailsOpen(false)
@@ -55,7 +69,7 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 			onClose={handleClose}
 			TransitionComponent={Transition}
 		>
-			<Box style={{ backgroundColor: '#E5E5E5', height: '100%' }}>
+			<Box>
 				<AppBar className={classes.appBar}>
 					<Toolbar>
 						<Typography variant='h6' className={classes.title}>
@@ -88,7 +102,7 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 							<Typography gutterBottom variant='h6'>
 								{t('Job Details')}
 							</Typography>
-							<TableContainer component={Paper}>
+							<TableContainer component={Paper} elevation={4}>
 								<Table className={classes.table} aria-label='simple table'>
 									<TableBody>
 										<TableRow>
@@ -155,63 +169,25 @@ const JobDialog = ({ detailsOpen, setDetailsOpen, job }) => {
 							<Typography gutterBottom variant='h6'>
 								{t('Applied Candidates')}
 							</Typography>
-							<TableContainer component={Paper}>
+							<TableContainer component={Paper} elevation={4}>
 								<Table className={classes.table} aria-label='simple table'>
 									<TableBody>
-										<TableRow>
-											<TableCell align='left' component='th' scope='row'>
-												No. of Positions
-											</TableCell>
-											<TableCell align='right'>{job.no_postions}</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell align='left' component='th' scope='row'>
-												Stipend
-											</TableCell>
-											<TableCell align='right'>{job.stipend}</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell align='left' component='th' scope='row'>
-												Job Location
-											</TableCell>
-											<TableCell align='right'>{job.interveiw_loc}</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell align='left' component='th' scope='row'>
-												Interview Mode
-											</TableCell>
-											<TableCell align='right'>{job.interview_mode}</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell align='left' component='th' scope='row'>
-												Interview Date
-											</TableCell>
-											<TableCell align='right'>
-												{new Date(job.date_time_interview).toLocaleDateString()}
-											</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell align='left' component='th' scope='row'>
-												Closing Date
-											</TableCell>
-											<TableCell align='right'>
-												{new Date(job.closing_date).toLocaleDateString()}
-											</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell align='left' component='th' scope='row'>
-												Posted By
-											</TableCell>
-											<TableCell align='right'>{job.posted_by}</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell align='left' component='th' scope='row'>
-												Posted On
-											</TableCell>
-											<TableCell align='right'>
-												{new Date(job.posted_on).toLocaleString()}
-											</TableCell>
-										</TableRow>
+										{applicants && applicants.length > 0 ? (
+											applicants.map((applicant, index) => (
+												<TableRow key={index}>
+													<TableCell align='left' component='th' scope='row'>
+														I am Applicant
+													</TableCell>
+													<TableCell align='right'>Hi</TableCell>
+												</TableRow>
+											))
+										) : (
+											<TableRow>
+												<TableCell align='center' component='th' scope='row'>
+													No Applicants yet
+												</TableCell>
+											</TableRow>
+										)}
 									</TableBody>
 								</Table>
 							</TableContainer>
