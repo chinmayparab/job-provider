@@ -104,7 +104,7 @@ export const JobsProvider = ({ children }) => {
       });
   };
 
-  const applyJob = (data, job_id, token) => {
+  const applyJob = (data, current, token) => {
     setLoading();
 
     var myHeaders = new Headers();
@@ -112,7 +112,7 @@ export const JobsProvider = ({ children }) => {
     myHeaders.append("Authorization", token);
     var raw = JSON.stringify({
       answer: data.answer,
-      job_id: job_id,
+      job_id: current.job_id,
     });
 
     var requestOptions = {
@@ -121,9 +121,8 @@ export const JobsProvider = ({ children }) => {
       body: raw,
     };
 
-    fetch(config.server + "/enroll-job", requestOptions)
-      .then((response) => response.json())
-      .then((result) => (result.status === 200 ? true : false))
+    return fetch(config.server + "/enroll-job", requestOptions)
+      .then((response) => (response.status === 200 ? true : false))
       .catch((err) => console.log(err));
   };
 

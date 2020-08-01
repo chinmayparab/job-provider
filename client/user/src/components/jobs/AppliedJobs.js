@@ -35,7 +35,7 @@ const AppliedJobs = () => {
       });
     });
   }
-  console.log(appliedJobbs);
+
   return (
     <Container>
       <Container>

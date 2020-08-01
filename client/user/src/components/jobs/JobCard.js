@@ -35,10 +35,12 @@ const JobCard = ({ job }) => {
   const classes = useStyles();
   const [detailsOpen, setDetailsOpen] = useState(false);
   const { authToken } = useContext(AuthContext);
+  const { setCurrent } = useContext(JobsContext);
 
   const { t } = useTranslation();
 
   const handleDetailsOpen = () => {
+    setCurrent(job);
     setDetailsOpen(true);
   };
 
